@@ -1,8 +1,8 @@
 "use client"
 import React from 'react'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
-import { Button } from './ui/button'
-import { Input } from "./ui/input";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet'
+import { Button } from '../ui/button'
+import { Input } from "../ui/input";
 import { Heart, Search, ShoppingBag, User } from "lucide-react";
 type Props = {}
 // this is a test

@@ -1,35 +1,64 @@
-import React from 'react'
-import Navbar from './Navbar'
-import MobileNav from './MobileNav'
-import { Input } from '@nextui-org/react'
-import { Search, ShoppingBag, Heart, User } from 'lucide-react'
+import React from "react";
+import MobileNav from "./Nav/MobileNav";
+import { Input } from "@/components/ui/input";
+import { Search, ShoppingBag, Heart, User } from "lucide-react";
+import GIGA from "./Nav/GigaNav";
 
-type Props = {}
+import Link from "next/link";
+import Image from "next/image";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Navbar } from "./Nav/Navbar";
+type Props = {};
 
 const Header = (props: Props) => {
-  return (
-    <header className="sticky top-0 z-50 w-full border-b-2 border-black bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 max-w-screen-2xl items-center">
-            
-            <Navbar />
-            <MobileNav />
-            <div className="flex items-center justify-end gap-2	">
-					{/* Search Input  */}
-					<div className="relative flex items-center ">
-						<Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
-						<Input
-							placeholder="Your search..."
-							className=" pl-8 rounded-xl w-[200px] focus-visible:ring-slate-400"
+	return (
+		<header className="sticky top-0 z-50 w-full border-b-2 border-black  bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
+			<div className="flex h-14 px-5 container  justify-between items-center">
+				<div className="flex ">
+					<Link className="flex items-center space-x-2" href="/">
+						<Image
+							src={"/logo.png"}
+							alt={""}
+							width={30}
+							height={30}
 						/>
-					</div>
-					<ShoppingBag className="h-6 w-6" />
-						<Heart className="h-6 w-6" />
-					<User className="h-6 w-6" />
+						<span>
+							<p className="text-lg">Cicero</p>
+						</span>
+					</Link>
 				</div>
-        </div>
-           
-        </header>
-  )
-}
+				<div className="flex  justify-center">
+				{/* <GIGA /> */}
+				<Navbar />
+				<MobileNav />
+				</div>
+				<div className="flex items-center justify-end h-12 gap-2">
+					<ShoppingBag className="h-7 w-7" />
+					<Heart className="h-7 w-7" />
+					<DropdownMenu>
+						<DropdownMenuTrigger>
+							<User className="h-7 w-7" />
+						</DropdownMenuTrigger>
+						<DropdownMenuContent>
+							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>Profile</DropdownMenuItem>
+							<DropdownMenuItem>Billing</DropdownMenuItem>
+							<DropdownMenuItem>Team</DropdownMenuItem>
+							<DropdownMenuItem>Subscription</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			</div>
+		</header>
+	);
+};
 
-export default Header
+export default Header;
