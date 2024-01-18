@@ -13,7 +13,7 @@ const Signup = (props: Props) => {
   
   return (
     <div className="flex h-full justify-center flex-col items-center p-10">
-    <Tabs defaultValue="signin" className="w-[400px]">
+    <Tabs defaultValue="signin" className="w-[500px]">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="signin">Sign In</TabsTrigger>
         <TabsTrigger value="signup">Sign Up</TabsTrigger>
