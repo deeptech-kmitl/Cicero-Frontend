@@ -3,7 +3,6 @@ import MobileNav from "./Nav/MobileNav";
 import { Input } from "@/components/ui/input";
 import { Search, ShoppingBag, Heart, User } from "lucide-react";
 import GIGA from "./Nav/GigaNav";
-
 import Link from "next/link";
 import Image from "next/image";
 import {
