@@ -1,6 +1,7 @@
+
 import Header from "@/components/Header";
-import MobileNav from "@/components/MobileNav";
-import Navbar from "@/components/Navbar";
+import MobileNav from "@/components/Nav/MobileNav";
+import {Navbar} from "@/components/Nav/Navbar";
 
 
 import type { Metadata } from "next";
@@ -17,9 +18,10 @@ export default function MainLayout({
 }) {
 
 	return (
-		<div className="h-screen">
+		<div className="h-screen overflow-x-hidden scroll-smooth">
 			<Header />
 			<main>{children}</main>
+			
 		</div>
 	);
 }
