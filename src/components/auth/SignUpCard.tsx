@@ -36,6 +36,9 @@ import {
 } from "../ui/select";
 type Props = {};
 
+
+
+
 const SignUpCard = (props: Props) => {
 	const [showPass, setShowPass] = useState<boolean>(false);
 	const [showConfirm, setShowConfirm] = useState<boolean>(false);
@@ -70,10 +73,20 @@ const SignUpCard = (props: Props) => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof SignInSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof SignUpSchema>) {
+		const formdata = new FormData();
+		formdata.append("email", values.email);
+		formdata.append("password", values.password);
+		formdata.append("fname", values.firstname);
+		formdata.append("lname", values.lastname);
+		formdata.append("phone", values.phone);
+		formdata.append("dob", new Date(Number(values.year),Number(values.month),Number(values.day)).toLocaleDateString());
+		const res = await fetch(`${process.env.NEXT_PUBLIC_PROD_URL}/users/signup`,{
+			method:"POST",
+			body:formdata
+		})
+		const data = await res.json()
+		console.log(data)
 	}
 	return (
 		// <div className=" absolute -translate-x-1/2 -translate-y-1/2 top-[calc(50%+20px)] left-1/2 ">
