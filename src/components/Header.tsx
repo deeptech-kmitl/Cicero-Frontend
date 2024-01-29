@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import MobileNav from './MobileNav'
-import { Input } from '@nextui-org/react'
+import { Input } from '@/components/ui/Input'
 import { Search, ShoppingBag, Heart, User } from 'lucide-react'
 
 type Props = {}
@@ -10,7 +10,7 @@ const Header = (props: Props) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b-2 border-black bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container flex h-14 max-w-screen-2xl items-center">
-            
+
             <Navbar />
             <MobileNav />
             <div className="flex items-center justify-end gap-2	">
@@ -27,7 +27,7 @@ const Header = (props: Props) => {
 					<User className="h-6 w-6" />
 				</div>
         </div>
-           
+
         </header>
   )
 }
