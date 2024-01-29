@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import MobileNav from './MobileNav'
-import { Input } from '@nextui-org/react'
+import { Input } from "@/components/ui/input"
 import { Search, ShoppingBag, Heart, User } from 'lucide-react'
 
 type Props = {}
