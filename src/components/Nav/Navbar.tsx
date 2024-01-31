@@ -30,16 +30,40 @@ const MenCategories: Category[] = [
 	{ href: "/t-shirts-tops", title: "T-Shirts & Tops" },
 	{ href: "/shorts", title: "Shorts" },
 ];
+const WomenCategories: Category[] = [
+	{ href: "/tops", title: "Tops" },
+	{ href: "/shorts", title: "Shorts" },
+	{ href: "/skirts", title: "Skirts" },
+	{ href: "/trousers", title: "Trousers" },
+	{ href: "/sets", title: "Sets" },
+	{ href: "/dresses", title: "Dresses" },
+	{ href: "/jumpsuits", title: "Jumpsuits" }
+  ];
+  
+  const KidsCategories: Category[] = [
+	{ href: "/tops", title: "Tops" },
+	{ href: "/shorts", title: "Shorts" },
+	{ href: "/skirts", title: "Skirts" },
+	{ href: "/trousers", title: "Trousers" },
+	{ href: "/hoodies", title: "Hoodies" }
+  ];
+  
+  const SaleCategories: Category[] = [
+	{ href: "/men", title: "Men" },
+	{ href: "/women", title: "Women" },
+	{ href: "/kids", title: "Kids" }
+  ];
+
 
 export function Navbar() {
 	return (
 		<NavigationMenu className="hidden md:flex ">
 			<NavigationMenuList>
 				<NavItem title={"MEN"} array={MenCategories} />
-				<NavItem title={"WOMAN"} array={MenCategories} />
-				<NavItem title={"KIDS"} array={MenCategories} />
-				<NavItem title={"SALE"} array={MenCategories} />
-				<NavItem title={"NEW IN"} array={MenCategories} />
+				<NavItem title={"WOMAN"} array={WomenCategories} />
+				<NavItem title={"KIDS"} array={KidsCategories} />
+				<NavItem title={"SALE"} array={SaleCategories} />
+				<NavItem title={"NEW IN"} array={SaleCategories} />
 			</NavigationMenuList>
 			{/* </div> */}
 		</NavigationMenu>
@@ -54,7 +78,7 @@ type NavItemProps = {
 const NavItem = ({ title, array }: NavItemProps) => {
 	return (
 		<NavigationMenuItem>
-				<Link href={`/${title.toLowerCase()}`}>
+				<Link href={`product/${title.toLowerCase()}`}>
 			<NavigationMenuTrigger>
 				{title}
 				</NavigationMenuTrigger>
@@ -65,7 +89,7 @@ const NavItem = ({ title, array }: NavItemProps) => {
 						<ListItem
 							key={component.title}
 							title={component.title}
-							href={component.href}
+							href={`product/${title.toLowerCase()}${component.href}`}
 						>
 							
 						</ListItem>
