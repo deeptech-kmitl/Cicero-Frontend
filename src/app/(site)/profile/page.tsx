@@ -21,9 +21,9 @@ const profile = (props: Props) => {
           {/* <Input id="picture" type="file" className='w-[220px]'/> */}
         </div>
         <div className="w-[100%] h-[50%] grid justify-items-center gap-1.5">
-          <div className="w-full">
+          <div className='w-full'>
             <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" placeholder="Email" className="" />
+            <Input type="email" id="email" placeholder="Email" className=''/>
           </div>
         </div>
         <div className="bg-green-300 w-[100%] h-[10%]"></div>
