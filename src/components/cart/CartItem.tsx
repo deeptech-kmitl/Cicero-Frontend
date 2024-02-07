@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { CartItemProps } from "./type";
 import useCartStore from "@/store/cart";
 import { useStore } from "zustand";
+import SizeButton from "./SizeButton";
+import { useQuery } from "@tanstack/react-query";
+import addCart, { getCart } from "@/api-caller/cart";
 const CartItem = ({
 	image,
 	title,
@@ -26,7 +29,7 @@ const CartItem = ({
 			<div className="col-span-2 ">
 				<Image
 					src={"/GEOMETRIC_JACQUARD_JACKET_0.jpg"}
-					className="w-[400px] max-h-[700px]"
+					className=""
 					alt="Picture of the author"
 					width={0}
 					height={0}
@@ -44,18 +47,7 @@ const CartItem = ({
 				<div className="flex flex-col">
 					<p className="font-bold mb-3 text-xl">SELECT YOUR SIZE</p>
 					<div className="flex flex-wrap gap-2 w-full">
-						{["XS", "S", "M", "L", "XL"].map((size, i) => (
-							<Button
-								key={i}
-								variant="sizebtn"
-								className={cn({
-									"bg-black text-white": size === sizes,
-								})}
-								onClick={() => cartStore.updateSize(id, size)}
-							>
-								{size}
-							</Button>
-						))}
+						<SizeButton id={id} product_size={sizes} updateSize={cartStore.updateSize} />
 					</div>
 				</div>
 			</div>
@@ -110,6 +102,28 @@ export const RenderCart = () => {
 			) : (
 				cartStore.cart.map((item, i) => <CartItem key={i} {...item} />)
 			)	}
+		</>
+	);
+};
+
+export const RenderCartWithRq = ({cart} : {cart : CartItemProps[]}) => {
+	// const cartStore = useStore(useCartStore);
+	const {data } = useQuery({
+		queryKey: ["cart-items"],
+		queryFn : () => getCart(),
+		initialData: cart,
+		staleTime: 5 * 1000,
+	});
+	return (
+		<>
+			{data.length === 0 ? (
+				<div className="flex min-h-[250px] justify-center items-center">
+				<p className="text-2xl font-bold text-center">Your cart is empty</p>
+				</div>
+			) : (
+				data.map((item, i) => <CartItem key={i} {...item} />)
+			)	
+			}
 		</>
 	);
 };

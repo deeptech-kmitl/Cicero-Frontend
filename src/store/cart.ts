@@ -8,7 +8,7 @@ type CartState = {
 	removeFromCart: (id:string) => void;
 	incrementQty: (id: string) => void;
 	decrementQty: (id: string) => void;
-    updateSize: (id: string, size: string) => void;
+    updateSize: (id: string, size: "XS"| "S"| "M"| "L"| "XL") => void;
 };
 const useCartStore = create<CartState>((set, get) => ({
 	cart: [
