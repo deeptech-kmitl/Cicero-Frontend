@@ -9,8 +9,7 @@ import { CartItemProps } from "./type";
 import useCartStore from "@/store/cart";
 import { useStore } from "zustand";
 import SizeButton from "./SizeButton";
-import { useQuery } from "@tanstack/react-query";
-import addCart, { getCart } from "@/api-caller/cart";
+
 const CartItem = ({
 	image,
 	title,
@@ -106,25 +105,5 @@ export const RenderCart = () => {
 	);
 };
 
-export const RenderCartWithRq = ({cart} : {cart : CartItemProps[]}) => {
-	// const cartStore = useStore(useCartStore);
-	const {data } = useQuery({
-		queryKey: ["cart-items"],
-		queryFn : () => getCart(),
-		initialData: cart,
-		staleTime: 5 * 1000,
-	});
-	return (
-		<>
-			{data.length === 0 ? (
-				<div className="flex min-h-[250px] justify-center items-center">
-				<p className="text-2xl font-bold text-center">Your cart is empty</p>
-				</div>
-			) : (
-				data.map((item, i) => <CartItem key={i} {...item} />)
-			)	
-			}
-		</>
-	);
-};
+
 export default CartItem;
