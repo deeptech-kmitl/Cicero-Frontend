@@ -23,10 +23,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { CalendarIcon, Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
+
 import {
 	Select,
 	SelectContent,
@@ -34,14 +31,18 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-type Props = {};
+import signIn, { signUp } from "@/api-caller/auth";
+import { EyeOff, Eye } from "lucide-react";
+import { useToast } from "../ui/use-toast";
 
 
 
 
-const SignUpCard = (props: Props) => {
+
+const SignUpCard = () => {
 	const [showPass, setShowPass] = useState<boolean>(false);
 	const [showConfirm, setShowConfirm] = useState<boolean>(false);
+	const { toast } = useToast()
 	const allMonths = [
 		"January",
 		"February",
@@ -81,12 +82,22 @@ const SignUpCard = (props: Props) => {
 		formdata.append("lname", values.lastname);
 		formdata.append("phone", values.phone);
 		formdata.append("dob", new Date(Number(values.year),Number(values.month),Number(values.day)).toLocaleDateString());
-		const res = await fetch(`${process.env.NEXT_PUBLIC_PROD_URL}/users/signup`,{
-			method:"POST",
-			body:formdata
-		})
-		const data = await res.json()
-		console.log(data)
+		const {status,message, statusText}  = await signUp(formdata);
+		if (status !== 201) {
+			toast({
+				title: statusText,
+				description: message,
+				variant: "destructive"
+			})
+		}
+		else {
+			toast({
+				title: "Success!",
+				description: statusText,
+			})
+			
+		}
+		
 	}
 	return (
 		// <div className=" absolute -translate-x-1/2 -translate-y-1/2 top-[calc(50%+20px)] left-1/2 ">
