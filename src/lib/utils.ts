@@ -1,4 +1,4 @@
-import { IFormattedErrorResponse } from "@/constants/interface";
+import { IFormattedErrorResponse, IFormattedSuccessResponse } from "@/constants/interface";
 import { AxiosError, isAxiosError } from "axios";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -30,6 +30,18 @@ export function formattedError(
   }
   return {
     message: "error",
+  };
+}
+
+export function formattedSuccess<T>(
+  data : T,
+  status: number,
+  statusText: string
+) : IFormattedSuccessResponse<T> {
+  return {
+    data,
+    status,
+    statusText,
   };
 }
 
