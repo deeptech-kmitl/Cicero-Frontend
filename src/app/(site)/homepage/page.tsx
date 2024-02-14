@@ -6,7 +6,7 @@ type Props = {};
 
 const mockData = [
   {
-    image: "",
+    image: "https://i.ibb.co/K761dFn/image-38-1.png",
     name: "THE STAR CROP VEST",
     price: "1,590",
     favStatus: false,
@@ -17,7 +17,7 @@ const mockData = [
     productId: "PD123456",
   },
   {
-    image: "",
+    image: "https://i.ibb.co/SV1dSt1/Rectangle-4225.png",
     name: "THE STAR CROP VEST",
     price: "1,590",
     favStatus: false,
@@ -28,7 +28,7 @@ const mockData = [
     productId: "PD123456",
   },
   {
-    image: "",
+    image: "https://i.ibb.co/g9rrpst/image-86.png",
     name: "THE STAR CROP VEST",
     price: "1,590",
     favStatus: false,
@@ -39,7 +39,7 @@ const mockData = [
     productId: "PD123456",
   },
   {
-    image: "",
+    image: "https://i.ibb.co/849V0Yc/image-39.png",
     name: "THE STAR CROP VEST",
     price: "1,590",
     favStatus: false,
@@ -50,7 +50,7 @@ const mockData = [
     productId: "PD123456",
   },
   {
-    image: "",
+    image: "https://i.ibb.co/1qDkWbT/image-114-1.png",
     name: "THE STAR CROP VEST",
     price: "1,590",
     favStatus: false,
@@ -86,7 +86,7 @@ const Homepage = (props: Props) => {
                 </Button>
               </div>
           </div>
-          <div className="grid grid-cols-5 w-11/12 mt-7 gap-4">
+          <div className="grid grid-cols-5 w-11/12 mt-7 gap-3">
           {mockData.map((item, i) => {
             return (
               <CardHomePage

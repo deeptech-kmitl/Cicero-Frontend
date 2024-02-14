@@ -17,10 +17,10 @@ type ItemProduct = {
 
 const CardHomePage = (props: ItemProduct) => {
   return (
-    <div className="flex flex-col h-[25rem] w-full">
-      <div className='h-[80%] w-full bg-gray-200'>
+    <div className="flex flex-col h-[27rem] w-full">
+      <div className='h-[80%] w-full flex justify-center'>
         <Image
-          className="h-[100%] w-[100%]"
+          className="w-auto"
           src={props.image}
           width={0}
           height={0}
