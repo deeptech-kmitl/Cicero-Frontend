@@ -1,4 +1,5 @@
 
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import MobileNav from "@/components/Nav/MobileNav";
 import {Navbar} from "@/components/Nav/Navbar";
@@ -21,7 +22,7 @@ export default function MainLayout({
 		<div className="h-screen overflow-x-hidden scroll-smooth">
 			<Header />
 			<main>{children}</main>
-			
+			<Footer />
 		</div>
 	);
 }
