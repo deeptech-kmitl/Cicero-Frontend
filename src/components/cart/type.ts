@@ -3,7 +3,7 @@ export type CartItemProps = {
 	image: string;
 	title: string;
 	description: string;
-	sizes: string;
+	sizes: "XS"| "S"| "M"| "L"| "XL";
 	price: number;
     qty: number;
 }
