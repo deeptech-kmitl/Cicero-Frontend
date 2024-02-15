@@ -25,10 +25,10 @@ const CartItem = ({
 	console.log(cart);
 	return (
 		<div className="grid grid-cols-5 gap-6 gap-y-8 p-5 ">
-			<div className="col-span-2 ">
+			<div className="col-span-2 min-h-[500px] h-[500px]">
 				<Image
-					src={"/GEOMETRIC_JACQUARD_JACKET_0.jpg"}
-					className=""
+					src={"https://placehold.co/600x800.png"}
+					className="w-full h-full"
 					alt="Picture of the author"
 					width={0}
 					height={0}
