@@ -5,12 +5,7 @@ export interface IFormattedErrorResponse {
   statusText?: string;
 }
 
-export interface IFormattedSuccessResponse<T> {
-  data:T;
-  status: number;
-  statusText?: string;
-  message?: string;
-}
+
 
 export interface User {
   id: string;
