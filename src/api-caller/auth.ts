@@ -1,5 +1,5 @@
 import { getInstance } from "@/api/apiClient";
-import { IFormattedErrorResponse, IFormattedSuccessResponse, SignInResponse, User } from "@/constants/interface";
+import { IFormattedErrorResponse,  SignInResponse, User } from "@/constants/interface";
 import { formattedError } from "@/lib/utils";
 
 export default async function signIn(form: FormData): Promise<SignInResponse | IFormattedErrorResponse> {
