@@ -24,18 +24,20 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import { Eye, EyeOff } from "lucide-react";
-import signIn from "@/api-caller/auth";
+import signIn, { getProfile } from "@/api-caller/auth";
 import {
 	SignInResponse,
 } from "@/constants/interface";
 import { useToast } from "../ui/use-toast";
+import { isResponseError } from "@/lib/utils";
+import { PasswordInput } from "../ui/password-input";
+//test prop token this component not use token
 type Props = {
 	setCookie: (data: SignInResponse) => void;
-  token: string | undefined;
+	token?: string;
 };
 
 const SignInCard = ({ setCookie, token }: Props) => {
-	const [showPass, setShowPass] = useState<boolean>(false);
 	const { toast } = useToast();
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof SignInSchema>>({
@@ -54,22 +56,22 @@ const SignInCard = ({ setCookie, token }: Props) => {
 		formData.append("email", values.email);
 		formData.append("password", values.password);
 		const response = await signIn(formData);
-		if (response.status !== 200) {
+		console.log(response, typeof response)
+		if (isResponseError(response)) {
+			console.log('error')
 			const { status, statusText, message } = response;
 			toast({
 				title: statusText,
 				description: message,
 				variant: "destructive",
 			});
-		} else if (response.status === 200 && "data" in response) {
-			const { data, status, statusText } = response;
-			alert(JSON.parse(JSON.stringify(data)));
+		} else {
 			toast({
 				title: "Success !",
 				description: "You have successfully signed in",
 				variant: "success",
 			});
-			setCookie(data);
+			setCookie(response);
 		}
 	}
 	
@@ -78,7 +80,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="center">Sign In</CardTitle>
+				<CardTitle className="center">Sign Ixn </CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<Form {...form}>
@@ -109,36 +111,10 @@ const SignInCard = ({ setCookie, token }: Props) => {
 								<FormItem>
 									<FormLabel>Password</FormLabel>
 									<FormControl>
-										<div className="flex items-center justify-between">
-											<Input
-												placeholder="Enter your password..."
-												{...field}
-												type={
-													showPass
-														? "text"
-														: "password"
-												}
-											/>
-											<span className="ml-2 text-gray-500 text-lg hover:text-black">
-												{showPass ? (
-													<EyeOff
-														onClick={() =>
-															setShowPass(
-																!showPass
-															)
-														}
-													/>
-												) : (
-													<Eye
-														onClick={() =>
-															setShowPass(
-																!showPass
-															)
-														}
-													/>
-												)}
-											</span>
-										</div>
+										<PasswordInput
+											placeholder="Enter your password"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -147,6 +123,11 @@ const SignInCard = ({ setCookie, token }: Props) => {
 						<Button type="submit" variant="blackbtn">
 							Sign In
 						</Button>
+						<Button onClick={async()=>{
+							//U000003 need to get from user cookie but now still think about how to get it or store it
+							const res = await getProfile("U000003", token!)
+							console.log(res)
+						}}>XD</Button>
 					</form>
 				</Form>
 			</CardContent>
