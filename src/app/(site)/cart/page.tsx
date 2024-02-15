@@ -1,9 +1,7 @@
 import CartFooter from "@/components/cart/CartFooter";
-import CartItem, { RenderCart } from "@/components/cart/CartItem";
+import { RenderCart } from "@/components/cart/CartItem";
 import Topbar from "@/components/cart/Topbar";
-import { CartItemProps } from "@/components/cart/type";
-import useCartStore from "@/store/cart";
-import { useStore } from "zustand";
+
 	
 type Props = {};
 
