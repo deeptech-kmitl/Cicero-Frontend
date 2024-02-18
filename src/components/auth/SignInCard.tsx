@@ -25,10 +25,10 @@ const SignInCard = (props: Props) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
-    mode:"onChange",
+    mode: "onChange",
     defaultValues: {
-     email: "",
-     password: "",
+      email: "",
+      password: "",
     },
   })
   // 2. Define a submit handler.
@@ -39,63 +39,63 @@ const SignInCard = (props: Props) => {
   }
   return (
     <Card>
-    <CardHeader>
-      <CardTitle className='center'>Sign In</CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-2">
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-              <div className="flex items-center justify-between">
-                          <Input
-                            placeholder="Enter your password..."
-                            {...field}
-                            type={showPass ? "text" : "password"}
+      <CardHeader>
+        <CardTitle className='center'>Sign In</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center justify-between">
+                      <Input
+                        placeholder="Enter your password..."
+                        {...field}
+                        type={showPass ? "text" : "password"}
+                      />
+                      <span className="ml-2 text-gray-500 text-lg hover:text-black">
+                        {showPass ? (
+                          <EyeOff
+                            onClick={() => setShowPass(!showPass)}
                           />
-                          <span className="ml-2 text-gray-500 text-lg hover:text-black">
-                            {showPass ? (
-                              <EyeOff
-                                onClick={() => setShowPass(!showPass)}
-                              />
-                            ) : (
-                              <Eye
-                                onClick={() => setShowPass(!showPass)}
-                              />
-                            )}
-                          </span>
-                        </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      <Button type='submit' variant="blackbtn">Sign In</Button>
+                        ) : (
+                          <Eye
+                            onClick={() => setShowPass(!showPass)}
+                          />
+                        )}
+                      </span>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit' variant="blackbtn">Sign In</Button>
 
-      </form>
-    </Form>
-    </CardContent>
-    <CardFooter>
-    </CardFooter>
-  </Card>
+          </form>
+        </Form>
+      </CardContent>
+      <CardFooter>
+      </CardFooter>
+    </Card>
   )
 }
 
