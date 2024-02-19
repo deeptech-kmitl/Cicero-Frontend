@@ -6,6 +6,7 @@ import {Navbar} from "@/components/Nav/Navbar";
 
 
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -17,10 +18,11 @@ export default function MainLayout({
 }: {
 	children: React.ReactNode;
 }) {
-
+	const user = cookies().get("user")?.value;
 	return (
 		<div className="h-screen overflow-x-hidden scroll-smooth">
-			<Header />
+			{user && <p>{user}</p>}
+			<Header userId={user? user : '' }  />
 			<main>{children}</main>
 			<Footer />
 		</div>
