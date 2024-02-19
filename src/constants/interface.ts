@@ -7,7 +7,7 @@ export interface IFormattedErrorResponse {
 
 
 
-export interface User {
+export interface IUser {
   id: string;
   email: string;
   fname: string;
@@ -22,7 +22,7 @@ interface Token {
 }
 
 export interface SignInResponse {
-  user: User;
+  user: IUser;
   token: Token;
 }
 
