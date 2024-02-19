@@ -63,11 +63,11 @@ const Header = (props: Props) => {
 							>
 								<User className="h-7 w-7" />
 							</a>
-							
+
 						</div>
 						<div
 							className="invisible absolute z-50 flex  flex-col bg-red-900 w-30 py-1  text-gray-800 shadow-xl group-hover:visible"
-							
+
 						>
 							<a className="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black md:mx-2">
 								Product One
@@ -104,7 +104,7 @@ const Header = (props: Props) => {
 							<Link className="my-2 text-base block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black md:mx-2" href={"/myPurchase"}>
 								My Purchase
 							</Link>
-							
+
 						</div>
 					</div>
 				</div>
