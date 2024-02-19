@@ -31,6 +31,7 @@ import {
 import { useToast } from "../ui/use-toast";
 import { isResponseError } from "@/lib/utils";
 import { PasswordInput } from "../ui/password-input";
+import { useRouter } from "next/navigation";
 //test prop token this component not use token
 type Props = {
 	setCookie: (data: SignInResponse) => void;
@@ -39,6 +40,7 @@ type Props = {
 
 const SignInCard = ({ setCookie, token }: Props) => {
 	const { toast } = useToast();
+	const router = useRouter();
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof SignInSchema>>({
 		resolver: zodResolver(SignInSchema),
@@ -72,6 +74,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
 				variant: "success",
 			});
 			setCookie(response);
+			router.refresh();
 		}
 	}
 	
