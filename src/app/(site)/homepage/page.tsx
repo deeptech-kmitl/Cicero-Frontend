@@ -64,11 +64,14 @@ const mockData = [
 
 
 const Homepage = (props: Props) => {
+
   return (
     <div>
       <div className="flex h-full justify-center flex-col items-center p-10">
         <div className="w-11/12 flex justify-center flex-col items-center">
-          <div className="h-96 w-11/12 bg-gray-200"></div>
+          <div className="h-[28rem] w-11/12 bg-gray-200 flex justify-center items-center bg-[url('https://i.ibb.co/pbKF475/image-25-1.png')] bg-cover">
+            <div className="text-[12rem] font-extrabold text-white tracking-[0.2em] opacity-50">CICERO</div>
+          </div>
           <div className="flex flex-row w-11/12 mt-7 gap-2">
               <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/6N7Z1qz/Rectangle-7.png')] bg-cover">
                 <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none ab">
@@ -86,7 +89,7 @@ const Homepage = (props: Props) => {
                 </Button>
               </div>
           </div>
-          <div className="grid grid-cols-5 w-11/12 mt-7 gap-3">
+          <div className="grid grid-cols-5 w-11/12 mt-7 gap-5">
           {mockData.map((item, i) => {
             return (
               <CardHomePage
@@ -114,8 +117,9 @@ const Homepage = (props: Props) => {
                  BUY NOW
               </Button>
           </div>
+          
         </div>
-    </div>
+      </div>
     </div>
     
   );
