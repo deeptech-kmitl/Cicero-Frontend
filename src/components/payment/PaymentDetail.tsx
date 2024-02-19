@@ -1,7 +1,7 @@
 import React from 'react'
 import ShippingForm from './ShippingForm'
 import OrderSummary from './OrderSummary'
-import CreditCardForm from './CreditCardForm'
+// import CreditCardForm from './CreditCardForm'
 
 type Props = {}
 

@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "../ui/separator";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -34,6 +36,7 @@ const ShippingForm = (props: Props) => {
 			company: "",
 		},
 	});
+	const router = useRouter();
 	function onSubmit(data: z.infer<typeof PaymentAddressSchema>) {
 		console.log(data);
 	}
@@ -43,7 +46,7 @@ const ShippingForm = (props: Props) => {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="space-y-6 p-5 border-2"
+					className="space-y-6 p-5"
 				>
 					<FormField
 						control={form.control}
@@ -206,8 +209,13 @@ const ShippingForm = (props: Props) => {
 							</FormItem>
 						)}
 					/>
+					<div className="flex gap-4">
 
-					{/* <Button type="submit">Submit</Button> */}
+					<Button onClick={()=> router.push('/')} >
+					 Continue shopping
+					</Button>
+					<Button type="submit" className="float-start ">Next</Button>
+					</div>
 				</form>
 			</Form>
 		</div>

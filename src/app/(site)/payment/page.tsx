@@ -13,7 +13,7 @@ const Payment = (props: Props) => {
 			<div className="w-[70%] space-y-3 min-h-[300px]">
 				<PaymentDetail />
 			</div>
-			<CartFooter />
+			{/* <CartFooter /> */}
 		</div>
   )
 }
