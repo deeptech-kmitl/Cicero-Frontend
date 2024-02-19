@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 
 export default function Home() {
   return (
-   redirect("/signup")
+  //  redirect("/signup")
+  <div>home</div>
   )
 }
