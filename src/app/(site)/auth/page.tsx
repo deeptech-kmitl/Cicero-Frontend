@@ -21,7 +21,7 @@ const Authen = async() => {
 
     cookies().set({
         name: "user",
-        value: data.user.id,
+        value: JSON.stringify(data.user),
         // keep the cookie for a days
         maxAge: 1000,
         // cookie will be accessible by client's JavaScript
@@ -29,10 +29,14 @@ const Authen = async() => {
         // cookie will be sent only over HTTPS
         secure: true,
     });
+
+	
 }
 	
 	//token need in cart payment checkout wishlish and profile
 	const token = cookies().get("token")?.value;
+	
+
 	return (
 		<div className="flex h-full justify-center flex-col items-center p-10">
 			<Tabs defaultValue={"signin"} className="w-[500px]">
