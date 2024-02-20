@@ -1,18 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import { format } from "date-fns";
-import {
-  CardTitle,
-  CardContent,
-  Card,
-  CardFooter,
-  CardHeader,
-} from "../ui/card";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SignInSchema, SignUpSchema } from "@/validator/auth";
+import { SignInSchema, ProfileSchema } from "@/validator/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
+import logo from "../../../public/logo.png"
 import {
   Form,
   FormControl,
@@ -23,10 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { CalendarIcon, Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
 import {
   Select,
   SelectContent,
@@ -34,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { format } from "path";
 type Props = {};
 
 const ProfileForm = (props: Props) => {
@@ -46,8 +37,33 @@ const ProfileForm = (props: Props) => {
    const [phone, setPhone] = useState<string>("0981234567");
    const [email, setEmail] = useState<string>("test@gmail.com");
    const [day, setDay] = useState<string>("12");
-   const [month, setMonth] = useState<string>("February");
+   const [month, setMonth] = useState<string>("2");
    const [year, setYear] = useState<string>("2000");
+
+   const [imageFile, setImageFile] = useState<any>();
+  const [imageUrl, setImageUrl] = useState<string>(
+    "https://cdn.discordapp.com/attachments/1202103149922615368/1208984758101606420/av5c8336583e291842624.png?ex=65e545cc&is=65d2d0cc&hm=7135ffed1c4b01962c3ccbb8ee7d51709b056a4ce6e28a5f07e7369d14d1f8eb&"
+  ); // Path to your default image
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (file) {
+      setImageFile(file);
+      setImageUrl(URL.createObjectURL(file)); // Update the image URL to the selected file's object URL
+      console.log("File ->", file); // Log the file directly
+      console.log("Type of File ->", typeof file); // This will log 'object'
+      console.log("File Type ->", file.type); // Log the MIME type of the file
+      console.log("File Size ->", file.size); // Log the size of the file in bytes
+      
+    }
+    console.log("ImageFile ->", imageFile)
+  }
+
+  useEffect(()=>{
+    console.log("ImageFile ->", imageFile);
+  }, [imageFile])
+   // Create a URL for the image file
+  //  const imageUrl = imageFile ? URL.createObjectURL(imageFile) : null;
   
   const allMonths = [
     "January",
@@ -64,8 +80,8 @@ const ProfileForm = (props: Props) => {
     "December",
   ];
   // 1. Define your form.
-  const form = useForm<z.infer<typeof SignUpSchema>>({
-    resolver: zodResolver(SignUpSchema),
+  const form = useForm<z.infer<typeof ProfileSchema>>({
+    resolver: zodResolver(ProfileSchema),
     defaultValues: {
       email: email,
       firstname: first_name,
@@ -78,13 +94,25 @@ const ProfileForm = (props: Props) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof SignUpSchema>) {
-    const formdata = new FormData();
-    formdata.append("email", values.email);
-    formdata.append("fname", values.firstname);
-    formdata.append("lname", values.lastname);
-    formdata.append("phone", values.phone);
-    formdata.append(
+  async function onSubmit(values: z.infer<typeof ProfileSchema>) {
+    console.log("Form submitted", values);
+    const formData = new FormData();
+    if (imageFile) {
+      console.log("Appending file:", imageFile);
+      formData.append("avatar", imageFile);
+    } else {
+      console.log("No file to append");
+    }
+    // async function onSubmit(values: z.infer<typeof ProfileSchema>) {
+    //   const formdata = new FormData();
+    //   console.log("VALUE.IMAGE ->", imageFile);
+    formData.append("avatar", imageFile);
+
+    formData.append("email", values.email);
+    formData.append("fname", values.firstname);
+    formData.append("lname", values.lastname);
+    formData.append("phone", values.phone);
+    formData.append(
       "dob",
       new Date(
         Number(values.year),
@@ -92,24 +120,30 @@ const ProfileForm = (props: Props) => {
         Number(values.day)
       ).toLocaleDateString()
     );
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PROD_URL}/users/signup`,
-      {
-        method: "POST",
-        body: formdata,
-      }
-    );
-    const data = await res.json();
-    console.log(data);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_PROD_URL}/users/profile`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await res.json();
+      console.log(data);
   }
 
-  const toggleEdit = () => {
+  const toggleEdit = async () => {
     setIsInputDisabled(!isInputDisabled);
-    setButtonText(isInputDisabled ? "Apply" : "EDIT");
+    setButtonText(isInputDisabled ? "APPLY" : "EDIT");
+    const isValid = await form.trigger(); // Trigger validation for all fields
     if (isInputDisabled === true) {
       console.log("Edit -> Apply");
+      
     } else {
-      console.log("Apply -> Edit");
+      console.log("Apply -> Edit \n", form);
+      if (isValid) {
+        const values = form.getValues();
+        onSubmit(values); // Only call onSubmit if form is valid
+      }
     }
   };
 
@@ -117,9 +151,39 @@ const ProfileForm = (props: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className=" relative space-y-4 px-2 overflow-x-hidden
-                        "
+        className=" relative space-y-4 px-2 overflow-x-hidden"
       >
+        <div className="w-[100%] h-[40%] flex flex-col justify-center items-center mt-2">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: "none" }}
+            disabled={isInputDisabled}
+            id="hiddenFileInput"
+          />
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="Uploaded"
+              className="rounded-full w-[15em] h-[15em] mb-5 border-2 border-black"
+              width={200}
+              height={200}
+              onClick={() =>
+                document.getElementById("hiddenFileInput")?.click()
+              }
+            />
+          ) : (
+            <div
+              className="rounded-full bg-gray-400 w-[12em] h-[12em] mb-5"
+              onClick={() =>
+                document.getElementById("hiddenFileInput")?.click()
+              }
+            >
+              Click to upload image
+            </div>
+          )}
+        </div>
         {/* firstname */}
         <FormField
           control={form.control}
@@ -186,24 +250,21 @@ const ProfileForm = (props: Props) => {
             name="month"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Month{form.getValues("month")}</FormLabel>
-                  <Select
-                    
-                    disabled={isInputDisabled}
-                    {...field}
-                    value={month}
-                  >
-                  <FormControl>
-                    <SelectTrigger className="w-[150px]">
-                      <SelectValue placeholder={form.getValues("month")} />
-                    </SelectTrigger>
-                  </FormControl>
+                <FormLabel>Month</FormLabel>
+                <Select
+                  disabled={isInputDisabled}
+                  onValueChange={field.onChange}
+                  defaultValue={form.getValues("month")}
+                >
+                  <SelectTrigger className="w-[150px]">
+                    <SelectValue placeholder="Month" />
+                  </SelectTrigger>
                   <SelectContent>
-                      {allMonths.map((month, i) => (
-                        <SelectItem key={month} value={String(i + 1)}>
-                          {month}
-                        </SelectItem>
-                      ))}
+                    {allMonths.map((month, i) => (
+                      <SelectItem key={month} value={String(i + 1)}>
+                        {month}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -273,10 +334,16 @@ const ProfileForm = (props: Props) => {
         />
 
         <div className="pt-3">
-          <Button onClick={toggleEdit} variant="noFillbtn" className="my-3">
+          <Button
+            type="button"
+            onClick={toggleEdit}
+            variant="noFillbtn"
+            className="my-3"
+          >
             {buttonText}
           </Button>
-          <Button variant="blackbtn" className="my-3">
+
+          <Button type="button" variant="blackbtn" className="my-3">
             LOGOUT
           </Button>
         </div>

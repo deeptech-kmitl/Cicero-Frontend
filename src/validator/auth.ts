@@ -30,3 +30,51 @@ export const SignUpSchema = z.object({
     message: "Password not Match",
     path: ["cfpassword"],
     });
+    
+export const ProfileSchema = z
+  .object({
+    email: z.string().email(),
+    firstname: z.string().min(5).max(30),
+    lastname: z.string().min(5).max(30),
+    day: z
+      .string()
+      .min(1)
+      .max(2)
+      .refine((val) => !isNaN(val as unknown as number), {
+        message: "Day should be a number",
+      }),
+    month: z.string().min(1).max(10),
+    year: z
+      .string()
+      .min(4)
+      .max(4)
+      .refine((val) => !isNaN(val as unknown as number), {
+        message: "Year should be a number",
+      }),
+    // password: z.string().min(8).max(100),
+    // cfpassword: z.string().min(8).max(100),
+    phone: z
+      .string()
+      .min(1, { message: "Phone number is required" })
+      .min(10, { message: "Incorect Phone number" })
+      .max(10, { message: "Incorect Phone number" })
+      .refine((val) => !isNaN(val as unknown as number), {
+        message: "Phone number should be a number",
+      }),
+    // image: z.instanceof(File, { message: "An Image is required" }).refine(
+    //   (file) => {
+    //     if (file instanceof File) {
+    //       return [...ACCEPTED_IMAGE_TYPES].includes(
+    //         file.type
+    //       );
+    //     }
+    //     return false;
+    //   },
+    //   { message: "image should be a pdf file" }
+    // ),
+  })
+  // .refine((data) => data.password === data.cfpassword, {
+  //   message: "Password not Match",
+  //   path: ["cfpassword"],
+  // });
+  
