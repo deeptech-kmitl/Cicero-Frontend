@@ -56,14 +56,13 @@ const ProfileForm = (props: Props) => {
       console.log("File Size ->", file.size); // Log the size of the file in bytes
       
     }
-    console.log("ImageFile ->", imageFile)
+    console.log("ImageFile->", imageFile)
   }
 
   useEffect(()=>{
-    console.log("ImageFile ->", imageFile);
+    console.log("ImageFile Index->", imageFile);
   }, [imageFile])
-   // Create a URL for the image file
-  //  const imageUrl = imageFile ? URL.createObjectURL(imageFile) : null;
+
   
   const allMonths = [
     "January",
@@ -99,15 +98,12 @@ const ProfileForm = (props: Props) => {
     const formData = new FormData();
     if (imageFile) {
       console.log("Appending file:", imageFile);
+      console.log("Appending file Index:", imageFile[0]);
       formData.append("avatar", imageFile);
     } else {
       console.log("No file to append");
     }
-    // async function onSubmit(values: z.infer<typeof ProfileSchema>) {
-    //   const formdata = new FormData();
-    //   console.log("VALUE.IMAGE ->", imageFile);
     formData.append("avatar", imageFile);
-
     formData.append("email", values.email);
     formData.append("fname", values.firstname);
     formData.append("lname", values.lastname);
@@ -121,14 +117,19 @@ const ProfileForm = (props: Props) => {
       ).toLocaleDateString()
     );
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PROD_URL}/users/profile`,
+        `${process.env.NEXT_PUBLIC_PROD_URL}/users/U000003`,
         {
-          method: "POST",
+          method: "PUT",
           body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data;boundary=None',
+            'Authorization':
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
+          },
         }
       );
       const data = await res.json();
-      console.log(data);
+      console.log("DATA ->", data);
   }
 
   const toggleEdit = async () => {
@@ -152,6 +153,7 @@ const ProfileForm = (props: Props) => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className=" relative space-y-4 px-2 overflow-x-hidden"
+        
       >
         <div className="w-[100%] h-[40%] flex flex-col justify-center items-center mt-2">
           <input
