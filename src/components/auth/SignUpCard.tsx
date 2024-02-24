@@ -23,10 +23,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { CalendarIcon, Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Calendar } from "../ui/calendar";
+
 import {
 	Select,
 	SelectContent,
@@ -34,14 +31,22 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-type Props = {};
+import signIn, { signUp } from "@/api-caller/auth";
+import { EyeOff, Eye } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { isResponseError } from "@/lib/utils";
+import { PasswordInput } from "@/components/ui/password-input";
+import { ToastAction } from "@/components/ui/toast"
+import { redirect, useRouter } from "next/navigation";
+import { r } from "@tanstack/query-core/build/legacy/queryClient-MRqjmcFa";
+import Link from "next/link";
 
 
 
 
-const SignUpCard = (props: Props) => {
-	const [showPass, setShowPass] = useState<boolean>(false);
-	const [showConfirm, setShowConfirm] = useState<boolean>(false);
+
+const SignUpCard = () => {
+	const { toast } = useToast()
 	const allMonths = [
 		"January",
 		"February",
@@ -71,7 +76,6 @@ const SignUpCard = (props: Props) => {
 			password: "",
 		},
 	});
-
 	// 2. Define a submit handler.
 	async function onSubmit(values: z.infer<typeof SignUpSchema>) {
 		const formdata = new FormData();
@@ -81,12 +85,23 @@ const SignUpCard = (props: Props) => {
 		formdata.append("lname", values.lastname);
 		formdata.append("phone", values.phone);
 		formdata.append("dob", new Date(Number(values.year),Number(values.month),Number(values.day)).toLocaleDateString());
-		const res = await fetch(`${process.env.NEXT_PUBLIC_PROD_URL}/users/signup`,{
-			method:"POST",
-			body:formdata
-		})
-		const data = await res.json()
-		console.log(data)
+		const response = await signUp(formdata);
+		console.log(response, typeof response, isResponseError(response));
+		if(isResponseError(response)){
+			console.log('error')
+			const { statusText, message } = response;
+			toast({
+				title: statusText,
+				description: message,
+				variant: "destructive",
+			});
+		} else {
+			toast({
+				title: "Success !",
+				description: "You have successfully signed up",
+				variant: "success"
+			});
+		}
 	}
 	return (
 		// <div className=" absolute -translate-x-1/2 -translate-y-1/2 top-[calc(50%+20px)] left-1/2 ">
@@ -239,36 +254,10 @@ const SignUpCard = (props: Props) => {
 								<FormItem>
 									<FormLabel>Password</FormLabel>
 									<FormControl>
-										<div className="flex items-center justify-between">
-											<Input
-												placeholder="Enter your password..."
-												{...field}
-												type={
-													showPass
-														? "text"
-														: "password"
-												}
-											/>
-											<span className="ml-2 text-gray-500 text-lg hover:text-black">
-												{showPass ? (
-													<EyeOff
-														onClick={() =>
-															setShowPass(
-																!showPass
-															)
-														}
-													/>
-												) : (
-													<Eye
-														onClick={() =>
-															setShowPass(
-																!showPass
-															)
-														}
-													/>
-												)}
-											</span>
-										</div>
+									<PasswordInput
+											placeholder="Enter your password"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -282,36 +271,10 @@ const SignUpCard = (props: Props) => {
 								<FormItem>
 									<FormLabel>Confirm Password</FormLabel>
 									<FormControl>
-										<div className="flex items-center justify-between">
-											<Input
-												placeholder="Enter your password..."
-												{...field}
-												type={
-													showConfirm
-														? "text"
-														: "password"
-												}
-											/>
-											<span className="ml-2 text-gray-500 text-lg hover:text-black">
-												{showPass ? (
-													<EyeOff
-														onClick={() =>
-															setShowConfirm(
-																!showConfirm
-															)
-														}
-													/>
-												) : (
-													<Eye
-														onClick={() =>
-															setShowConfirm(
-																!showConfirm
-															)
-														}
-													/>
-												)}
-											</span>
-										</div>
+									<PasswordInput
+											placeholder="Enter your password again"
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>

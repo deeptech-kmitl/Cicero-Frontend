@@ -1,4 +1,4 @@
-import { IFormattedErrorResponse } from "@/constants/interface";
+import { IFormattedErrorResponse} from "@/constants/interface";
 import { AxiosError, isAxiosError } from "axios";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -31,5 +31,9 @@ export function formattedError(
   return {
     message: "error",
   };
+}
+
+export function isResponseError<T>(response : T | IFormattedErrorResponse): response is IFormattedErrorResponse {
+  return (response as IFormattedErrorResponse).status !== undefined
 }
 
