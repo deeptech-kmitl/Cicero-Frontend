@@ -13,6 +13,8 @@ export interface IUser {
   fname: string;
   lname: string;
   phone: string;
+  avatar: string;
+  dob:string;
   role_id: number;
 }
 

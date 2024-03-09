@@ -11,23 +11,26 @@ import { useStore } from "zustand";
 import SizeButton from "./SizeButton";
 
 const CartItem = ({
-	image,
-	title,
+	images,
+	product_title,
 	id,
-	description,
-	sizes,
-	price,
+	product_desc,
+	size,
+	product_price,
 	qty,
-}: CartItemProps) => {
+	token,
+	user_id
+}: CartItemProps & {token : string, user_id:string} ) => {
 	const cartStore = useStore(useCartStore);
-	cartStore.fetch();
 	const cart = cartStore.cart;
 	console.log(cart);
 	return (
-		<div className="grid grid-cols-5 gap-6 gap-y-8 p-5 ">
-			<div className="col-span-2 min-h-[500px] h-[500px]">
+		<div className="grid grid-cols-8 gap-6 gap-y-8 p-5 ">
+			
+					<p className="font-light text-6xl self-center cursor-pointer" onClick={() => cartStore.removeFromCart({user_id,product_id:id,token})}>X</p>
+			<div className="col-span-3 min-h-[500px] h-[500px]">
 				<Image
-					src={"https://placehold.co/600x800.png"}
+					src={images[0].url}
 					className="w-full h-full"
 					alt="Picture of the author"
 					width={0}
@@ -36,27 +39,22 @@ const CartItem = ({
 				/>
 			</div>
 
-			<div className=" w-[70%] col-span-2 grid content-between">
+			<div className=" w-[70%] col-span-3 grid content-between">
 				<div>
-					<p className="text-lg font-bold">{title}</p>
+					<p className="text-lg font-bold">{product_title}</p>
 					<p className="line-clamp-6 mt-[5%] mb-[10%] text-slate-500">
-						{description}
+						{product_desc}
 					</p>
 				</div>
 				<div className="flex flex-col">
 					<p className="font-bold mb-3 text-xl">SELECT YOUR SIZE</p>
 					<div className="flex flex-wrap gap-2 w-full">
-						<SizeButton id={id} product_size={sizes} updateSize={cartStore.updateSize} />
+						<SizeButton id={id} product_size={size} user_id={user_id} token={token} updateSize={cartStore.updateSize} />
 					</div>
 				</div>
 			</div>
 			<div className="grid relative col-span-1  justify-center content-between py-10">
-				<Button
-					className="absolute top-0 right-0 p-1 text-black border-2 bg-white hover:text-white border-slate-400 cursor-pointer  w-7 h-7 rounded-full"
-					onClick={() => cartStore.removeFromCart(id)}
-				>
-					<X />
-				</Button>
+				
 				<div className=" space-y-1">
 					<div className="flex  gap-5 items-center">
 						<Button
@@ -64,7 +62,7 @@ const CartItem = ({
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
 							disabled={qty === 1}
-							onClick={() => cartStore.decrementQty(id)}
+							onClick={() => cartStore.decrementQty({user_id,token,product_id:id})}
 						>
 							<Minus />
 						</Button>
@@ -73,7 +71,7 @@ const CartItem = ({
 							className={cn(
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
-							onClick={() => cartStore.incrementQty(id)}
+							onClick={() => cartStore.incrementQty({user_id,token,product_id:id})}
 						>
 							<Plus />
 						</Button>
@@ -81,29 +79,39 @@ const CartItem = ({
 				</div>
 				<div className="text-center">
 					<p className="text-2xl">
-						{price}
+						{parseFloat((product_price * qty).toFixed(2)).toString()}
 						<span className="text-base text-slate-400"> THB</span>
 					</p>
 				</div>
 			</div>
-			<Separator className="col-span-5  w-full h-[1px] bg-black" />
+			<Separator className="col-span-full  w-full h-[1px] bg-black" />
 		</div>
 	);
 };
-export const RenderCart = () => {
+
+
+export type RenderCartProps = {
+	token:string
+	user_id:string
+};
+const RenderCart = ({token,user_id}: RenderCartProps) => {
+	
 	const cartStore = useStore(useCartStore);
+	cartStore.fetch(token, user_id);
+	console.log(cartStore.cart, 'cart cart');
+	console.log(cartStore.cart[0], 'cart cart');
 	return (
 		<>
 			{cartStore.cart.length === 0 ? (
 				<div className="flex min-h-[250px] justify-center items-center">
-				<p className="text-2xl font-bold text-center">Your cart is empty</p>
+					<p className="text-2xl font-bold text-center">Your cart is empty</p>
 				</div>
 			) : (
-				cartStore.cart.map((item, i) => <CartItem key={i} {...item} />)
-			)	}
+				cartStore.cart.map((item, i) => <CartItem key={i} {...item} images={item.images} token={token} user_id={user_id} />)
+			)}
 		</>
 	);
 };
 
 
-export default CartItem;
+export default RenderCart;
