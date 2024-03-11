@@ -78,12 +78,12 @@ const Homepage = (props: Props) => {
                   FOR WOMEN
                 </Button>
               </div>
-              <div className="w-full h-52 bg-red-200 flex justify-center items-center bg-[url('https://i.ibb.co/dM68xRs/image-30.png')] bg-cover">
+              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/dM68xRs/image-30.png')] bg-cover">
                 <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
                   FOR MEN
                 </Button>
               </div>
-              <div className="w-full h-52 bg-red-200 flex justify-center items-center bg-[url('https://i.ibb.co/QK3PZdn/Rectangle-4.png')] bg-cover">
+              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/QK3PZdn/Rectangle-4.png')] bg-cover">
                 <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
                   FOR KID
                 </Button>
