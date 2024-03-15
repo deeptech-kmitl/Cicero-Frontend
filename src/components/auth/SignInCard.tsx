@@ -83,7 +83,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="center">Sign Ixn </CardTitle>
+				<CardTitle className="center">Sign In </CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<Form {...form}>

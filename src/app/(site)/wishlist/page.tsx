@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import React from 'react'
 import Image from 'next/image'
 
@@ -35,7 +35,7 @@ const Wishlist = (props: Props) => {
                             </div>
 
                             <div className='w-full h-[65px]'>
-                                 <h1 className='text-[18px] mt-3'>I'D DO IT AGAIN TOP</h1>
+                                 <h1 className='text-[18px] mt-3'>I&apos;D DO IT AGAIN TOP</h1>
                                  <h3 className='text-[25px]'>2,390 <span className='text-[18px]'>THB</span></h3>
                             </div>
 
