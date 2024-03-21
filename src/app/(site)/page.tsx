@@ -105,15 +105,15 @@ const Homepage = (props: Props) => {
               return (
                 <CardHomePage
                   key={i}
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
-                  favStatus={item.favStatus}
-                  category={item.category}
-                  sex={item.sex}
-                  size={item.size}
-                  color={item.color}
-                  productId={item.productId}
+                  images={item.image}
+                  product_title={item.name}
+                  product_price={item.price}
+                  product_category={item.category}
+                  product_sex={item.sex}
+                  product_size={item.size}
+                  product_color={item.color}
+                  product_desc={item.color}
+                  id={item.productId}
                 />
               );
             })}

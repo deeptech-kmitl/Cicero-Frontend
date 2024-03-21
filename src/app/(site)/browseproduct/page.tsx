@@ -164,7 +164,7 @@ const BrowseProduct = (props: Props) => {
                 return (
                 <CardHomePage
                     key={i}
-                    image={item.image}
+                    images={item.image}
                     name={item.name}
                     price={item.price}
                     favStatus={item.favStatus}

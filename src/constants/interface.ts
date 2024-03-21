@@ -5,7 +5,24 @@ export interface IFormattedErrorResponse {
   statusText?: string;
 }
 
+export interface IImage {
+  id: string;
+  url: string;
+  filename: string;
+}
 
+export interface IProduct {
+  id: string;
+  product_title: string;
+  product_desc: string;
+  product_color: string;
+  product_price: number;
+  product_sex: string;
+  product_size: string[];
+  product_stock: number;
+  product_category: string;
+  images: IImage[];
+} 
 
 export interface IUser {
   id: string;
