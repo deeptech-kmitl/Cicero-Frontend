@@ -1,10 +1,14 @@
-import { IFormattedErrorResponse} from "@/constants/interface";
+import { IFormattedErrorResponse } from "@/constants/interface";
 import { AxiosError, isAxiosError } from "axios";
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
+}
+
+export function decodeCookie(cookie: string) {
+  return decodeURIComponent(cookie);
 }
 
 export function formattedError(
@@ -33,7 +37,8 @@ export function formattedError(
   };
 }
 
-export function isResponseError<T>(response : T | IFormattedErrorResponse): response is IFormattedErrorResponse {
-  return (response as IFormattedErrorResponse).status !== undefined
+export function isResponseError<T>(
+  response: T | IFormattedErrorResponse
+): response is IFormattedErrorResponse {
+  return (response as IFormattedErrorResponse).status !== undefined;
 }
-
