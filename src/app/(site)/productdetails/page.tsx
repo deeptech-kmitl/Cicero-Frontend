@@ -20,7 +20,9 @@ const ProductDetails = (props: Props) => {
 
         </div>
         <div className='w-[300px] h-[450px] ml-[60px]'>
+
             <h1 className='font-bold	text-[25px]'>MATTER TANK TOP</h1>
+            
             <h3 className='text-[25px]'>2,390 <span className='text-[15px] opacity-50'>THB</span></h3>
             <div className='w-full h-[150px] mt-[10px] overflow-scroll' ><p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint ex in distinctio perspiciatis quidem pariatur debitis, iusto ipsam laboriosam fugit vitae laudantium natus? Soluta amet numquam consequatur! Corporis, deserunt animi.</p></div>
             <h1 className='font-bold	text-[20px] mt-[15px]'>SIZE</h1>
