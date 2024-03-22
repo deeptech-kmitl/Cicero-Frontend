@@ -6,7 +6,6 @@ import { SignInSchema, ProfileSchema } from "@/validator/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
-import logo from "../../../public/logo.png"
 import {
   Form,
   FormControl,
@@ -24,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { format } from "path";
 type Props = {};
 
 const ProfileForm = (props: Props) => {
@@ -32,18 +30,16 @@ const ProfileForm = (props: Props) => {
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [buttonText, setButtonText] = useState("EDIT");
   const [isInputDisabled, setIsInputDisabled] = useState<boolean>(true);
-   const [first_name, setFname] = useState<string>("Hello");
-   const [last_name, setLname] = useState<string>("World");
-   const [phone, setPhone] = useState<string>("0981234567");
-   const [email, setEmail] = useState<string>("test@gmail.com");
-   const [day, setDay] = useState<string>("12");
-   const [month, setMonth] = useState<string>("2");
-   const [year, setYear] = useState<string>("2000");
+  const [first_name, setFname] = useState<string>("Hello");
+  const [last_name, setLname] = useState<string>("World");
+  const [phone, setPhone] = useState<string>("0981234567");
+  const [email, setEmail] = useState<string>("test@gmail.com");
+  const [day, setDay] = useState<string>("12");
+  const [month, setMonth] = useState<string>("2");
+  const [year, setYear] = useState<string>("2000");
 
-   const [imageFile, setImageFile] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<string>(
-    "https://cdn.discordapp.com/attachments/1202103149922615368/1208984758101606420/av5c8336583e291842624.png?ex=65e545cc&is=65d2d0cc&hm=7135ffed1c4b01962c3ccbb8ee7d51709b056a4ce6e28a5f07e7369d14d1f8eb&"
-  ); // Path to your default image
+  const [imageFile, setImageFile] = useState<any>();
+  const [imageUrl, setImageUrl] = useState<string>("/logo.png"); // Path to your default image
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -54,16 +50,14 @@ const ProfileForm = (props: Props) => {
       console.log("Type of File ->", typeof file); // This will log 'object'
       console.log("File Type ->", file.type); // Log the MIME type of the file
       console.log("File Size ->", file.size); // Log the size of the file in bytes
-      
     }
-    console.log("ImageFile->", imageFile)
-  }
+    console.log("ImageFile->", imageFile);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("ImageFile Index->", imageFile);
-  }, [imageFile])
+  }, [imageFile]);
 
-  
   const allMonths = [
     "January",
     "February",
@@ -116,34 +110,41 @@ const ProfileForm = (props: Props) => {
         Number(values.day)
       ).toLocaleDateString()
     );
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PROD_URL}/users/U000003`,
-        {
-          method: "PUT",
-          body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data;boundary=None',
-            'Authorization':
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
-          },
-        }
-      );
-      const data = await res.json();
-      console.log("DATA ->", data);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PROD_URL}/users/U000003`,
+      {
+        method: "PUT",
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data;boundary=None',
+          'Authorization':
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log("DATA ->", data);
   }
 
   const toggleEdit = async () => {
-    setIsInputDisabled(!isInputDisabled);
-    setButtonText(isInputDisabled ? "APPLY" : "EDIT");
+    
+    // console.log("isInputDisabled ->", isInputDisabled, buttonText);
+    if(buttonText === "EDIT") {
+      setButtonText("APPLY");
+      setIsInputDisabled(!isInputDisabled);
+    }
+
     const isValid = await form.trigger(); // Trigger validation for all fields
     if (isInputDisabled === true) {
       console.log("Edit -> Apply");
-      
     } else {
       console.log("Apply -> Edit \n", form);
       if (isValid) {
+        console.log("Form is valid");
         const values = form.getValues();
         onSubmit(values); // Only call onSubmit if form is valid
+        setButtonText("EDIT");
+        setIsInputDisabled(!isInputDisabled);
       }
     }
   };
@@ -153,7 +154,6 @@ const ProfileForm = (props: Props) => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className=" relative space-y-4 px-2 overflow-x-hidden"
-        
       >
         <div className="w-[100%] h-[40%] flex flex-col justify-center items-center mt-2">
           <input
@@ -186,6 +186,7 @@ const ProfileForm = (props: Props) => {
             </div>
           )}
         </div>
+
         {/* firstname */}
         <FormField
           control={form.control}
@@ -197,15 +198,14 @@ const ProfileForm = (props: Props) => {
                 <Input
                   placeholder="Enter your firstname"
                   {...field}
-                  value={first_name}
                   disabled={isInputDisabled}
-                  onChange={(e) => setFname(e.target.value)}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         {/* lastname */}
         <FormField
           control={form.control}
@@ -215,18 +215,17 @@ const ProfileForm = (props: Props) => {
               <FormLabel>Lastname</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter your email"
+                  placeholder="Enter your lastname"
                   {...field}
-                  value={last_name}
                   disabled={isInputDisabled}
-                  onChange={(e) => setLname(e.target.value)}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* </div> */}
+
+        {/* birthday */}
         <div className="flex flex-row gap-4 items-center ">
           <FormField
             control={form.control}
@@ -238,9 +237,7 @@ const ProfileForm = (props: Props) => {
                   <Input
                     placeholder="Day"
                     {...field}
-                    value={day}
                     disabled={isInputDisabled}
-                    onChange={(e) => setDay(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -256,7 +253,7 @@ const ProfileForm = (props: Props) => {
                 <Select
                   disabled={isInputDisabled}
                   onValueChange={field.onChange}
-                  defaultValue={form.getValues("month")}
+                  value={field.value}
                 >
                   <SelectTrigger className="w-[150px]">
                     <SelectValue placeholder="Month" />
@@ -283,9 +280,7 @@ const ProfileForm = (props: Props) => {
                   <Input
                     placeholder="Year"
                     {...field}
-                    value={year}
                     disabled={isInputDisabled}
-                    onChange={(e) => setYear(e.target.value)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -293,7 +288,7 @@ const ProfileForm = (props: Props) => {
             )}
           />
         </div>
-        {/* birthday */}
+
         {/* phone */}
         <FormField
           control={form.control}
@@ -305,15 +300,14 @@ const ProfileForm = (props: Props) => {
                 <Input
                   placeholder="Enter your phone number"
                   {...field}
-                  value={phone}
                   disabled={isInputDisabled}
-                  onChange={(e) => setPhone(e.target.value)}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         {/* email */}
         <FormField
           control={form.control}
@@ -325,9 +319,7 @@ const ProfileForm = (props: Props) => {
                 <Input
                   placeholder="Enter your email"
                   {...field}
-                  value={email}
                   disabled={isInputDisabled}
-                  onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
               <FormMessage />

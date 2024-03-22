@@ -51,8 +51,6 @@ export const ProfileSchema = z
       .refine((val) => !isNaN(val as unknown as number), {
         message: "Year should be a number",
       }),
-    // password: z.string().min(8).max(100),
-    // cfpassword: z.string().min(8).max(100),
     phone: z
       .string()
       .min(1, { message: "Phone number is required" })
@@ -61,20 +59,5 @@ export const ProfileSchema = z
       .refine((val) => !isNaN(val as unknown as number), {
         message: "Phone number should be a number",
       }),
-    // image: z.instanceof(File, { message: "An Image is required" }).refine(
-    //   (file) => {
-    //     if (file instanceof File) {
-    //       return [...ACCEPTED_IMAGE_TYPES].includes(
-    //         file.type
-    //       );
-    //     }
-    //     return false;
-    //   },
-    //   { message: "image should be a pdf file" }
-    // ),
   })
-  // .refine((data) => data.password === data.cfpassword, {
-  //   message: "Password not Match",
-  //   path: ["cfpassword"],
-  // });
   
