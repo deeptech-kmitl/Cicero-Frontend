@@ -23,23 +23,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-type Props = {};
+import { IUser } from "@/constants/interface";
 
-const ProfileForm = (props: Props) => {
-  const [showPass, setShowPass] = useState<boolean>(false);
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+type Props = {
+  userId: string;
+  tokenId: string;
+};
+
+const ProfileForm = ({ userId, tokenId }: Props) => {
+  const user: IUser = JSON.parse(userId || "{}");
+  console.log("User ->", user);
+  // console.log("Token ->", tokenId);
+
   const [buttonText, setButtonText] = useState("EDIT");
   const [isInputDisabled, setIsInputDisabled] = useState<boolean>(true);
-  const [first_name, setFname] = useState<string>("Hello");
-  const [last_name, setLname] = useState<string>("World");
-  const [phone, setPhone] = useState<string>("0981234567");
-  const [email, setEmail] = useState<string>("test@gmail.com");
-  const [day, setDay] = useState<string>("12");
-  const [month, setMonth] = useState<string>("2");
-  const [year, setYear] = useState<string>("2000");
+  const [first_name, setFname] = useState<string>(user.fname);
+  const [last_name, setLname] = useState<string>(user.lname);
+  const [phone, setPhone] = useState<string>(user.phone);
+  const [email, setEmail] = useState<string>(user.email);
+  const [day, setDay] = useState(user?.dob ? user.dob.split("/")[0] : "");
+  const [month, setMonth] = useState(user?.dob ? user.dob.split("/")[1] : "");
+  const [year, setYear] = useState(user?.dob ? user.dob.split("/")[2] : "");
 
   const [imageFile, setImageFile] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<string>("/logo.png"); // Path to your default image
+  const [imageUrl, setImageUrl] = useState<string>(user.avatar !== "" ? user.avatar : "/logo.png");
+
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -111,14 +119,14 @@ const ProfileForm = (props: Props) => {
       ).toLocaleDateString()
     );
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PROD_URL}/users/U000003`,
+      `${process.env.NEXT_PUBLIC_PROD_URL}/users/${user.id}`,
       {
         method: "PUT",
         body: formData,
         headers: {
           "Content-Type": "multipart/form-data;boundary=None",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
+            `Bearer ${tokenId}`,
         },
       }
     );
