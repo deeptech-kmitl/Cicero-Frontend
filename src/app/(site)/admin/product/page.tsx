@@ -22,7 +22,7 @@ export default function ProductDashboard() {
         >
           ds
         </div>
-        <div id="content" className="grow bg-white p-5">
+        <div id="content" className="grow bg-white px-8 p-5">
           <div className="border-b ">
             <h1>Product</h1>
           </div>
