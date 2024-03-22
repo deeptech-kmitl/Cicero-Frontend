@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 interface IBreadcrumbProb {
   state: string;
@@ -5,11 +6,22 @@ interface IBreadcrumbProb {
 export default function Breadcrumb({ state }: IBreadcrumbProb) {
   return (
     <div className="flex gap-8 font-bold">
-      <p className="text-[#D0CFCF]">SHOPPING CART</p>
+      <p className={cn(" text-lg",{
+  "text-[#D0CFCF]": state !== "cart",
+  "text-black": state === "cart"
+})}>SHOPPING CART</p>
       <div className="border-b w-16 h-3"></div>
-      <p className="text-[#D0CFCF]">PAYMENT</p>
+      <p className={cn(" text-lg",{
+  "text-[#D0CFCF]": state !== "payment",
+  "text-black": state === "payment"
+})}>PAYMENT</p>
       <div className="border-b w-16 h-3"></div>
-      <p>CONFIRMATION</p>
+      <p className={cn(" text-lg",{
+  "text-[#D0CFCF]": state !== "confirm",
+  "text-black": state === "confirm"
+})}>CONFIRMATION</p>
     </div>
   );
 }
+
+
