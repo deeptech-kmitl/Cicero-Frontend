@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { IUser } from "@/constants/interface";
+import { updateProfile } from "@/api-caller/auth";
 
 type Props = {
   userId: string;
@@ -32,7 +33,7 @@ type Props = {
 
 const ProfileForm = ({ userId, tokenId }: Props) => {
   const user: IUser = JSON.parse(userId || "{}");
-  console.log("User ->", user);
+  // console.log("User ->", user);
   // console.log("Token ->", tokenId);
 
   const [buttonText, setButtonText] = useState("EDIT");
@@ -46,8 +47,9 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
   const [year, setYear] = useState(user?.dob ? user.dob.split("/")[2] : "");
 
   const [imageFile, setImageFile] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<string>(user.avatar !== "" ? user.avatar : "/logo.png");
-
+  const [imageUrl, setImageUrl] = useState<string>(
+    user.avatar !== "" ? user.avatar : "/logo.png"
+  );
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -98,10 +100,10 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     console.log("Form submitted", values);
     const formData = new FormData();
+    formData.append("test", "test")
     if (imageFile) {
       console.log("Appending file:", imageFile);
       console.log("Appending file Index:", imageFile[0]);
-      formData.append("avatar", imageFile);
     } else {
       console.log("No file to append");
     }
@@ -118,20 +120,25 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
         Number(values.day)
       ).toLocaleDateString()
     );
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PROD_URL}/users/${user.id}`,
-      {
-        method: "PUT",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data;boundary=None",
-          Authorization:
-            `Bearer ${tokenId}`,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log("DATA ->", data);
+    // const res = await fetch(
+    //   `${process.env.NEXT_PUBLIC_PROD_URL}/users/${user.id}`,
+    //   {
+    //     method: "PUT",
+    //     body: formData,
+    //     headers: {
+    //       "Content-Type": "multipart/form-data;boundary=None",
+    //       Authorization:
+    //         `Bearer ${tokenId}`,
+    //     },
+    //   }
+    // );
+    console.log("FORMDATA ->", formData);
+    const data = await updateProfile(user.id, tokenId, formData);
+    // if(data) {
+    //   console.log("DATA ->", data);
+    // }else{
+    //   console.log("DATA_ERROR ->", data);
+    // }
   }
 
   const toggleEdit = async () => {

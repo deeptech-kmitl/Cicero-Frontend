@@ -45,3 +45,24 @@ export async function signOut(): Promise<void> {
     throw formattedError(error);
   }
 }
+
+export async function updateProfile(
+  id: string,
+  token: string,
+  form: FormData
+): Promise<void> {
+  console.log("FORM:", form);
+  try {
+    await getInstance().put(
+      `/users/${id}`,
+      form,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+  } catch (error) {
+    throw formattedError(error);
+  }
+}
