@@ -95,7 +95,6 @@ const BrowseProduct = (props: Props) => {
   return (
     <div>
       <div className="flex h-full flex-col items-center p-10">
-        <div className="w-10/12 flex flex-row"></div>
         <div className="w-10/12 flex flex-row">      
           <div className="flex basis-2/6 flex-start flex-col pr-10 pl-10">
             <div className="mb-3 text-3xl font-bold">PRODUCT</div>
@@ -164,15 +163,15 @@ const BrowseProduct = (props: Props) => {
                 return (
                 <CardHomePage
                     key={i}
+                    id=""
                     images={item.image}
-                    name={item.name}
-                    price={item.price}
-                    favStatus={item.favStatus}
-                    category={item.category}
-                    sex={item.sex}  
-                    size= {item.size}
-                    color={item.color}
-                    productId={item.productId}
+                    product_title={item.name}
+                    product_price={item.price}
+                    product_category={item.category}
+                    product_sex={item.sex}  
+                    product_size= {item.size}
+                    product_color={item.color}
+                    product_desc={item.productId}
                 />
                 );
             })}
