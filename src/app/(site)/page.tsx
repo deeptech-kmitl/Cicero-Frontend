@@ -83,22 +83,22 @@ const Homepage = (props: Props) => {
           <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1020724048889659442/1220484754449760337/image_25_2.png?ex=660f1c00&is=65fca700&hm=5ba1ca26f5524fb32adb1aed600769bc01cfebd8ceb77f78d0c98cac3f567f7f&')] bg-cover">
             <div className="text-[12rem] font-extrabold text-white tracking-[0.2em] opacity-50">CICERO</div>
           </div>
-          <div className="flex flex-row w-full mt-7 gap-6">
-            <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/6N7Z1qz/Rectangle-7.png')] bg-cover">
-              <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none ab">
-                FOR WOMEN
-              </Button>
-            </div>
-            <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/dM68xRs/image-30.png')] bg-cover">
-              <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
-                FOR MEN
-              </Button>
-            </div>
-            <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/QK3PZdn/Rectangle-4.png')] bg-cover">
-              <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
-                FOR KID
-              </Button>
-            </div>
+          <div className="flex flex-row w-11/12 mt-7 gap-2">
+              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/6N7Z1qz/Rectangle-7.png')] bg-cover">
+                <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none ab">
+                  FOR WOMEN
+                </Button>
+              </div>
+              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/dM68xRs/image-30.png')] bg-cover">
+                <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
+                  FOR MEN
+                </Button>
+              </div>
+              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/QK3PZdn/Rectangle-4.png')] bg-cover">
+                <Button className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
+                  FOR KID
+                </Button>
+              </div>
           </div>
           <div className="w-full mt-7 flex justify-center items-center">
             <div className="flex flex-row w-full gap-6">

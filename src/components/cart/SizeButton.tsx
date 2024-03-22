@@ -1,14 +1,17 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 import { Button } from '../ui/button'
+import { Sizes, userCredProductId } from './type'
 
 type Props = {
     id: string,
-    product_size: "XS"| "S"| "M"| "L"| "XL"
-    updateSize : (id: string, size: "XS"| "S"| "M"| "L"| "XL") => void
+    product_size: Sizes,
+    user_id: string,
+    token:string,
+    updateSize : ({user_id,token,product_id,size}: userCredProductId & {size : Sizes}) => Promise<void>
 }
 
-const SizeButton = ({updateSize,product_size,id}: Props) => {
+const SizeButton = ({updateSize,product_size,id,user_id,token}: Props) => {
     const sizes : string[] = ["XS", "S", "M", "L", "XL"]
   return (
     <>
@@ -19,7 +22,7 @@ const SizeButton = ({updateSize,product_size,id}: Props) => {
             className={cn({
                 "bg-black text-white": size === product_size,
             })}
-            onClick={() => updateSize(id, size as "XS"| "S"| "M"| "L"| "XL")}
+            onClick={() => updateSize({user_id,token,product_id:id,size : size as Sizes})}
             >
             {size}
         </Button>
