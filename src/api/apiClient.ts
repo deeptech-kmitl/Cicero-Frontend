@@ -9,7 +9,7 @@ export function getInstance(config?: CreateAxiosDefaults) {
 
 export function createInstance(config?: CreateAxiosDefaults) {
   instance = axios.create({
-    baseURL: "https://wound-backend.vercel.app",
+    baseURL: process.env.NEXT_PUBLIC_PROD_URL,
     ...config,
   });
 }

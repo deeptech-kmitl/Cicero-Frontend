@@ -116,8 +116,8 @@ const ProfileForm = (props: Props) => {
         method: "PUT",
         body: formData,
         headers: {
-          'Content-Type': 'multipart/form-data;boundary=None',
-          'Authorization':
+          "Content-Type": "multipart/form-data;boundary=None",
+          Authorization:
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
         },
       }
@@ -127,9 +127,8 @@ const ProfileForm = (props: Props) => {
   }
 
   const toggleEdit = async () => {
-    
     // console.log("isInputDisabled ->", isInputDisabled, buttonText);
-    if(buttonText === "EDIT") {
+    if (buttonText === "EDIT") {
       setButtonText("APPLY");
       setIsInputDisabled(!isInputDisabled);
     }
