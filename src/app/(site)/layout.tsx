@@ -21,7 +21,7 @@ export default function MainLayout({
     <div className="min-h-screen overflow-x-hidden scroll-smooth">
       {user && <p>{user}</p>}
       <Header userId={user ? user : ""} />
-      <main className="bg-green-900">{children}</main>
+      <main >{children}</main>
       <Footer />
     </div>
   );
