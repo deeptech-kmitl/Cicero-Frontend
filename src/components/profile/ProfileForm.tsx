@@ -6,6 +6,7 @@ import { ProfileSchema } from "@/validator/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -361,7 +362,7 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
           </Button>
 
           <Button type="button" variant="blackbtn" className="my-3">
-            LOGOUT
+            <Link href={"/signout"}>LOGOUT</Link>
           </Button>
         </div>
       </form>
