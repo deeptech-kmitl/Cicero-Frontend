@@ -18,10 +18,10 @@ export default function MainLayout({
 }) {
   const user = cookies().get("user")?.value;
   return (
-    <div className="h-screen overflow-x-hidden scroll-smooth">
+    <div className="min-h-screen overflow-x-hidden scroll-smooth">
       {user && <p>{user}</p>}
       <Header userId={user ? user : ""} />
-      <main>{children}</main>
+      <main className="bg-green-900">{children}</main>
       <Footer />
     </div>
   );
