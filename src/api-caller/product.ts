@@ -1,8 +1,9 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
+import { ProductQueryParams } from "@/constants";
 
 // Mock
-export async function getProduct(): Promise<any> {
+export async function getProduct(data?: ProductQueryParams): Promise<any> {
   try {
     const { data } = await getInstance().get("/product/search");
     return data;

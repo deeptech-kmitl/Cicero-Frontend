@@ -1,8 +1,13 @@
-import { z } from "zod";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ProductSchema } from "@/validator/product";
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,45 +23,42 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Select } from "@radix-ui/react-select";
+import { Button } from "@/components/ui/button";
+import { ProductSchema, defaultProductForm } from "@/validator/product";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
-import { IProduct, allCategory } from "@/constants";
-import ProductCarousel from "./ProductCarousel";
-import { Button } from "@/components/ui/button";
+import { allCategory } from "@/constants";
 
-interface CollapseItemProps {
-  data: IProduct;
-  value: number;
-}
-
-export default function CollapseItem(props: CollapseItemProps) {
-  const { data, value } = props;
+export default function AddProduct() {
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
-    defaultValues: {
-      id: data.id || "",
-      product_title: data.product_title || "",
-      product_category: data.product_category || "",
-      product_desc: data.product_desc || "",
-      product_size: data.product_size[0] || "",
-      product_price: data.product_price || 0,
-      product_stock: data.product_stock || 0,
-    },
+    defaultValues: defaultProductForm,
   });
-
   const onSubmit = async (values: z.infer<typeof ProductSchema>) => {};
   return (
     <>
-      <AccordionItem value={`item-${value}`} className="shadow-sm">
-        <AccordionContent className="relative flex px-6 py-6 border-l-2 border-black">
-          <ProductCarousel images={data.images} />
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex relative gap-8 px-8 overflow-x-hidden"
-            >
-              <div className="space-y-2">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button type="submit" variant="blackbtn" className="w-40 text-sm">
+            Add Product
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="">
+          <DialogHeader>
+            <DialogTitle>Add Product</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col relative gap-2 px-8 overflow-x-hidden"
+              >
                 <FormField
                   control={form.control}
                   name="id"
@@ -110,8 +112,6 @@ export default function CollapseItem(props: CollapseItemProps) {
                     </FormItem>
                   )}
                 />
-              </div>
-              <div className="flex flex-col space-y-2 justify-between">
                 <FormField
                   control={form.control}
                   name="product_desc"
@@ -128,38 +128,38 @@ export default function CollapseItem(props: CollapseItemProps) {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="product_size"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Product Size</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Product Size" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col space-y-2">
-                <FormField
-                  control={form.control}
-                  name="product_price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Product Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Product Price"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex space-x-4">
+                  <FormField
+                    control={form.control}
+                    name="product_size"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Size</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Product Size" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="product_price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Price</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Product Price"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
                   name="product_stock"
@@ -173,28 +173,16 @@ export default function CollapseItem(props: CollapseItemProps) {
                     </FormItem>
                   )}
                 />
-              </div>
-            </form>
-          </Form>
-
-          <div className="absolute bottom-5 right-5 space-x-4">
-            <Button
-              type="submit"
-              variant="noFillbtn"
-              className="w-28 h-8 text-sm"
-            >
-              EDIT
-            </Button>
-            <Button
-              type="submit"
-              variant="blackbtn"
-              className="w-28 h-8 text-sm"
-            >
-              DELETE
-            </Button>
+              </form>
+            </Form>
           </div>
-        </AccordionContent>
-      </AccordionItem>
+          <DialogFooter>
+            <Button type="submit" variant="blackbtn">
+              Add
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
