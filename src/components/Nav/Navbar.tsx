@@ -78,13 +78,13 @@ type NavItemProps = {
 const NavItem = ({ title, array }: NavItemProps) => {
 	return (
 		<NavigationMenuItem>
-				<Link href={`product/${title.toLowerCase()}`}>
+				<Link href={`/product/${title.toLowerCase()}`}>
 			<NavigationMenuTrigger>
 				{title}
 				</NavigationMenuTrigger>
 				</Link>
 			<NavigationMenuContent>
-				<ul className="flex flex-col md:w-[500px] items-center ">
+				<ul className="flex flex-col md:w-[100vw]  items-center ">
 					{array.map((component) => (
 						<ListItem
 							key={component.title}
