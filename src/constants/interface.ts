@@ -34,6 +34,19 @@ export interface IProduct {
   images: IImage[];
 }
 
+export interface IProductCard {
+  id: string;
+  product_title: string;
+  product_desc: string;
+  product_color: string;
+  product_price: number;
+  product_sex: string;
+  product_size: string[];
+  product_stock: number;
+  product_category: string;
+  images: string;
+}
+
 interface Token {
   id: string;
   access_token: string;
