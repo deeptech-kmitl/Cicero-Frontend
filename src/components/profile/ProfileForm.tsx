@@ -104,12 +104,6 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     console.log("Form submitted", values);
-    const dob = new Date(
-      Number(values.year),
-      (Number(values.month)-1),
-      Number(values.day)
-    ).toLocaleDateString();
-    console.log("DOB ->", dob);
     const formData = new FormData();
 
     if (imageFile) {
@@ -123,13 +117,17 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
     formData.append("fname", values.firstname);
     formData.append("lname", values.lastname);
     formData.append("phone", values.phone);
-    formData.append("dob", dob);
-    console.log("FORMDATA ->", formData);
+    formData.append("dob", new Date(
+      Number(values.year),
+      (Number(values.month)-1),
+      Number(values.day)
+    ).toLocaleDateString());
+
     const data = await updateProfile(user.id, tokenId, formData);
     console.log("Response-Profile:", data, typeof data);
     if (isResponseError(data)) {
       console.log("error");
-      const { status, statusText, message } = data;
+      const { statusText, message } = data;
       toast({
         title: statusText,
         description: message,
@@ -146,16 +144,10 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
         user: data,
         token: token
       };
-      console.log("NewFormat:", newDataFormat);
+      // console.log("NewFormat:", newDataFormat);
       setCookie(newDataFormat);
       router.refresh();
     }
-
-    // if(data) {
-    //   console.log("DATA ->", data);
-    // }else{
-    //   console.log("DATA_ERROR ->", data);
-    // }
   }
 
   const toggleEdit = async () => {
