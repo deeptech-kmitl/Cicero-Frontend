@@ -2,14 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SignInSchema, ProfileSchema } from "@/validator/auth";
+import { ProfileSchema } from "@/validator/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,16 +22,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { IUser } from "@/constants/interface";
-import { updateProfile } from "@/api-caller/auth";
+import { IUser, SignInResponse, Token } from "@/constants/interface";
+import { updateProfile, getProfile } from "@/api-caller/auth";
+import { useToast } from "../ui/use-toast";
+import { isResponseError } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type Props = {
+  setCookie: (data: SignInResponse) => void;
   userId: string;
   tokenId: string;
 };
 
-const ProfileForm = ({ userId, tokenId }: Props) => {
+const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
   const user: IUser = JSON.parse(userId || "{}");
+  const { toast } = useToast();
+  const router = useRouter();
   // console.log("User ->", user);
   // console.log("Token ->", tokenId);
 
@@ -42,8 +47,8 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
   const [last_name, setLname] = useState<string>(user.lname);
   const [phone, setPhone] = useState<string>(user.phone);
   const [email, setEmail] = useState<string>(user.email);
-  const [day, setDay] = useState(user?.dob ? user.dob.split("/")[0] : "");
-  const [month, setMonth] = useState(user?.dob ? user.dob.split("/")[1] : "");
+  const [day, setDay] = useState(user?.dob ? user.dob.split("/")[1] : "");
+  const [month, setMonth] = useState(user?.dob ? user.dob.split("/")[0] : "");
   const [year, setYear] = useState(user?.dob ? user.dob.split("/")[2] : "");
 
   const [imageFile, setImageFile] = useState<any>();
@@ -99,8 +104,14 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     console.log("Form submitted", values);
+    const dob = new Date(
+      Number(values.year),
+      (Number(values.month)-1),
+      Number(values.day)
+    ).toLocaleDateString();
+    console.log("DOB ->", dob);
     const formData = new FormData();
-    formData.append("test", "test")
+
     if (imageFile) {
       console.log("Appending file:", imageFile);
       console.log("Appending file Index:", imageFile[0]);
@@ -112,28 +123,34 @@ const ProfileForm = ({ userId, tokenId }: Props) => {
     formData.append("fname", values.firstname);
     formData.append("lname", values.lastname);
     formData.append("phone", values.phone);
-    formData.append(
-      "dob",
-      new Date(
-        Number(values.year),
-        Number(values.month),
-        Number(values.day)
-      ).toLocaleDateString()
-    );
-    // const res = await fetch(
-    //   `${process.env.NEXT_PUBLIC_PROD_URL}/users/${user.id}`,
-    //   {
-    //     method: "PUT",
-    //     body: formData,
-    //     headers: {
-    //       "Content-Type": "multipart/form-data;boundary=None",
-    //       Authorization:
-    //         `Bearer ${tokenId}`,
-    //     },
-    //   }
-    // );
+    formData.append("dob", dob);
     console.log("FORMDATA ->", formData);
     const data = await updateProfile(user.id, tokenId, formData);
+    console.log("Response-Profile:", data, typeof data);
+    if (isResponseError(data)) {
+      console.log("error");
+      const { status, statusText, message } = data;
+      toast({
+        title: statusText,
+        description: message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success !",
+        description: "You have successfully updated your profile.",
+        variant: "success",
+      });
+      const token: Token = { id: "", access_token: tokenId };
+      const newDataFormat = {
+        user: data,
+        token: token
+      };
+      console.log("NewFormat:", newDataFormat);
+      setCookie(newDataFormat);
+      router.refresh();
+    }
+
     // if(data) {
     //   console.log("DATA ->", data);
     // }else{

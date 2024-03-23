@@ -50,19 +50,18 @@ export async function updateProfile(
   id: string,
   token: string,
   form: FormData
-): Promise<void> {
+): Promise<SignInResponse | IFormattedErrorResponse> {
   console.log("FORM:", form);
   try {
-    await getInstance().put(
-      `/users/${id}`,
-      form,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const { data } = await getInstance().put(`/users/${id}`, form, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log("DATA-PASS-PUT:", data);
+    return data;
   } catch (error) {
-    throw formattedError(error);
+    return formattedError(error);
+    // throw formattedError(error);
   }
 }

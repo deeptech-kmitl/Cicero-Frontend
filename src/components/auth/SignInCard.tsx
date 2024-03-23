@@ -56,7 +56,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
     formData.append("email", values.email);
     formData.append("password", values.password);
     const response = await signIn(formData);
-    console.log(response, typeof response);
+    console.log("Response-SignIn:", response, typeof response);
     if (isResponseError(response)) {
       console.log("error");
       const { status, statusText, message } = response;
