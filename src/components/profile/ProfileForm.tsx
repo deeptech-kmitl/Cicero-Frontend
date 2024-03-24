@@ -2,14 +2,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { SignInSchema, ProfileSchema } from "@/validator/auth";
+import { ProfileSchema } from "@/validator/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,23 +23,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-type Props = {};
+import { IUser, SignInResponse, Token } from "@/constants/interface";
+import { updateProfile, getProfile } from "@/api-caller/auth";
+import { useToast } from "../ui/use-toast";
+import { isResponseError } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
-const ProfileForm = (props: Props) => {
-  const [showPass, setShowPass] = useState<boolean>(false);
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+type Props = {
+  setCookie: (data: SignInResponse) => void;
+  userId: string;
+  tokenId: string;
+};
+
+const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
+  const user: IUser = JSON.parse(userId || "{}");
+  const { toast } = useToast();
+  const router = useRouter();
+  // console.log("User ->", user);
+  // console.log("Token ->", tokenId);
+
   const [buttonText, setButtonText] = useState("EDIT");
   const [isInputDisabled, setIsInputDisabled] = useState<boolean>(true);
-  const [first_name, setFname] = useState<string>("Hello");
-  const [last_name, setLname] = useState<string>("World");
-  const [phone, setPhone] = useState<string>("0981234567");
-  const [email, setEmail] = useState<string>("test@gmail.com");
-  const [day, setDay] = useState<string>("12");
-  const [month, setMonth] = useState<string>("2");
-  const [year, setYear] = useState<string>("2000");
+  const [first_name, setFname] = useState<string>(user.fname);
+  const [last_name, setLname] = useState<string>(user.lname);
+  const [phone, setPhone] = useState<string>(user.phone);
+  const [email, setEmail] = useState<string>(user.email);
+  const [day, setDay] = useState(user?.dob ? user.dob.split("/")[1] : "");
+  const [month, setMonth] = useState(user?.dob ? user.dob.split("/")[0] : "");
+  const [year, setYear] = useState(user?.dob ? user.dob.split("/")[2] : "");
 
   const [imageFile, setImageFile] = useState<any>();
-  const [imageUrl, setImageUrl] = useState<string>("/logo.png"); // Path to your default image
+  const [imageUrl, setImageUrl] = useState<string>(
+    user.avatar !== "" ? user.avatar : "/logo.png"
+  );
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
@@ -90,10 +106,10 @@ const ProfileForm = (props: Props) => {
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     console.log("Form submitted", values);
     const formData = new FormData();
+
     if (imageFile) {
       console.log("Appending file:", imageFile);
       console.log("Appending file Index:", imageFile[0]);
-      formData.append("avatar", imageFile);
     } else {
       console.log("No file to append");
     }
@@ -102,28 +118,37 @@ const ProfileForm = (props: Props) => {
     formData.append("fname", values.firstname);
     formData.append("lname", values.lastname);
     formData.append("phone", values.phone);
-    formData.append(
-      "dob",
-      new Date(
-        Number(values.year),
-        Number(values.month),
-        Number(values.day)
-      ).toLocaleDateString()
-    );
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_PROD_URL}/users/U000003`,
-      {
-        method: "PUT",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data;boundary=None",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiJVMDAwMDAzIiwicm9sZV9pZCI6MX0sImlzcyI6ImNpY2Vyby1hcGkiLCJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJhdWQiOlsiY3VzdG9tZXIiLCJhZG1pbiJdLCJleHAiOjE3MDkwMTI2ODQsIm5iZiI6MTcwODQwNzg4NCwiaWF0IjoxNzA4NDA3ODg0fQ.qePPcvKMqEa2B9uXUOIBGKK-DLU2S2IP9oivu8dkmJg",
-        },
-      }
-    );
-    const data = await res.json();
-    console.log("DATA ->", data);
+    formData.append("dob", new Date(
+      Number(values.year),
+      (Number(values.month)-1),
+      Number(values.day)
+    ).toLocaleDateString());
+
+    const data = await updateProfile(user.id, tokenId, formData);
+    console.log("Response-Profile:", data, typeof data);
+    if (isResponseError(data)) {
+      console.log("error");
+      const { statusText, message } = data;
+      toast({
+        title: statusText,
+        description: message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success !",
+        description: "You have successfully updated your profile.",
+        variant: "success",
+      });
+      const token: Token = { id: "", access_token: tokenId };
+      const newDataFormat = {
+        user: data,
+        token: token
+      };
+      // console.log("NewFormat:", newDataFormat);
+      setCookie(newDataFormat);
+      router.refresh();
+    }
   }
 
   const toggleEdit = async () => {
@@ -337,7 +362,7 @@ const ProfileForm = (props: Props) => {
           </Button>
 
           <Button type="button" variant="blackbtn" className="my-3">
-            LOGOUT
+            <Link href={"/signout"}>LOGOUT</Link>
           </Button>
         </div>
       </form>
