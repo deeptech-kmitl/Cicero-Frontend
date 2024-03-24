@@ -20,7 +20,7 @@ type PaymentFormProps = {
 };
 
 const PaymentForm = ({user_id,token}: PaymentFormProps) => {
-	const {cart, totalPrice} = useCartStore();
+	const {cart, totalPrice, setCart} = useCartStore();
 	const form = useForm<z.infer<typeof PaymentSchema>>({
 		resolver: zodResolver(PaymentSchema),
 		defaultValues: {
@@ -64,6 +64,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 		}
 		try{
 			await addOrder({order, user_id, token});
+			setCart([]);
 		}catch(error){
 			throw error;
 		}

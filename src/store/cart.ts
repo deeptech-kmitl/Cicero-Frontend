@@ -7,6 +7,7 @@ type CartState = {
 	totalPrice: number;
 	fetching: boolean;
 	fetch: (token:string,user_id:string) => Promise<void>;
+	setCart : (cart : CartItemProps[]) => void;
 	addToCart: ({item,user_id,token}: {item : CartItemProps} & userCred) => void;
 	removeFromCart: ({user_id,token,product_id}: userCredProductId) => Promise<void>;
 	incrementQty: ({user_id,token,product_id}: userCredProductId) => Promise<void>;
@@ -31,6 +32,9 @@ const useCartStore = create<CartState>((set, get) => ({
 				throw error;
 			}
 		}
+	},
+	setCart : (cart) => {
+		set({cart});
 	},
 	addToCart: async({item,user_id,token}: {item : CartItemProps, user_id : string, token:string}) =>{
 		try{
