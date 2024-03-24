@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import MobileNav from "./Nav/MobileNav";
 import { Input } from "@/components/ui/input";
 import { Search, ShoppingBag, Heart, User } from "lucide-react";
@@ -15,9 +15,8 @@ type Props = {
 
 const Header = ({ userId }: Props) => {
   const user: IUser = JSON.parse(userId || "{}");
-  console.log(user, "header user");
   return (
-    <header className="sticky top-0 z-50 w-full border-b-2 border-black  bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 w-full border-b border-black  bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="flex h-14 px-5 container  justify-between items-center">
         <div className="flex ">
           <Link className="flex items-center space-x-2" href="/">

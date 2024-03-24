@@ -1,5 +1,4 @@
 import { IUser } from "@/constants/interface";
-import { T } from "@tanstack/query-core/build/legacy/queryClient-MRqjmcFa";
 import destr from "destr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
