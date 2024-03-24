@@ -57,7 +57,6 @@ export interface SignInResponse {
   token: Token;
 }
 
-
 export interface IPaymentAddress {
   first_name: string;
   last_name: string;
@@ -74,7 +73,6 @@ export interface IPaymentDetail {
   expired: string;
   cvv: string;
 }
-
 
 export interface IOrder {
   address: IPaymentAddress;

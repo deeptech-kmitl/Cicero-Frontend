@@ -78,7 +78,7 @@ type NavItemProps = {
 const NavItem = ({ title, array }: NavItemProps) => {
 	return (
 		<NavigationMenuItem>
-				<Link href={`/product/${title.toLowerCase()}`}>
+				<Link href={`/product/${title.toLowerCase().replaceAll(" ", "")}/`}>
 			<NavigationMenuTrigger>
 				{title}
 				</NavigationMenuTrigger>
@@ -89,7 +89,7 @@ const NavItem = ({ title, array }: NavItemProps) => {
 						<ListItem
 							key={component.title}
 							title={component.title}
-							href={`product/${title.toLowerCase()}${component.href}`}
+							href={`/product/${title.toLowerCase().replaceAll(" ", "")}${component.href}`}
 						>
 							
 						</ListItem>
