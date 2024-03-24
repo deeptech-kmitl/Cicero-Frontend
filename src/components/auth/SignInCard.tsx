@@ -104,15 +104,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
             <Button type="submit" variant="blackbtn">
               Sign In
             </Button>
-            <Button
-              onClick={async () => {
-                //U000003 need to get from user cookie but now still think about how to get it or store it
-                const res = await getProfile("U000003", token!);
-                console.log(res);
-              }}
-            >
-              XD
-            </Button>
+            
           </form>
         </Form>
       </CardContent>
