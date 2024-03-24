@@ -34,17 +34,17 @@ export interface IProduct {
   images: IImage[];
 }
 
-export interface IProductCard {
+export interface ICreateProduct {
   id: string;
   product_title: string;
   product_desc: string;
   product_color: string;
-  product_price: number;
+  product_price: string;
   product_sex: string;
-  product_size: string[];
-  product_stock: number;
+  product_size: string;
+  product_stock: string;
   product_category: string;
-  images: string;
+  images?: any;
 }
 
 interface Token {
@@ -56,7 +56,6 @@ export interface SignInResponse {
   user: IUser;
   token: Token;
 }
-
 
 export interface IPaymentAddress {
   first_name: string;
@@ -74,7 +73,6 @@ export interface IPaymentDetail {
   expired: string;
   cvv: string;
 }
-
 
 export interface IOrder {
   address: IPaymentAddress;
