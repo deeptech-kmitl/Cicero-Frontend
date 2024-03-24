@@ -1,18 +1,18 @@
-import React from 'react'
+"use client";
+import React from "react";
 import { Separator } from "@/components/ui/separator";
-import Image from 'next/image';
-import { Button } from '../ui/button';
+import Image from "next/image";
+import { Button } from "../ui/button";
 
 type ItemMyPurchaseProps = {
-    image: string
-    title: string
-    detail: string
-    size: string
-    price: string
-    qty: number
-    orderId: string
-}
-
+  image: string;
+  title: string;
+  detail: string;
+  size: string;
+  price: string;
+  qty: number;
+  orderId: string;
+};
 
 const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
   return (
@@ -51,9 +51,11 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
           <div className="h-[80%]">
             <div className="font-bold text-right"># ORDER {props.orderId}</div>
           </div>
-          <Button className="h-[20%] w-[100%] bg-black text-center justify-center flex text-white">
-            BUY AGAIN
-          </Button>
+          <div className="h-[20%] grid justify-items-end">
+            <Button className="w-[20em] bg-black text-center text-white">
+              BUY AGAIN
+            </Button>
+          </div>
         </div>
       </div>
       <Separator className="my-9" />

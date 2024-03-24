@@ -16,15 +16,13 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { Eye, EyeOff } from "lucide-react";
-import { getProfile, signIn } from "@/api-caller/auth";
+import { signIn, getProfile } from "@/api-caller/auth";
 import { SignInResponse } from "@/constants/interface";
 import { useToast } from "../ui/use-toast";
 import { isResponseError } from "@/lib/utils";
@@ -56,7 +54,7 @@ const SignInCard = ({ setCookie, token }: Props) => {
     formData.append("email", values.email);
     formData.append("password", values.password);
     const response = await signIn(formData);
-    console.log("Response-SignIn:", response, typeof response);
+    console.log(response, typeof response);
     if (isResponseError(response)) {
       console.log("error");
       const { status, statusText, message } = response;
