@@ -47,7 +47,7 @@ export interface ICreateProduct {
   images?: any;
 }
 
-interface Token {
+export interface Token {
   id: string;
   access_token: string;
 }
