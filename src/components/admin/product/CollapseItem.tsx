@@ -1,13 +1,8 @@
+import { z } from "zod";
 import React, { useEffect } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { IProduct, allCategory } from "@/constants";
-import ProductCarousel from "./ProductCarousel";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductSchema } from "@/validator/product";
 import {
   Form,
   FormControl,
@@ -16,18 +11,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import { ProductSchema, defaultProductForm } from "@/validator/product";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Select } from "@radix-ui/react-select";
 import {
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Select } from "@radix-ui/react-select";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
+import { IProduct, allCategory } from "@/constants";
+import ProductCarousel from "./ProductCarousel";
+import { Button } from "@/components/ui/button";
 
 interface CollapseItemProps {
   data: IProduct;
@@ -53,7 +49,7 @@ export default function CollapseItem(props: CollapseItemProps) {
   return (
     <>
       <AccordionItem value={`item-${value}`} className="shadow-sm">
-        <AccordionContent className="relative flex px-6 py-4 border-l-2 border-black">
+        <AccordionContent className="relative flex px-6 py-6 border-l-2 border-black">
           <ProductCarousel images={data.images} />
           <Form {...form}>
             <form
@@ -102,7 +98,7 @@ export default function CollapseItem(props: CollapseItemProps) {
                             <SelectValue placeholder="Please Select" />
                           </SelectTrigger>
                           <SelectContent>
-                            {allCategory.map((category, index) => (
+                            {allCategory["Men"].map((category, index) => (
                               <SelectItem key={index} value={String(index + 1)}>
                                 {category}
                               </SelectItem>
@@ -139,7 +135,7 @@ export default function CollapseItem(props: CollapseItemProps) {
                     <FormItem>
                       <FormLabel>Product Size</FormLabel>
                       <FormControl>
-                        <Input placeholder="Product Name" {...field} />
+                        <Input placeholder="Product Size" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -181,7 +177,22 @@ export default function CollapseItem(props: CollapseItemProps) {
             </form>
           </Form>
 
-          <div className="absolute bottom-0 right-0">ddsadsadsasa</div>
+          <div className="absolute bottom-5 right-5 space-x-4">
+            <Button
+              type="submit"
+              variant="noFillbtn"
+              className="w-28 h-8 text-sm"
+            >
+              EDIT
+            </Button>
+            <Button
+              type="submit"
+              variant="blackbtn"
+              className="w-28 h-8 text-sm"
+            >
+              DELETE
+            </Button>
+          </div>
         </AccordionContent>
       </AccordionItem>
     </>

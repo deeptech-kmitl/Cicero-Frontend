@@ -31,14 +31,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import signIn, { signUp } from "@/api-caller/auth";
-import { EyeOff, Eye } from "lucide-react";
+import { signIn, signUp } from "@/api-caller/auth";
 import { useToast } from "@/components/ui/use-toast";
 import { isResponseError } from "@/lib/utils";
 import { PasswordInput } from "@/components/ui/password-input";
-import { ToastAction } from "@/components/ui/toast";
-import { redirect, useRouter } from "next/navigation";
-import Link from "next/link";
 
 const SignUpCard = () => {
   const { toast } = useToast();
@@ -108,15 +104,11 @@ const SignUpCard = () => {
   return (
     // <div className=" absolute -translate-x-1/2 -translate-y-1/2 top-[calc(50%+20px)] left-1/2 ">
     <Card className="min-h-max h-auto ">
-      <CardHeader>
-        <CardTitle className="text-center">Sign Up</CardTitle>
-      </CardHeader>
       <CardContent className="space-y-2">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className=" relative space-y-4 px-2 overflow-x-hidden
-                        "
+            className="relative space-y-4 px-2 overflow-x-hidden"
           >
             {/* firstname */}
             <FormField
