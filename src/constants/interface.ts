@@ -12,7 +12,7 @@ export interface IUser {
   lname: string;
   phone: string;
   avatar: string;
-  dob:string;
+  dob: string;
   role_id: number;
 }
 
@@ -32,6 +32,19 @@ export interface IProduct {
   product_stock: number;
   product_category: string;
   images: IImage[];
+}
+
+export interface ICreateProduct {
+  id: string;
+  product_title: string;
+  product_desc: string;
+  product_color: string;
+  product_price: string;
+  product_sex: string;
+  product_size: string;
+  product_stock: string;
+  product_category: string;
+  images?: any;
 }
 
 interface Token {

@@ -98,7 +98,7 @@ export default function CollapseItem(props: CollapseItemProps) {
                             <SelectValue placeholder="Please Select" />
                           </SelectTrigger>
                           <SelectContent>
-                            {allCategory.map((category, index) => (
+                            {allCategory["Men"].map((category, index) => (
                               <SelectItem key={index} value={String(index + 1)}>
                                 {category}
                               </SelectItem>

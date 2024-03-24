@@ -1,20 +1,30 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
-import { ProductQueryParams } from "@/constants";
+import { ICreateProduct, ProductQueryParams } from "@/constants";
 
-// Mock
-export async function getProduct(data?: ProductQueryParams): Promise<any> {
+export async function getProduct(params?: ProductQueryParams): Promise<any> {
   try {
-    const { data } = await getInstance().get("/product/search");
+    const { data } = await getInstance().get("/product/search", {
+      params,
+    });
     return data;
   } catch (error) {
     throw formattedError(error);
   }
 }
 
-export default async function addProduct(form: any): Promise<any> {
+export async function addProduct(body: ICreateProduct): Promise<any> {
   try {
-    const { data } = await getInstance().post("/product/", form);
+    const { data } = await getInstance().post("/product", body);
+    return data;
+  } catch (error) {
+    throw formattedError(error);
+  }
+}
+
+export async function deleteProduct(id: string): Promise<string> {
+  try {
+    const { data } = await getInstance().delete(`/product/${id}`);
     return data;
   } catch (error) {
     throw formattedError(error);
