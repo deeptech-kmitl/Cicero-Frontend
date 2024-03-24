@@ -1,4 +1,3 @@
-
 import React from "react";
 import ProfileForm from "@/components/profile/ProfileForm";
 import { cookies } from "next/headers";
@@ -10,22 +9,16 @@ const profile = () => {
     cookies().set({
       name: "token",
       value: data.token.access_token,
-      // keep the cookie for a days
       maxAge: 1000,
-      // cookie will be accessible by client's JavaScript
       httpOnly: true,
-      // cookie will be sent only over HTTPS
       secure: true,
     });
 
     cookies().set({
       name: "user",
       value: JSON.stringify(data.user),
-      // keep the cookie for a days
       maxAge: 1000,
-      // cookie will be accessible by client's JavaScript
       httpOnly: true,
-      // cookie will be sent only over HTTPS
       secure: true,
     });
   }

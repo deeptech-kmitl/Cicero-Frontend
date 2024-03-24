@@ -33,6 +33,7 @@ import {
   ICreateProduct,
   IFormattedErrorResponse,
   IProduct,
+  Sex,
   allCategory,
   allColor,
   allSex,
@@ -69,7 +70,7 @@ export default function AddProduct(props: AddProductProps) {
   });
 
   const onSubmit = async (values: z.infer<typeof ProductSchema>) => {
-    console.log("onSubmit", values);
+    console.log("value", values, files);
 
     mutation.mutate(values, {
       onSuccess(response) {
@@ -101,19 +102,6 @@ export default function AddProduct(props: AddProductProps) {
               >
                 <div className="flex space-x-4">
                   <div className="flex flex-col relative gap-2">
-                    <FormField
-                      control={form.control}
-                      name="id"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Product Id</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Product Id" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                     <FormField
                       control={form.control}
                       name="product_title"
@@ -174,13 +162,13 @@ export default function AddProduct(props: AddProductProps) {
                                   <SelectValue placeholder="Please Select" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {allCategory["Men"]?.map(
-                                    (category, index) => (
-                                      <SelectItem key={index} value={category}>
-                                        {category}
-                                      </SelectItem>
-                                    )
-                                  )}
+                                  {allCategory[
+                                    form.getValues().product_sex as Sex
+                                  ]?.map((category, index) => (
+                                    <SelectItem key={index} value={category}>
+                                      {category}
+                                    </SelectItem>
+                                  ))}
                                 </SelectContent>
                               </Select>
                             </FormControl>
@@ -305,27 +293,21 @@ export default function AddProduct(props: AddProductProps) {
                     />
                   </div>
                   <div className="relative">
-                    <FormField
-                      control={form.control}
-                      name="product_size"
-                      render={({ field }) => (
-                        <FormItem className="min-h-0 max-h-[30rem] overflow-y-auto">
-                          <FormLabel>Upload Image</FormLabel>
-                          <FormControl>
-                            <FilePond
-                              allowDrop
-                              allowMultiple
-                              files={files}
-                              onupdatefiles={setFiles}
-                              maxFiles={7}
-                              className={"w-60"}
-                              acceptedFileTypes={["image/*"]}
-                              labelIdle="Upload images"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                    <FormItem className="min-h-0 max-h-[30rem] overflow-y-auto">
+                      <FormLabel>Upload Image</FormLabel>
+                      <FormControl>
+                        <FilePond
+                          allowDrop
+                          allowMultiple
+                          files={files}
+                          onupdatefiles={setFiles}
+                          maxFiles={7}
+                          className={"w-60"}
+                          acceptedFileTypes={["image/*"]}
+                          labelIdle="Upload images"
+                        />
+                      </FormControl>
+                    </FormItem>
                   </div>
                 </div>
                 <Button type="submit" variant="blackbtn" className="mt-4">

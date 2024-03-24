@@ -1,6 +1,7 @@
 import { z } from "zod";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { UseMutationResult } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductSchema } from "@/validator/product";
 import {
@@ -17,21 +18,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Select } from "@radix-ui/react-select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
-import { IProduct, allCategory } from "@/constants";
+import { IFormattedErrorResponse, IProduct, allCategory } from "@/constants";
 import ProductCarousel from "./ProductCarousel";
 import { Button } from "@/components/ui/button";
 
 interface CollapseItemProps {
   data: IProduct;
   value: number;
+  deleteMutation: UseMutationResult<string, IFormattedErrorResponse, string>;
 }
 
 export default function CollapseItem(props: CollapseItemProps) {
-  const { data, value } = props;
+  // const token = cookies().get("token");
+  // console.log("token", token);
+
+  const { data, value, deleteMutation } = props;
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -40,12 +55,21 @@ export default function CollapseItem(props: CollapseItemProps) {
       product_category: data.product_category || "",
       product_desc: data.product_desc || "",
       product_size: data.product_size[0] || "",
-      product_price: data.product_price || 0,
-      product_stock: data.product_stock || 0,
+      product_price: data.product_price.toString() || "",
+      product_stock: data.product_stock.toString() || "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof ProductSchema>) => {};
+
+  const onDelete = async () => {
+    deleteMutation.mutate(data.id, {
+      onSuccess: (response) => {
+        console.log("response", response);
+      },
+    });
+  };
+
   return (
     <>
       <AccordionItem value={`item-${value}`} className="shadow-sm">
@@ -176,7 +200,6 @@ export default function CollapseItem(props: CollapseItemProps) {
               </div>
             </form>
           </Form>
-
           <div className="absolute bottom-5 right-5 space-x-4">
             <Button
               type="submit"
@@ -185,13 +208,43 @@ export default function CollapseItem(props: CollapseItemProps) {
             >
               EDIT
             </Button>
-            <Button
-              type="submit"
-              variant="blackbtn"
-              className="w-28 h-8 text-sm"
-            >
-              DELETE
-            </Button>
+            <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="submit"
+                  variant="blackbtn"
+                  className="w-28 h-8 text-sm"
+                >
+                  DELETE
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure ?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Do you really want to delete product?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <Button
+                    type="submit"
+                    variant="noFillbtn"
+                    className="w-28 h-8 text-sm"
+                    onClick={() => setOpenDialog(false)}
+                  >
+                    CANCEL
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="blackbtn"
+                    className="w-28 h-8 text-sm"
+                    onClick={onDelete}
+                  >
+                    DELETE
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </AccordionContent>
       </AccordionItem>
