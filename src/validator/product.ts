@@ -10,6 +10,7 @@ export const ProductSchema = z.object({
   product_color: z.string(),
   product_price: z.string(),
   product_stock: z.string(),
+  images: z.any(),
 });
 
 export const defaultProductForm = {

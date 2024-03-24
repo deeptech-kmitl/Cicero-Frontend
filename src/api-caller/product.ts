@@ -1,6 +1,7 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
 import { ICreateProduct, ProductQueryParams } from "@/constants";
+import { cookies } from "next/headers";
 
 export async function getProduct(params?: ProductQueryParams): Promise<any> {
   try {

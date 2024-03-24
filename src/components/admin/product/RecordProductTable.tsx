@@ -1,11 +1,11 @@
 import React from "react";
+import Image from "next/image";
+import { UseMutationResult, useMutation } from "react-query";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { IFormattedErrorResponse, IProduct } from "@/constants";
-import Image from "next/image";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import CollapseItem from "./CollapseItem";
-import { UseMutationResult, useMutation } from "react-query";
 import { deleteProduct } from "@/api-caller";
+import CollapseItem from "./CollapseItem";
 
 interface RecordProductTableProps {
   index: number;
@@ -15,12 +15,12 @@ interface RecordProductTableProps {
 }
 
 export default function RecordProductTable(props: RecordProductTableProps) {
+  const { index, data, state, onClick } = props;
   const deleteMutation: UseMutationResult<
     string,
     IFormattedErrorResponse,
     string
   > = useMutation(deleteProduct);
-  const { index, data, state, onClick } = props;
   return (
     <>
       <TableRow onClick={() => onClick(`item-${index}`)}>
@@ -44,7 +44,12 @@ export default function RecordProductTable(props: RecordProductTableProps) {
         </TableCell>
       </TableRow>
       <TableCell colSpan={8} className="p-0">
-        <CollapseItem key={index} data={data} value={index} />
+        <CollapseItem
+          key={index}
+          data={data}
+          value={index}
+          deleteMutation={deleteMutation}
+        />
       </TableCell>
     </>
   );
