@@ -84,7 +84,7 @@ const NavItem = ({ title, array }: NavItemProps) => {
 				</NavigationMenuTrigger>
 				</Link>
 			<NavigationMenuContent>
-				<ul className="flex flex-col md:w-[100vw]  items-center ">
+				<ul className="flex flex-col md:w-[110vw]  items-center ">
 					{array.map((component) => (
 						<ListItem
 							key={component.title}
