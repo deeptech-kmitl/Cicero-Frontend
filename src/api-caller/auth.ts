@@ -45,3 +45,23 @@ export async function signOut(): Promise<void> {
     throw formattedError(error);
   }
 }
+
+export async function updateProfile(
+  id: string,
+  token: string,
+  form: FormData
+): Promise<SignInResponse | IFormattedErrorResponse> {
+  console.log("FORM:", form);
+  try {
+    const { data } = await getInstance().put(`/users/${id}`, form, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log("DATA-PASS-PUT:", data);
+    return data;
+  } catch (error) {
+    return formattedError(error);
+    // throw formattedError(error);
+  }
+}
