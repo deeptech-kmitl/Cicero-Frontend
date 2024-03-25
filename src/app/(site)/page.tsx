@@ -11,7 +11,7 @@ const Homepage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    getProduct().then((data) => { 
+    getProduct().then((data) => {
       setProducts(data.data)
       console.log(data.data)
     })
@@ -20,35 +20,38 @@ const Homepage = () => {
   return (
     <div>
       <div className="flex h-full justify-center flex-col items-center p-10">
-        <div className="w-10/12 flex justify-center flex-col items-center">
+        <div className="w-[1350px] flex justify-center flex-col items-center">
           <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1020724048889659442/1220484754449760337/image_25_2.png?ex=660f1c00&is=65fca700&hm=5ba1ca26f5524fb32adb1aed600769bc01cfebd8ceb77f78d0c98cac3f567f7f&')] bg-cover">
             <div className="text-[12rem] font-extrabold text-white tracking-[0.2em] opacity-50 cursor-default">CICERO</div>
           </div>
-          <div className="flex flex-row w-full mt-7 gap-2">
-              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/6N7Z1qz/Rectangle-7.png')] bg-cover">
-                <Button onClick={() => router.push("/product/women")} className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none ab">
-                  FOR WOMEN
-                </Button>
-              </div>
-              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/dM68xRs/image-30.png')] bg-cover">
-                <Button onClick={() => router.push("/product/men")} className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
-                  FOR MEN
-                </Button>
-              </div>
-              <div className="w-full h-52 flex justify-center items-center bg-[url('https://i.ibb.co/QK3PZdn/Rectangle-4.png')] bg-cover">
-                <Button onClick={() => router.push("/product/kids")} className="h-[20%] w-[30%] bg-black text-center justify-center flex text-white rounded-none">
-                  FOR KIDS
-                </Button>
-              </div>
+          <div className="flex flex-row w-full mt-7 gap-3">
+            <div className="w-full h-max flex justify-center items-center overflow-hidden cursor-pointer relative">
+              <img className="w-full transition-all hover:scale-[1.1]" src="https://i.ibb.co/6N7Z1qz/Rectangle-7.png" />
+              <Button onClick={() => router.push("/product/women")} className="h-[20%] w-[30%] text-[85%] bg-black text-center text-white flex justify-center items-center absolute">
+                FOR WOMEN
+              </Button>
+            </div>
+            <div className="w-full h-max flex justify-center items-center overflow-hidden cursor-pointer relative">
+              <img className="w-full transition-all hover:scale-[1.1]" src="https://i.ibb.co/dM68xRs/image-30.png" />
+              <Button onClick={() => router.push("/product/men")} className="h-[20%] w-[30%] text-[85%] bg-black text-center text-white flex justify-center items-center absolute">
+                FOR MEN
+              </Button>
+            </div>
+            <div className="w-full h-max flex justify-center items-center overflow-hidden cursor-pointer relative">
+              <img className="w-full transition-all hover:scale-[1.1]" src="https://i.ibb.co/QK3PZdn/Rectangle-4.png" />
+              <Button onClick={() => router.push("/product/kids")} className="h-[20%] w-[30%] text-[85%] bg-black text-center text-white flex justify-center items-center absolute">
+                FOR KIDS
+              </Button>
+            </div>
           </div>
           <div className="w-full mt-7 flex justify-center items-center">
-            <div className="flex flex-row w-full gap-6">
+            <div className="flex flex-row w-full gap-4">
               {products.slice(0, 5).map((item, i) => {
                 console.log(item)
                 return (
                   <CardHomePage
                     key={i}
-                    images={item.images[0].url}
+                    images={item.images}
                     product_title={item.product_title}
                     product_price={item.product_price}
                     product_category={item.product_category}
@@ -56,8 +59,8 @@ const Homepage = () => {
                     product_size={item.product_size}
                     product_color={item.product_color}
                     product_desc={item.product_desc}
-                    id={item.id} 
-                    product_stock={0}                  
+                    id={item.id}
+                    product_stock={0}
                   />
                 );
               })}
