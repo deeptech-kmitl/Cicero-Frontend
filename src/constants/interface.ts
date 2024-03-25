@@ -12,7 +12,7 @@ export interface IUser {
   lname: string;
   phone: string;
   avatar: string;
-  dob:string;
+  dob: string;
   role_id: number;
 }
 
@@ -34,6 +34,19 @@ export interface IProduct {
   images: IImage[];
 }
 
+export interface ICreateProduct {
+  id: string;
+  product_title: string;
+  product_desc: string;
+  product_color: string;
+  product_price: string;
+  product_sex: string;
+  product_size: string;
+  product_stock: string;
+  product_category: string;
+  images?: any;
+}
+
 interface Token {
   id: string;
   access_token: string;
@@ -42,4 +55,27 @@ interface Token {
 export interface SignInResponse {
   user: IUser;
   token: Token;
+}
+
+export interface IPaymentAddress {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  street: string;
+  zip: string;
+  country: string;
+}
+
+export interface IPaymentDetail {
+  card_holder: string;
+  card_number: string;
+  expired: string;
+  cvv: string;
+}
+
+export interface IOrder {
+  address: IPaymentAddress;
+  payment_detail: IPaymentDetail;
+  total: number;
 }

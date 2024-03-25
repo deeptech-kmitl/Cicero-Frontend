@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { IProduct } from "@/constants";
 import { Accordion } from "@/components/ui/accordion";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import CollapseItem from "./CollapseItem";
+import RecordProductTable from "./RecordProductTable";
 
 interface ProductTableProps {
   data: IProduct[];
@@ -19,7 +16,10 @@ interface ProductTableProps {
 
 export default function ProductTable(props: ProductTableProps) {
   const { data } = props;
-  const [activeCollapse, setActiveCollapse] = useState("item-12");
+  const [activeCollapse, setActiveCollapse] = useState<string>();
+  const handleActiveCollapse = (value: string) => {
+    setActiveCollapse(activeCollapse == value ? "" : value);
+  };
   return (
     <>
       <Accordion
@@ -42,41 +42,16 @@ export default function ProductTable(props: ProductTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((item: IProduct, index: number) => (
-              <>
-                <TableRow
+            {data.length > 0 &&
+              data?.map((item: IProduct, index: number) => (
+                <RecordProductTable
                   key={index}
-                  onClick={() => setActiveCollapse(`item-${index}`)}
-                >
-                  <TableCell>
-                    <Image
-                      src={item.images[0].url}
-                      width={20}
-                      height={20}
-                      alt="image"
-                    />
-                  </TableCell>
-                  <TableCell className="font-medium">{item.id}</TableCell>
-                  <TableCell>{item.product_title}</TableCell>
-                  <TableCell>{item.product_category}</TableCell>
-                  <TableCell>{item.product_size}</TableCell>
-                  <TableCell>{item.product_price}</TableCell>
-                  <TableCell>{item.product_stock}</TableCell>
-                  <TableCell className="w-12">
-                    <div className="bg-[#F2F2F2] rounded-full">
-                      {activeCollapse == `item-${index}` ? (
-                        <IoIosArrowUp color="#868686" />
-                      ) : (
-                        <IoIosArrowDown color="#868686" />
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-                <TableCell colSpan={8} className="p-0">
-                  <CollapseItem key={index} data={item} value={index} />
-                </TableCell>
-              </>
-            ))}
+                  index={index}
+                  data={item}
+                  state={activeCollapse}
+                  onClick={handleActiveCollapse}
+                />
+              ))}
           </TableBody>
         </Table>
       </Accordion>

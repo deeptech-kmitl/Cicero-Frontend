@@ -26,7 +26,7 @@ const Header = ({ userId }: Props) => {
             </span>
           </Link>
         </div>
-        <div className="flex  justify-center">
+        <div className="flex justify-center">
           {/* <GIGA /> */}
           <Navbar />
           <MobileNav />
@@ -55,9 +55,11 @@ const Header = ({ userId }: Props) => {
 
               {user.fname && (
                 <>
-                  <p>
-                    Hi, {user.fname} {user.lname}
-                  </p>
+                  <Link href={"/profile"}>
+                    <p>
+                      Hi, {user.fname} {user.lname}
+                    </p>
+                  </Link>
                   <Link
                     className="my-2 text-base block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black md:mx-2"
                     href={"/cart"}

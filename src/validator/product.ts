@@ -2,12 +2,15 @@ import { z } from "zod";
 
 export const ProductSchema = z.object({
   id: z.string(),
-  product_title: z.string(),
-  product_category: z.string(),
-  product_desc: z.string(),
+  product_title: z.string().nonempty(),
+  product_category: z.string().nonempty(),
+  product_sex: z.string().nonempty(),
+  product_desc: z.string().nonempty(),
   product_size: z.string(),
-  product_price: z.number(),
-  product_stock: z.number(),
+  product_color: z.string(),
+  product_price: z.string(),
+  product_stock: z.string(),
+  images: z.any(),
 });
 
 export const defaultProductForm = {
@@ -16,6 +19,7 @@ export const defaultProductForm = {
   product_category: "",
   product_desc: "",
   product_size: "",
-  product_price: 0,
-  product_stock: 0,
+  product_color: "",
+  product_price: "",
+  product_stock: "",
 };
