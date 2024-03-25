@@ -18,22 +18,29 @@ const Product = ({ params }: { params: { product1: string } }) => {
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
+  let test = Array();
 
   useEffect(() => {
+    setSex(params.product1)
     getProduct().then((data) => {
       setProducts(data.data)
-      console.log(data.data)
     })
-
-    setSex(params.product1)
   }, [])
+
+  if(params.product1 == 'newin' || params.product1 == 'sale'){
+    products.map((item) => {
+        test.push(item)
+    })
+  }else{
+    products.map((item) => {
+      if(item.product_sex.toLowerCase() == sex){
+        test.push(item)
+      }
+    })
+  }
 
   const toggleVisibility: React.MouseEventHandler<HTMLButtonElement> = (event: MouseEvent<HTMLButtonElement>) => {
     setIsVisibleType(!isVisibleType);
-  };
-
-  const toggleVisibilitySex: React.MouseEventHandler<HTMLButtonElement> = (event: MouseEvent<HTMLButtonElement>) => {
-    setIsVisibleSex(!isVisibleSex);
   };
 
   const toggleVisibilitySize: React.MouseEventHandler<HTMLButtonElement> = (event: MouseEvent<HTMLButtonElement>) => {
@@ -55,7 +62,7 @@ const Product = ({ params }: { params: { product1: string } }) => {
   return (
     <div>
       <div className="flex h-full flex-col items-center p-10">
-        <div className="w-[1250px] flex flex-row mt-10">
+        <div className="w-[1200px] flex flex-row mt-10">
           <div className="flex basis-2/6 flex-start flex-col pr-10 pl-10">
             <div className="mb-3 text-3xl Franc tracking-[2%] font-[400px] text-[48px]">PRODUCT</div>
             <hr className="my-3" />
@@ -84,19 +91,6 @@ const Product = ({ params }: { params: { product1: string } }) => {
               </Button>
               <Button className="w-max bg-transparent flex items-start justify-start hover:bg-transparent" onClick={() => {category == 'jumpsuits' ? setCategory(''):setCategory('jumpsuits') }}>
                 <p className={category == 'jumpsuits' ? "Jura text-lg text-black font-[600px] border-b border-[#000]" : "Jura text-lg text-black font-[600px] hover:border-b border-[#000]"}>Jumpsuits</p>
-              </Button>
-            </div>
-            <hr />
-            <div className="flex flex-row">
-              <div className="basis-5/6 mt-3 mb-2 text-xl Franc font-[400px] text-[24px]">SEX</div>
-              <Button className="basis-1/6 bg-transparents text-black hover:bg-transparents text-xl" onClick={toggleVisibilitySex}>-</Button>
-            </div>
-            <div className={isVisibleSex ? "mb-3 ml-4 flex flex-col" : "mb-3 ml-4 hidden"}>
-              <Button className="w-max bg-transparent flex items-start justify-start hover:bg-transparent" onClick={() => {sex == 'men' ? setSex(''):setSex('men') }}>
-                <p className={sex == 'men' ? "Jura text-lg text-black font-[600px] border-b border-[#000]" : "Jura text-lg text-black font-[600px] hover:border-b border-[#000]"}>Men</p>
-              </Button>
-              <Button className="w-max bg-transparent flex items-start justify-start hover:bg-transparent" onClick={() => {sex == 'women' ? setSex(''):setSex('women') }}>
-                <p className={sex == 'women' ? "Jura text-lg text-black font-[600px] border-b border-[#000]" : "Jura text-lg text-black font-[600px] hover:border-b border-[#000]"}>Women</p>
               </Button>
             </div>
             <hr />
@@ -141,9 +135,9 @@ const Product = ({ params }: { params: { product1: string } }) => {
           </div>
           <div className="basis-4/6">
             <div className="w-full mb-5 flex justify-end items-end Jura pr-5 text-[24px]">/ {sex.charAt(0).toUpperCase() + sex.slice(1)}</div>
+            <div className={test.length==0? "w-full flex justify-center items-center Jura":"hidden"}>Don't have products now.</div>
             <div className="grid grid-cols-3 gap-5 w-full overflow-auto p-5">
-              {products.map((item, i) => {
-                console.log(item)
+              {test.map((item, i) => {
                 return (
                   <CardHomePage
                     key={i}
