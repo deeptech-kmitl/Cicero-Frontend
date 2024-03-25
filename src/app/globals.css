@@ -111,3 +111,9 @@
 .Jura {
   font-family: Jura;
 }
+
+
+
+.rdp-vhidden {
+  @apply hidden;
+}
