@@ -19,3 +19,4 @@ export default async function addProduct(form: any): Promise<any> {
     throw formattedError(error);
   }
 }
+
