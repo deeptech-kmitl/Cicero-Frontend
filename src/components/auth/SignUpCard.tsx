@@ -33,8 +33,11 @@ import {
 } from "../ui/select";
 import { signIn, signUp } from "@/api-caller/auth";
 import { useToast } from "@/components/ui/use-toast";
-import { isResponseError } from "@/lib/utils";
+import { cn, isResponseError } from "@/lib/utils";
 import { PasswordInput } from "@/components/ui/password-input";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
+import { CalendarIcon } from "lucide-react";
 
 const SignUpCard = () => {
   const { toast } = useToast();
@@ -61,9 +64,9 @@ const SignUpCard = () => {
       lastname: "",
       phone: "",
       cfpassword: "",
-      day: "",
-      month: "",
-      year: "",
+      dob: new Date(),
+      // month: "",
+      // year: "",
       password: "",
     },
   });
@@ -77,11 +80,12 @@ const SignUpCard = () => {
     formdata.append("phone", values.phone);
     formdata.append(
       "dob",
-      new Date(
-        Number(values.year),
-        Number(values.month),
-        Number(values.day)
-      ).toLocaleDateString()
+      // new Date(
+      //   Number(values.year),
+      //   Number(values.month),
+      //   Number(values.day)
+      // ).toLocaleDateString()
+      values.dob.toLocaleDateString()
     );
     const response = await signUp(formdata);
     console.log(response, typeof response, isResponseError(response));
@@ -139,7 +143,7 @@ const SignUpCard = () => {
               )}
             />
             {/* </div> */}
-            <div className="flex flex-row gap-4 items-center ">
+            {/* <div className="flex flex-row gap-4 items-center ">
               <FormField
                 control={form.control}
                 name="day"
@@ -193,8 +197,54 @@ const SignUpCard = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
             {/* birthday */}
+            <FormField
+              control={form.control}
+              name="dob"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Year</FormLabel>
+                  <div className="flex  items-center gap-8">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          captionLayout="dropdown-buttons"
+                          fromYear={1950}
+                          toYear={2025}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             {/* phone */}
             <FormField
               control={form.control}
