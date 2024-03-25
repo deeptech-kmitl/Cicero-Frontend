@@ -94,19 +94,6 @@ const Product = ({ params } : {params : {product1:string, product2:string}}) => 
             </div>
             <hr />
             <div className="flex flex-row">
-              <div className="basis-5/6 mt-3 mb-2 text-xl Franc font-[400px] text-[24px]">SEX</div>
-              <Button className="basis-1/6 bg-transparents text-black hover:bg-transparents text-xl" onClick={toggleVisibilitySex}>-</Button>
-            </div>
-            <div className={isVisibleSex ? "mb-3 ml-4 flex flex-col" : "mb-3 ml-4 hidden"}>
-              <Button className="w-max bg-transparent flex items-start justify-start hover:bg-transparent" onClick={() => {sex == 'men' ? setSex(''):setSex('men') }}>
-                <p className={sex == 'men' ? "Jura text-lg text-black font-[600px] border-b border-[#000]" : "Jura text-lg text-black font-[600px] hover:border-b border-[#000]"}>Men</p>
-              </Button>
-              <Button className="w-max bg-transparent flex items-start justify-start hover:bg-transparent" onClick={() => {sex == 'women' ? setSex(''):setSex('women') }}>
-                <p className={sex == 'women' ? "Jura text-lg text-black font-[600px] border-b border-[#000]" : "Jura text-lg text-black font-[600px] hover:border-b border-[#000]"}>Women</p>
-              </Button>
-            </div>
-            <hr />
-            <div className="flex flex-row">
               <div className="basis-5/6 mt-3 mb-2 text-xl Franc font-[400px] text-[24px]">PRICE</div>
               <Button className="basis-1/6 bg-transparents text-black hover:bg-transparents text-xl" onClick={toggleVisibilityPrice}>-</Button>
             </div>
@@ -146,7 +133,7 @@ const Product = ({ params } : {params : {product1:string, product2:string}}) => 
             </div>
           </div>
           <div className="basis-4/6">
-            <div className="w-full mb-5 flex justify-end items-end Jura pr-5 text-[24px]">/ {params.product1 == 'newin' || params.product1 == 'sale' ? params.product1.charAt(0).toUpperCase() + params.product1.slice(1):sex.charAt(0).toUpperCase() + sex.slice(1)}</div>
+            <div className="w-full mb-5 flex justify-end items-end Jura pr-5 text-[24px]">/ {params.product1 == 'newin' || params.product1 == 'sale' ? params.product1.charAt(0).toUpperCase() + params.product1.slice(1) + " / " + sex.charAt(0).toUpperCase() + sex.slice(1):sex.charAt(0).toUpperCase() + sex.slice(1)}</div>
             <div className="grid grid-cols-3 gap-5 w-full overflow-auto p-5">
               {products.map((item, i) => {
                 console.log(item)

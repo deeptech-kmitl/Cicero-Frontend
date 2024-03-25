@@ -15,8 +15,8 @@ const CardHomePage = (props: IProduct) => {
   };
 
   return (
-    <div className="flex flex-col h-[28rem] w-full cursor-pointer">
-      <div className="h-[80%] w-full flex justify-center">
+    <div className="flex flex-col h-[28rem] w-full">
+      <div className="h-[80%] w-full flex justify-center relative">
         <Image
           className="w-full object-cover"
           src={props.images[0].url}
@@ -26,6 +26,7 @@ const CardHomePage = (props: IProduct) => {
           alt="product"
           onClick={() => router.push("/productdetails/" + props.id)}
         />
+        {/* <div className={props.product_stock==0? "w-full h-[35px] text-white absolute flex justify-center items-center bottom-0 bg-black Jura":"hidden"}>sold out</div> */}
       </div>
       <div className="flex flex-row mt-2">
         <div
