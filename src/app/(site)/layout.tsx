@@ -20,7 +20,7 @@ export default function MainLayout({
   return (
     <div className="min-h-screen overflow-x-hidden scroll-smooth">
       <Header userId={user ? user : ""} />
-      <main >{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   );
