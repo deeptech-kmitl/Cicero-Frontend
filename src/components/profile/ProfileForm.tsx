@@ -142,7 +142,7 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
       });
       const token: Token = { id: "", access_token: tokenId };
       const newDataFormat = {
-        user: data,
+        user: data.user,
         token: token
       };
       // console.log("NewFormat:", newDataFormat);

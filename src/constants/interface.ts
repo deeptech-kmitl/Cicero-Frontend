@@ -16,6 +16,7 @@ export interface IUser {
   role_id: number;
 }
 
+
 export interface IImage {
   id: string;
   url: string;
@@ -47,7 +48,7 @@ export interface ICreateProduct {
   images?: any;
 }
 
-interface Token {
+export interface Token {
   id: string;
   access_token: string;
 }

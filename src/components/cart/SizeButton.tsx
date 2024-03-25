@@ -18,7 +18,7 @@ const SizeButton = ({updateSize,product_size,id,user_id,token}: Props) => {
     {sizes.map((size , i ) => (
         <Button
         key={i}
-            variant="sizebtn"
+            variant="outline"
             className={cn({
                 "bg-black text-white": size === product_size,
             })}
