@@ -15,7 +15,7 @@ const CardHomePage = (props: IProduct) => {
   };
 
   return (
-    <div className="flex flex-col h-[28rem] w-full">
+    <div className="flex flex-col h-[28rem] w-full cursor-pointer">
       <div className="h-[80%] w-full flex justify-center">
         <Image
           className="w-full object-cover"
