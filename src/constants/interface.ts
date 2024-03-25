@@ -16,6 +16,7 @@ export interface IUser {
   role_id: number;
 }
 
+
 export interface IImage {
   id: string;
   url: string;
@@ -52,7 +53,7 @@ export interface IDeleteProduct {
   tokenId: string;
 }
 
-interface Token {
+export interface Token {
   id: string;
   access_token: string;
 }

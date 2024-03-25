@@ -48,7 +48,7 @@ const Homepage = () => {
                 return (
                   <CardHomePage
                     key={i}
-                    images={item.images[0].url}
+                    images={item.images}
                     product_title={item.product_title}
                     product_price={item.product_price}
                     product_category={item.product_category}
