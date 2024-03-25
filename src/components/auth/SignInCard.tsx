@@ -104,7 +104,6 @@ const SignInCard = ({ setCookie, token }: Props) => {
             <Button type="submit" variant="blackbtn">
               Sign In
             </Button>
-            
           </form>
         </Form>
       </CardContent>

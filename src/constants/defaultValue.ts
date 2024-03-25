@@ -49,6 +49,6 @@ export const defaultProductQuery: ProductQueryParams = {
   search: "",
   page: 1,
   limit: 50,
-  order_by: "",
+  order_by: "product_id",
   sort: "DESC",
 };
