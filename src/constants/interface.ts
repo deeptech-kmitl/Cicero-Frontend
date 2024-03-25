@@ -28,14 +28,13 @@ export interface IProduct {
   product_color: string;
   product_price: number;
   product_sex: string;
-  product_size: string[];
+  product_size: string;
   product_stock: number;
   product_category: string;
   images: IImage[];
 }
 
 export interface ICreateProduct {
-  id: string;
   product_title: string;
   product_desc: string;
   product_color: string;
@@ -45,6 +44,12 @@ export interface ICreateProduct {
   product_stock: string;
   product_category: string;
   images?: any;
+  tokenId: string;
+}
+
+export interface IDeleteProduct {
+  id: string;
+  tokenId: string;
 }
 
 interface Token {

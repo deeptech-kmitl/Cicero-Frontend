@@ -1,7 +1,5 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import MobileNav from "@/components/Nav/MobileNav";
-import { Navbar } from "@/components/Nav/Navbar";
 
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
