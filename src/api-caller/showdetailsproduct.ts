@@ -2,7 +2,7 @@ import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
 
 // Mock
-export default async function detailsProduct(): Promise<any> {
+export default async function getDetailsProduct(): Promise<any> {
   const parameters = {
     param1: "product_id",
   };

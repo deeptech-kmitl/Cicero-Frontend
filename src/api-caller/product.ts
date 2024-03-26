@@ -75,3 +75,4 @@ export async function deleteProduct(body: IDeleteProduct): Promise<string> {
     throw formattedError(error);
   }
 }
+
