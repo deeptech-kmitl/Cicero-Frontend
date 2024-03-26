@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import MobileNav from "./Nav/MobileNav";
 import { ShoppingBag, Heart, User } from "lucide-react";
 import Link from "next/link";
@@ -7,13 +7,14 @@ import Image from "next/image";
 import { Navbar } from "./Nav/Navbar";
 import { IUser } from "@/constants/interface";
 import { Button } from "./ui/button";
+import { IoIosSettings } from "react-icons/io";
 
 type Props = {
   userId: string;
 };
 
 const Header = ({ userId }: Props) => {
-  const user: IUser = JSON.parse(userId || "{}");
+  const user: IUser = userId ? JSON.parse(userId) : "";
   return (
     <header className="sticky top-0 z-50 w-full border-b border-black bg-white">
       <div className="flex h-14 px-5 justify-between items-center">
@@ -26,7 +27,6 @@ const Header = ({ userId }: Props) => {
           </Link>
         </div>
         <div className="flex justify-center">
-          {/* <GIGA /> */}
           <Navbar />
           <MobileNav />
         </div>
@@ -34,6 +34,11 @@ const Header = ({ userId }: Props) => {
           <div className="group relative cursor-pointer py-2 ">
             {user.fname ? (
               <div className="flex items-center justify-between space-x-2">
+                {user.role_id && user.role_id == 2 && (
+                  <Link href={"/admin/product"}>
+                    <IoIosSettings className="h-7 w-7" />
+                  </Link>
+                )}
                 <Link href={"/cart"}>
                   <ShoppingBag className="h-7 w-7" />
                 </Link>
@@ -49,10 +54,12 @@ const Header = ({ userId }: Props) => {
               </div>
             ) : (
               <Link
-                className="my-2 text-base min-w-full  border-2 border-gray-100  font-semibold "
+                className="my-2 text-base min-w-full border-2 border-gray-100 font-semibold "
                 href={"/auth"}
               >
-                <Button variant="blackbtn">SIGN IN</Button>
+                <Button variant="blackbtn" className="w-24 h-9 text-sm">
+                  SIGN IN
+                </Button>
               </Link>
             )}
             {user.fname && (

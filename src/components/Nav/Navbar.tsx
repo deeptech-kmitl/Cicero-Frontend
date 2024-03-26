@@ -11,6 +11,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { IUser } from "@/constants";
 
 type Category = {
   href: string;
@@ -54,12 +55,11 @@ export function Navbar() {
     <NavigationMenu className="hidden md:flex ">
       <NavigationMenuList>
         <NavItem title={"MEN"} array={MenCategories} />
-        <NavItem title={"WOMAN"} array={WomenCategories} />
+        <NavItem title={"WOMEN"} array={WomenCategories} />
         <NavItem title={"KIDS"} array={KidsCategories} />
         <NavItem title={"SALE"} array={SaleCategories} />
         <NavItem title={"NEW IN"} array={SaleCategories} />
       </NavigationMenuList>
-      {/* </div> */}
     </NavigationMenu>
   );
 }
