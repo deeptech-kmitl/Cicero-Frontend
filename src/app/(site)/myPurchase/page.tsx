@@ -14,7 +14,6 @@ const myPurchase = () => {
   if (isEmptyObject(user)) {
     return <div>SignIn, please.</div>;
   }
-  console.log("user:", typeof user);
   const userId = user.id.toString();
 
   return (
