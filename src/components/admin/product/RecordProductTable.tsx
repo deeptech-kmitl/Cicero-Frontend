@@ -1,26 +1,37 @@
 import React from "react";
-import { TableCell, TableRow } from "@/components/ui/table";
-import { IFormattedErrorResponse, IProduct } from "@/constants";
 import Image from "next/image";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import CollapseItem from "./CollapseItem";
 import { UseMutationResult, useMutation } from "react-query";
-import { deleteProduct } from "@/api-caller";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { TableCell, TableRow } from "@/components/ui/table";
+import {
+  ICreateProduct,
+  IDeleteProduct,
+  IFormattedErrorResponse,
+  IProduct,
+} from "@/constants";
+import CollapseItem from "./CollapseItem";
 
 interface RecordProductTableProps {
   index: number;
+  tokenId: string;
   data: IProduct;
   state: string | undefined;
   onClick: (value: string) => void;
+  editMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    ICreateProduct
+  >;
+  deleteMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    IDeleteProduct
+  >;
 }
 
 export default function RecordProductTable(props: RecordProductTableProps) {
-  const deleteMutation: UseMutationResult<
-    string,
-    IFormattedErrorResponse,
-    string
-  > = useMutation(deleteProduct);
-  const { index, data, state, onClick } = props;
+  const { index, tokenId, data, state, onClick, editMutation, deleteMutation } =
+    props;
   return (
     <>
       <TableRow onClick={() => onClick(`item-${index}`)}>
@@ -44,7 +55,14 @@ export default function RecordProductTable(props: RecordProductTableProps) {
         </TableCell>
       </TableRow>
       <TableCell colSpan={8} className="p-0">
-        <CollapseItem key={index} data={data} value={index} />
+        <CollapseItem
+          key={index}
+          data={data}
+          value={index}
+          tokenId={tokenId}
+          editMutation={editMutation}
+          deleteMutation={deleteMutation}
+        />
       </TableCell>
     </>
   );

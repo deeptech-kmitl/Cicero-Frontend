@@ -16,6 +16,7 @@ export interface IUser {
   role_id: number;
 }
 
+
 export interface IImage {
   id: string;
   url: string;
@@ -28,14 +29,13 @@ export interface IProduct {
   product_color: string;
   product_price: number;
   product_sex: string;
-  product_size: string[];
+  product_size: string;
   product_stock: number;
   product_category: string;
   images: IImage[];
 }
 
 export interface ICreateProduct {
-  id: string;
   product_title: string;
   product_desc: string;
   product_color: string;
@@ -45,6 +45,13 @@ export interface ICreateProduct {
   product_stock: string;
   product_category: string;
   images?: any;
+  tokenId: string;
+}
+
+
+export interface IDeleteProduct {
+  id: string;
+  tokenId: string;
 }
 
 export interface Token {
@@ -56,7 +63,6 @@ export interface SignInResponse {
   user: IUser;
   token: Token;
 }
-
 
 export interface IPaymentAddress {
   first_name: string;
@@ -74,7 +80,6 @@ export interface IPaymentDetail {
   expired: string;
   cvv: string;
 }
-
 
 export interface IOrder {
   address: IPaymentAddress;

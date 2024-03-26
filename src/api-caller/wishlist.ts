@@ -1,13 +1,15 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
+import { WishlistProps, userCredProductId } from "@/components/wish/type";
+import { userCred } from "@/constants/type";
 
-export default async function getWishlist(form: any): Promise<any> {
-  const parameters = {
-    param1: "user_id",
-  };
+export default async function getWishlist({user_id,token}: userCred): Promise<WishlistProps[]> {
+
   try {
-    const { data } = await getInstance().get("/users/wishlist/", {
-      params: parameters.param1,
+    const { data } = await getInstance().get(`/users/wishlist/${user_id}`, {
+      headers: {
+        "Authorization": token,
+    }
     });
     return data;
   } catch (error) {
@@ -15,22 +17,32 @@ export default async function getWishlist(form: any): Promise<any> {
   }
 }
 
-export async function addWishlist(form: any): Promise<any> {
+export async function addWishlist({user_id,token,product_id}: userCredProductId ): Promise<any> {
   try {
-    const { data } = await getInstance().post("/product/", form);
+    const { data } = await getInstance().delete(
+      `/users/${user_id}/wishlist/${product_id}`,
+      {
+        headers: {
+          "Authorization": token,
+      }
+      }
+    );
     return data;
   } catch (error) {
     throw formattedError(error);
   }
 }
 
-export async function removeWishlist(): Promise<any> {
-  const userId = "user123"; // Example user ID
-  const productId = "product456"; // Example product ID
+export async function removeWishlist({user_id,token,product_id}: userCredProductId): Promise<any> {
   try {
     const { data } = await getInstance().delete(
-      `/users/${userId}/wishlist/${productId}`
+      `/users/${user_id}/wishlist/${product_id}`,
+      {
+        headers: {
+          "Authorization": token,
+      }
+      }
     );
     return data;
-  } catch (error) {}
+  } catch (error) {throw formattedError(error);}
 }
