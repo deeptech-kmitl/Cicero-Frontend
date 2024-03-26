@@ -83,6 +83,7 @@ export default function AddProduct(props: AddProductProps) {
     mutation.mutate(body, {
       onSuccess(response) {
         form.reset();
+        setFiles([]);
         setOpenDialog(false);
       },
     });
@@ -104,7 +105,8 @@ export default function AddProduct(props: AddProductProps) {
           <DialogHeader>
             <DialogTitle>Add Product</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re done.
+              Make changes to your profile here. Click save when you&apos;re
+              done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

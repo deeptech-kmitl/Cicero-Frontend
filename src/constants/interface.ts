@@ -16,7 +16,6 @@ export interface IUser {
   role_id: number;
 }
 
-
 export interface IImage {
   id: string;
   url: string;
