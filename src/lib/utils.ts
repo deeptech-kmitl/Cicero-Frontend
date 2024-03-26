@@ -52,7 +52,9 @@ export function capitalizeFirstLetter(value: string) {
 }
 
 export const formatPrice = (amount: number): string => {
-  return Intl.NumberFormat("ne-NP", {
-    maximumFractionDigits: 0,
-  }).format(amount);
+  // const formattedPrice = new Intl.NumberFormat("ne-NP", {
+  //   maximumFractionDigits: 0,
+  // }).format(amount);
+  return amount.toString();
+  // return formattedPrice;
 };

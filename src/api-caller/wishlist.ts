@@ -1,15 +1,18 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
-import { WishlistProps, userCredProductId } from "@/components/wish/type";
+import { userCredProductId } from "@/components/wish/type";
 import { userCred } from "@/constants/type";
+import { IAddWishlist, IWishlist } from "@/constants";
 
-export default async function getWishlist({user_id,token}: userCred): Promise<WishlistProps[]> {
-
+export async function getWishlist({
+  user_id,
+  token,
+}: userCred): Promise<IWishlist[]> {
   try {
     const { data } = await getInstance().get(`/users/wishlist/${user_id}`, {
       headers: {
-        "Authorization": token,
-    }
+        Authorization: token,
+      },
     });
     return data;
   } catch (error) {
@@ -17,15 +20,16 @@ export default async function getWishlist({user_id,token}: userCred): Promise<Wi
   }
 }
 
-export async function addWishlist({user_id,token,product_id}: userCredProductId ): Promise<any> {
+export async function addWishlist({
+  user_id,
+  tokenId,
+  product_id,
+}: IAddWishlist): Promise<any> {
   try {
-    const { data } = await getInstance().delete(
+    const { data } = await getInstance().post(
       `/users/${user_id}/wishlist/${product_id}`,
-      {
-        headers: {
-          "Authorization": token,
-      }
-      }
+      {},
+      { headers: { Authorization: tokenId } }
     );
     return data;
   } catch (error) {
@@ -33,16 +37,23 @@ export async function addWishlist({user_id,token,product_id}: userCredProductId 
   }
 }
 
-export async function removeWishlist({user_id,token,product_id}: userCredProductId): Promise<any> {
+export async function removeWishlist({
+  user_id,
+  tokenId,
+  product_id,
+}: IAddWishlist): Promise<any> {
   try {
-    const { data } = await getInstance().delete(
+    const { data } = await getInstance().post(
       `/users/${user_id}/wishlist/${product_id}`,
+      {},
       {
         headers: {
-          "Authorization": token,
-      }
+          Authorization: tokenId,
+        },
       }
     );
     return data;
-  } catch (error) {throw formattedError(error);}
+  } catch (error) {
+    throw formattedError(error);
+  }
 }
