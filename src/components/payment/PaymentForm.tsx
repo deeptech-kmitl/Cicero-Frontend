@@ -15,8 +15,8 @@ import { addOrder } from "@/api-caller/payment";
 import { IPaymentAddress, IPaymentDetail } from "@/constants";
 
 type PaymentFormProps = {
-	user_id: string;
-	token: string;
+  user_id: string;
+  token: string;
 };
 
 const PaymentForm = ({user_id,token}: PaymentFormProps) => {
@@ -101,6 +101,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
           </div>
 		</div>
 	);
+
 };
 
 export default PaymentForm;

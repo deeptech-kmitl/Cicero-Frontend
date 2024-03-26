@@ -48,6 +48,7 @@ export interface ICreateProduct {
   tokenId: string;
 }
 
+
 export interface IDeleteProduct {
   id: string;
   tokenId: string;

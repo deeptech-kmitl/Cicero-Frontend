@@ -5,7 +5,8 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 
 type ItemMyPurchaseProps = {
-  image: string;
+  id: string;
+  images: string;
   title: string;
   detail: string;
   size: string;
@@ -21,7 +22,7 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
         <div className="w-[25%]">
           <Image
             className="h-[100%] w-[100%] px-3"
-            src={props.image}
+            src={props.images}
             width={0}
             height={0}
             sizes="100vw"
@@ -53,7 +54,7 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
           </div>
           <div className="h-[20%] grid justify-items-end">
             <Button className="w-[20em] bg-black text-center text-white">
-              BUY AGAIN
+              BUY AGAIN {props.id}
             </Button>
           </div>
         </div>

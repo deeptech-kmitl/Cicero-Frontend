@@ -8,6 +8,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 type Props = {}
 
 const Payment = (props: Props) => {
+
 	const user = destr<IUser>(cookies().get('user')?.value || '{}')
 	const token = cookies().get('token')?.value || ''
   return (
