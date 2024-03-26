@@ -16,9 +16,9 @@ const useDetailsStore = create<ProductDetailState>((set, get) => ({
 		const { details, fetching } = get();
 		if (!fetching && details.length === 0) {
 			try{
-				const data = await getDetailsProduct();
-				console.log(data, 'data');
-				set({ details: data, fetching: true });
+				// // const data = await getDetailsProduct();
+				// console.log(data, 'data');
+				// set({ details: data, fetching: true });
 			}
 			catch(error){
 				throw error;

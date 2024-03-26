@@ -1,10 +1,15 @@
 import React, { useState, MouseEvent } from "react";
 import Image from "next/image";
-// import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { IProduct } from "@/constants";
+import { formatPrice } from "@/lib/utils";
 
-const CardHomePage = (props: IProduct) => {
+interface ProductCardProps {
+  data: IProduct;
+}
+
+const ProductCard = (props: ProductCardProps) => {
+  const { data } = props;
   const router = useRouter();
   const [fav, setFav] = useState(false);
 
@@ -15,25 +20,24 @@ const CardHomePage = (props: IProduct) => {
   };
 
   return (
-    <div className="flex flex-col h-[28rem] w-full">
+    <div className="flex flex-col h-[28rem] w-full cursor-pointer">
       <div className="h-[80%] w-full flex justify-center relative">
         <Image
           className="w-full object-cover"
-          src={props.images[0].url}
+          src={data.images[0].url}
           width={0}
           height={0}
           sizes="100vw"
           alt="product"
-          onClick={() => router.push("/productdetails/" + props.id)}
+          onClick={() => router.push("/productdetails/" + data.id)}
         />
-        {/* <div className={props.product_stock==0? "w-full h-[35px] text-white absolute flex justify-center items-center bottom-0 bg-black Jura":"hidden"}>sold out</div> */}
       </div>
       <div className="flex flex-row mt-2">
         <div
           className="basis-10/12 text-[16px] font-[500] Inter cursor-default"
-          onClick={() => router.push("/productdetails/" + props.id)}
+          onClick={() => router.push("/productdetails/" + data.id)}
         >
-          {props.product_title}
+          {data.product_title}
         </div>
         <button
           className={fav ? "hidden" : "basis-2/12 mr-1 mt-1 flex justify-end"}
@@ -68,7 +72,7 @@ const CardHomePage = (props: IProduct) => {
       </div>
       <div className="flex flex-row">
         <div className="text-[20px] font-[400] Inter">
-          {props.product_price}
+          {formatPrice(data.product_price)}
         </div>
         <div className="text-[11px] font-[500] ml-1 mt-2.5 text-gray-400 Inter">
           THB
@@ -78,4 +82,4 @@ const CardHomePage = (props: IProduct) => {
   );
 };
 
-export default CardHomePage;
+export default ProductCard;
