@@ -7,7 +7,7 @@ type ProductDetailState = {
 	fetch: (token:string,user_id:string) => Promise<void>;
 
 };
-const useCartStore = create<ProductDetailState>((set, get) => ({
+const useDetailsStore = create<ProductDetailState>((set, get) => ({
 	details: [
 
 	],
@@ -27,4 +27,4 @@ const useCartStore = create<ProductDetailState>((set, get) => ({
 	},
 
 }));
-export default useCartStore;
+export default useDetailsStore;

@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { WishlistProps, userCredProductId } from "@/components/wish/type";
-import getWishlist, {removeWishlist}  from "@/api-caller/wishlist";
+import getWishlist, {removeWishlist, addWishlist}  from "@/api-caller/wishlist";
+import { userCred } from "@/constants/type";
+
 type WishState = {
 	wish: WishlistProps[];
 	fetching: boolean;
 	fetch: (token:string,user_id:string) => Promise<void>;
-	addToWish: (item: WishlistProps) => void;
+	addToWish: ({item,user_id,token}: {item : WishlistProps} & userCred) => void;
 	removeFromWish: ({user_id,token,product_id}: userCredProductId) => Promise<void>;
 
 };
@@ -27,8 +29,16 @@ const useWishStore = create<WishState>((set, get) => ({
 			}
 		}
 	},
-	addToWish: (item: WishlistProps) =>
-		set((state) => ({ wish: [...state.wish, item] })),
+	addToWish: async({item,user_id,token}: {item : WishlistProps, user_id : string, token:string})  => {
+		try{
+				await addWishlist({user_id: user_id, token: token, product_id: item.id});
+				set((state) => ({
+					wish: [...state.wish, item] ,
+				}))
+		}catch(err){
+			throw err;
+		}
+	},
 	removeFromWish: async({user_id,token,product_id}) => {
 		try{
 			await removeWishlist({user_id,token,product_id});

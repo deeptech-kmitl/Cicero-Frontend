@@ -4,7 +4,6 @@ export type DetailsProps = {
 	images: Image[];
 	product_title: string;
 	product_desc: string;
-	size: Sizes;
 	product_price: number;
 }
 
