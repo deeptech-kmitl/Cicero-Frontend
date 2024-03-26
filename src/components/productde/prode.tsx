@@ -1,9 +1,12 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import Image from "next/image";
 import { DetailsProps } from "./type";
 import useDetailsStore from "@/store/prode";
 import { useStore } from "zustand";
+import { CartItemProps } from "@/components/cart/type";
+import useCartStore from "@/store/cart";
 
 const ProductDe = ({
   images,
@@ -14,32 +17,34 @@ const ProductDe = ({
   token,
   user_id,
 }: DetailsProps & { token: string; user_id: string }) => {
-  const productStore = useStore(useDetailsStore);
-  const product = productStore.details;
+  // const productStore = useStore(useDetailsStore);
+  // const product = productStore.details;
+  const CartStore = useStore(useCartStore);
+  const cart = CartStore.cart;
   return (
     <>
-      {images.map((image, index) => (
-        <div key={index} className="w-[75px] h-[100px]">
+      <div className="w-[75px] h-[100px] bg-slate-300">
+        {images.map((image, index) => (
           <Image
+            key={index}
             src={image.url}
-            width={75}
-            height={100}
+            width={450}
+            height={500}
             alt={`Image ${index + 1}`}
           />
-        </div>
-      ))}
-
-      {images.map((image, index) => (
-        <div key={index} className="w-[300px] h-[750px] ml-[100px] overflow-scroll">
+        ))}
+      </div>
+      <div className="w-[300px] h-[750px] ml-[100px] overflow-scroll">
+        {images.map((image, index) => (
           <Image
+            key={index}
             src={image.url}
             width={300}
-            height={150}
+            height={250}
             alt={`Image ${index + 1}`}
           />
-        </div>
-      ))}
-
+        ))}
+      </div>
       <div className="w-[300px] h-[450px] ml-[60px]">
         <h1 className="font-bold	text-[25px]">{product_title}</h1>
         <h3 className="text-[25px]">
@@ -66,11 +71,34 @@ const ProductDe = ({
             XL
           </Button>
         </div>
-        <Button className="bg-white w-full h-[40px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black">
-          EDIT
+        <Button
+          className="bg-white w-full h-[40px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black"
+          onClick={async () => {
+            CartStore.addToCart({
+              user_id,
+              token: token,
+              item: {
+                id: "P000005",
+                product_title: "T-shirt",
+                product_price: 19.99,
+                product_desc: "Casual cotton t-shirt for everyday wear",
+                images: [
+                  {
+                    id: "d69b3263-7d95-44f5-a617-cfe9558ea7e8",
+                    url: "https://example.com/t-shirt.jpg",
+                    filename: "t-shirt.jpg",
+                  },
+                ],
+                qty: 1,
+                size: "XL",
+              },
+            });
+          }}
+        >
+          ADD TO CART
         </Button>
         <Button className="bg-white w-full h-[40px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black">
-          DELETE
+          ADD TO WISHLIST
         </Button>
       </div>
     </>
