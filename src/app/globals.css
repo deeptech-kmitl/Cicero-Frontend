@@ -91,6 +91,11 @@
   src: url(../font/Inter-VariableFont_slnt\,wght.ttf);
 }
 
+@font-face {
+  font-family: Jura;
+  src: url(../font/Jura-Bold.ttf);
+}
+
 .Copper {
   font-family: Copper;
 }
@@ -101,4 +106,8 @@
 
 .Inter {
   font-family: Inter;
+}
+
+.Jura {
+  font-family: Jura;
 }

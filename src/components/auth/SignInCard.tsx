@@ -1,13 +1,6 @@
 "use client";
-import { Label } from "@radix-ui/react-label";
 import React, { useState } from "react";
-import {
-  CardTitle,
-  CardContent,
-  Card,
-  CardFooter,
-  CardHeader,
-} from "../ui/card";
+import { CardContent, Card, CardFooter } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { SignInSchema } from "@/validator/auth";
@@ -76,9 +69,6 @@ const SignInCard = ({ setCookie, token }: Props) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="center">Sign In </CardTitle>
-      </CardHeader>
       <CardContent className="space-y-2">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

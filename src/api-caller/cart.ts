@@ -30,7 +30,9 @@ export async function removeFromCart({user_id,token,product_id}: userCredProduct
 
 export async function addToCart({user_id,token,product_id,qty,size}: userCred & {product_id: string, qty: number, size: string}) {
   try {
-    await getInstance().post(`/users/cart/${user_id}/${product_id}`,{
+    await getInstance().post(`/users/cart/${user_id}`,{
+      user_id,
+      product_id,
         qty,
         size
     },{

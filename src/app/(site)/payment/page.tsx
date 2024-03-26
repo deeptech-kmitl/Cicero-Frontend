@@ -1,21 +1,22 @@
-import CartFooter from '@/components/cart/CartFooter'
 import Topbar from '@/components/cart/Topbar'
-import PaymentDetail from '@/components/payment/PaymentDetail'
+import PaymentForm from '@/components/payment/PaymentForm'
 import React from 'react'
+import { cookies } from "next/headers";
+import destr from 'destr';
+import { IUser } from '@/constants';
 
 type Props = {}
 
 const Payment = (props: Props) => {
+	  const user = destr<IUser>(cookies().get("user")?.value);
+    const token = cookies().get("token")?.value;
   return (
-    <div className="flex px-10 container min-h-[500px] flex-col justify-center pt-[5%] space-y-7 items-center">
-			<Topbar page="payment" />
+    <div className="flex px-10 container flex-col justify-center pt-[5%] space-y-7 items-center">
+      <Topbar page="payment" />
 
-			<div className="w-[70%] space-y-3 min-h-[300px]">
-				<PaymentDetail />
-			</div>
-			{/* <CartFooter /> */}
-		</div>
-  )
+      <PaymentForm user_id={user ? user.id : ""} token={token ? token : ""} />
+    </div>
+  );
 }
 
 export default Payment

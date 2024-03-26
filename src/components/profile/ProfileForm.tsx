@@ -118,11 +118,14 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
     formData.append("fname", values.firstname);
     formData.append("lname", values.lastname);
     formData.append("phone", values.phone);
-    formData.append("dob", new Date(
-      Number(values.year),
-      (Number(values.month)-1),
-      Number(values.day)
-    ).toLocaleDateString());
+    formData.append(
+      "dob",
+      new Date(
+        Number(values.year),
+        Number(values.month) - 1,
+        Number(values.day)
+      ).toLocaleDateString()
+    );
 
     const data = await updateProfile(user.id, tokenId, formData);
     console.log("Response-Profile:", data, typeof data);
@@ -142,8 +145,8 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
       });
       const token: Token = { id: "", access_token: tokenId };
       const newDataFormat = {
-        user: data,
-        token: token
+        user: data.user,
+        token: token,
       };
       // console.log("NewFormat:", newDataFormat);
       setCookie(newDataFormat);
@@ -250,7 +253,7 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
         />
 
         {/* birthday */}
-        <div className="flex flex-row gap-4 items-center ">
+        <div className="flex flex-row gap-4 items-center justify-between ">
           <FormField
             control={form.control}
             name="day"
