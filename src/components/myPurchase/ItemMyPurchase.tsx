@@ -5,7 +5,8 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 
 type ItemMyPurchaseProps = {
-  image: string;
+  id: string;
+  images: string;
   title: string;
   detail: string;
   size: string;

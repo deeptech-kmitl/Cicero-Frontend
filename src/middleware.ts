@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
     "/cart",
     "/checkout",
     "/wishlist",
-    "myPurchase",
+    "/myPurchase",
   ];
 
   if (token) {
