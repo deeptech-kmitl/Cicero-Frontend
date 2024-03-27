@@ -38,9 +38,15 @@ export async function getProfile(id: string, token: string): Promise<IUser> {
   }
 }
 
-export async function signOut(): Promise<void> {
+export async function signOut(oauth_id : string, token:string): Promise<void> {
   try {
-    await getInstance().post("/users/signout/");
+    await getInstance().post("/users/signout/",{
+      oauth_id 
+    },{
+      headers:{
+        Authorization: token
+      }
+    });
   } catch (error) {
     throw formattedError(error);
   }

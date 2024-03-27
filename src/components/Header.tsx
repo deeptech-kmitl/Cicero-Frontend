@@ -8,6 +8,8 @@ import { Navbar } from "./Nav/Navbar";
 import { IUser } from "@/constants/interface";
 import { Button } from "./ui/button";
 import { IoIosSettings } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 type Props = {
   userId: string;
@@ -15,6 +17,8 @@ type Props = {
 
 const Header = ({ userId }: Props) => {
   const user: IUser = userId ? JSON.parse(userId) : "";
+  const router = useRouter();
+  const {toast} = useToast();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-black bg-white">
       <div className="flex h-14 px-5 justify-between items-center">
@@ -90,7 +94,23 @@ const Header = ({ userId }: Props) => {
                   </Link>
                   <Link
                     className="my-2 text-base block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black md:mx-2"
-                    href={"/signout"}
+                    href={"/"}
+                    onClick={async()=> {
+                      const response = await fetch('/api/signout',{
+                        method : 'POST',
+                                
+                      })
+                      try{
+                        const data = await response.json();
+                        console.log(data, 'data')
+                        console.log("signout successfull!");
+                        router.refresh();
+                      }
+                      catch(error){
+                      toast({title: "Failed to signout", description: "Please Refresh the page and try again", variant : "destructive"})					
+                      
+                    }
+                  }}
                   >
                     Sign Out
                   </Link>

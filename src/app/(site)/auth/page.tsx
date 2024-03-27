@@ -29,6 +29,17 @@ const Authen = async () => {
       // cookie will be sent only over HTTPS
       secure: true,
     });
+
+    cookies().set({
+      name: "oauth_id",
+      value: data.token.id,
+      // keep the cookie for a days
+      maxAge: 1000,
+      // cookie will be accessible by client's JavaScript
+      httpOnly: true,
+      // cookie will be sent only over HTTPS
+      secure: true,
+    });
   }
 
   //token need in cart payment checkout wishlish and profile
