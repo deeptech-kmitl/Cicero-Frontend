@@ -42,7 +42,7 @@ const useCartStore = create<CartState>((set, get) => ({
 				await increaseQty({user_id,token,product_id: item.id});
 			}else{
 
-				await addToCart({user_id: user_id, token: token, product_id: item.id, qty: item.qty, size: item.size});
+				await addToCart({user_id: user_id, tokenId: token, product_id: item.id, qty: item.qty, size: item.size});
 				set((state) => ({ 
 					cart: [...state.cart, item] ,
 					totalPrice : state.totalPrice + item.product_price
