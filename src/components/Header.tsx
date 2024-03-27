@@ -67,7 +67,7 @@ const Header = ({ userId }: Props) => {
               </Link>
             )}
             {user.fname && (
-              <div className="transition-all bg-white absolute z-50 -left-16  rounded-lg flex flex-col px-5 py-3 text-gray-800 shadow-xl opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+              <div className=" transition-all bg-white absolute z-50 -left-16  rounded-lg flex flex-col px-5 py-3 text-gray-800 shadow-xl invisible group-hover:visible transform translate-y-2 group-hover:translate-y-0">
                 <>
                   <Link href={"/profile"}>
                     <p>
