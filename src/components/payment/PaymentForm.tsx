@@ -34,6 +34,7 @@ const PaymentForm = ({ user_id, token }: PaymentFormProps) => {
   } = useQuery<CartItemProps[], Error>("cart", () =>
     getCartItems({ token, user_id })
   );
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof PaymentSchema>>({
     resolver: zodResolver(PaymentSchema),
     defaultValues: {
@@ -53,6 +54,7 @@ const PaymentForm = ({ user_id, token }: PaymentFormProps) => {
       cvv: "",
     },
   });
+  const router = useRouter();
   async function onSubmit(data: z.infer<typeof PaymentSchema>) {
     console.log(data);
     const address: IPaymentAddress = {
@@ -70,6 +72,7 @@ const PaymentForm = ({ user_id, token }: PaymentFormProps) => {
       expired: `${data.expiryMonth}/${data.expiryYear}`,
       cvv: data.cvv,
     };
+
     const order = {
       address,
       payment_detail,
@@ -79,9 +82,17 @@ const PaymentForm = ({ user_id, token }: PaymentFormProps) => {
       ),
     };
     try {
-      await addOrder({ order, user_id, token });
+      const data = await addOrder({ order, user_id, token });
+      toast({ title: "Add order complete !!", variant: "success" });
+      router.push("/confirmOrder/O000012");
     } catch (error) {
-      throw error;
+      if (isResponseError(error)) {
+        toast({
+          title: "Something explode in code",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
     }
   }
   return (

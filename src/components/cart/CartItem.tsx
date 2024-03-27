@@ -103,7 +103,7 @@ const CartItem = ({
         </div>
       </div>
       <div className="grid relative col-span-1 justify-center content-between">
-        <div className=" space-y-1">
+        <div className="space-y-1">
           <div className="flex gap-5 items-center">
             <Button
               className={cn(
@@ -143,8 +143,8 @@ const CartItem = ({
             </Button>
           </div>
         </div>
-        <div className="text-center">
-          <p className="text-2xl">
+        <div className="text-center absolute bottom-0 right-0 flex">
+          <p className="text-3xl flex items-end space-x-2">
             <span className="font-semibold">
               {formatPrice(parseFloat((product_price * qty).toFixed(2)))}
             </span>
