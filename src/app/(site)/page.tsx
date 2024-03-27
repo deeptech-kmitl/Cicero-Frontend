@@ -21,7 +21,7 @@ const Homepage = () => {
     <div>
       <div className="flex h-full justify-center flex-col items-center p-10">
         <div className="w-[1350px] flex justify-center flex-col items-center">
-        <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('/homepage.png')] bg-cover">
+          <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('/homepage.png')] bg-cover">
             <div className="text-[12rem] font-extrabold text-white tracking-[0.2em] opacity-50 cursor-default">
               CICERO
             </div>

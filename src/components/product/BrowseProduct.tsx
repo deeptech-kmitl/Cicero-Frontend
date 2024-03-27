@@ -141,7 +141,6 @@ export const BrowseProduct = ({
   };
 
   const onFav = async (newWishlist: IProduct) => {
-    console.log("before", wishlist);
     setWishlist((prevWishlist) => {
       const itemExists = prevWishlist.some(
         (item) => item.id === newWishlist.id

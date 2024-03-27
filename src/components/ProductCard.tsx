@@ -16,7 +16,7 @@ interface ProductCardProps {
   data: IProduct;
   tokenId: string;
   user_id: string;
-  onFav: (newWishlist: IProduct) => void;
+  onFav?: (newWishlist: IProduct) => void;
 }
 
 const ProductCard = (props: ProductCardProps) => {
@@ -40,7 +40,9 @@ const ProductCard = (props: ProductCardProps) => {
       };
       addWishlistMutation.mutate(body, {
         onSuccess(response) {
-          onFav(data);
+          if (onFav) {
+            onFav(data);
+          }
           setProduct((prev) => ({ ...prev, fav: !prev.fav }));
           toast({
             title: "Success !",
