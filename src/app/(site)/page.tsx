@@ -21,7 +21,7 @@ const Homepage = () => {
     <div>
       <div className="flex h-full justify-center flex-col items-center p-10">
         <div className="w-[1350px] flex justify-center flex-col items-center">
-          <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('https://cdn.discordapp.com/attachments/1020724048889659442/1220484754449760337/image_25_2.png?ex=660f1c00&is=65fca700&hm=5ba1ca26f5524fb32adb1aed600769bc01cfebd8ceb77f78d0c98cac3f567f7f&')] bg-cover">
+        <div className="h-[28rem] w-full bg-gray-200 flex justify-center items-center bg-[url('/homepage.png')] bg-cover">
             <div className="text-[12rem] font-extrabold text-white tracking-[0.2em] opacity-50 cursor-default">
               CICERO
             </div>
@@ -33,7 +33,7 @@ const Homepage = () => {
             >
               <img
                 className="w-full transition-all hover:scale-[1.1]"
-                src="https://i.ibb.co/6N7Z1qz/Rectangle-7.png"
+                src="/forwomen.png"
               />
               <Button
                 variant="blackbtn"
@@ -48,7 +48,7 @@ const Homepage = () => {
             >
               <img
                 className="w-full transition-all hover:scale-[1.1]"
-                src="https://i.ibb.co/dM68xRs/image-30.png"
+                src="/formen.png"
               />
               <Button
                 variant="blackbtn"
@@ -63,7 +63,7 @@ const Homepage = () => {
             >
               <img
                 className="w-full transition-all hover:scale-[1.1]"
-                src="https://i.ibb.co/QK3PZdn/Rectangle-4.png"
+                src="/forkid.png"
               />
               <Button
                 variant="blackbtn"
@@ -82,7 +82,7 @@ const Homepage = () => {
               })}
             </div>
           </div>
-          <div className="h-[28rem] w-full mt-5 bg-[url('https://cdn.discordapp.com/attachments/1020724048889659442/1220486972800372846/bg1.png?ex=660f1e11&is=65fca911&hm=4c1537e806e2d9fc79ce124b8bc8ef6d30084ca6f2acf12adc2c3743730dc7b8&')] bg-cover flex justify-end p-6">
+          <div className="h-[28rem] w-full mt-5 bg-[url('/women.png')] bg-cover flex justify-end p-6">
             <Button
               variant="blackbtn"
               className="h-[13%] w-[13%] text-center justify-center flex text-white rounded-none ab bg-black"
@@ -91,7 +91,7 @@ const Homepage = () => {
               BUY NOW
             </Button>
           </div>
-          <div className="h-[28rem] w-full mt-5 bg-[url('https://cdn.discordapp.com/attachments/1020724048889659442/1220486971999391764/bg2.png?ex=660f1e11&is=65fca911&hm=91b001b2cf346c66897cf3404dbb900d2423ea06f5280261a39981d62796b02e&')] bg-cover flex justify-end p-6">
+          <div className="h-[28rem] w-full mt-5 bg-[url('/men.png')] bg-cover flex justify-end p-6">
             <Button
               variant="blackbtn"
               className="h-[13%] w-[13%] text-center justify-center flex text-white rounded-none ab bg-black"

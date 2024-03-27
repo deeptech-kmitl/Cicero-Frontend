@@ -202,7 +202,7 @@ const ShippingForm = (props: IShippingFormProps) => {
                   <FormLabel className="min-w-[75px]">Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter your phone"
+                      placeholder="Enter your email"
                       className="border-0 bg-white focus-visible:ring-0 focus-visible:border-0"
                       {...field}
                     />
