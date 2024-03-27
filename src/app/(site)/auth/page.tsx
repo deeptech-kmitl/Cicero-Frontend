@@ -28,7 +28,7 @@ const Authen = async () => {
       name: "oauth_id",
       value: data.token.id,
       // keep the cookie for a days
-      maxAge: 1000,
+      maxAge: 24 * 60 * 60,
       // cookie will be accessible by client's JavaScript
       httpOnly: true,
       // cookie will be sent only over HTTPS
