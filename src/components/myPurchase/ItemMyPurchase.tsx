@@ -3,13 +3,16 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { formatPrice } from "@/lib/utils";
 
 type ItemMyPurchaseProps = {
-  image: string;
+  id: string;
+  images: string;
   title: string;
   detail: string;
   size: string;
-  price: string;
+  price: number;
   qty: number;
   orderId: string;
 };
@@ -18,10 +21,10 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
   return (
     <div>
       <div className="w-8/9 h-[15em] mb-5 flex ">
-        <div className="w-[25%]">
+        <div>
           <Image
             className="h-[100%] w-[100%] px-3"
-            src={props.image}
+            src={props.images}
             width={0}
             height={0}
             sizes="100vw"
@@ -42,7 +45,7 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
           </div>
           <div className="h-[27%]">
             <div className="text-xl mt-2">
-              {props.price}{" "}
+              {formatPrice(props.price)}
               <span className="text-gray-500">THB x {props.qty}</span>
             </div>
           </div>
@@ -52,9 +55,11 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
             <div className="font-bold text-right"># ORDER {props.orderId}</div>
           </div>
           <div className="h-[20%] grid justify-items-end">
-            <Button className="w-[20em] bg-black text-center text-white">
-              BUY AGAIN
-            </Button>
+            <Link href={`/productdetails/${props.id}`}>
+              <Button className="w-[20em] bg-black text-center text-white">
+                BUY AGAIN
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { userCred } from '@/constants/type';
+import { getCartItems } from '@/api-caller/cart';
 export type CartItemProps = {
+	cart_id:string
 	id: string;
 	images: Image[];
 	product_title: string;
@@ -9,6 +11,7 @@ export type CartItemProps = {
     qty: number;
 }
 
+
 export type Sizes = "XS"| "S"| "M"| "L"| "XL" |"XXL";
 
 export type Image = {
@@ -17,4 +20,4 @@ export type Image = {
 	filename : string;
 }
 
-export type userCredProductId = userCred & {product_id: string};
+export type userCredProductId = userCred & {cart_id: string};

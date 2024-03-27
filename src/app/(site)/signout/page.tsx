@@ -1,14 +1,10 @@
-import { redirect } from 'next/navigation'
-import React from 'react'
+import { redirect } from "next/navigation";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const Signout = (props: Props) => {
+  return redirect("/");
+};
 
-  return (
-    redirect("/")
-    
-  )
-}
-
-export default Signout
+export default Signout;

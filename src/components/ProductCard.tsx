@@ -1,41 +1,85 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import Image from "next/image";
-// import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { IProduct } from "@/constants";
+import {
+  IAddWishlist,
+  IFormattedErrorResponse,
+  IProduct,
+  IWishlist,
+} from "@/constants";
+import { formatPrice } from "@/lib/utils";
+import { UseMutationResult, useMutation } from "react-query";
+import { addWishlist } from "@/api-caller";
+import { useToast } from "./ui/use-toast";
 
-const CardHomePage = (props: IProduct) => {
+interface ProductCardProps {
+  data: IProduct;
+  tokenId: string;
+  user_id: string;
+  onFav: (newWishlist: IProduct) => void;
+}
+
+const ProductCard = (props: ProductCardProps) => {
+  const addWishlistMutation: UseMutationResult<
+    any,
+    IFormattedErrorResponse,
+    IAddWishlist
+  > = useMutation(addWishlist);
+  const { data, tokenId, user_id, onFav } = props;
   const router = useRouter();
-  const [fav, setFav] = useState(false);
-
+  const { toast } = useToast();
+  const [product, setProduct] = useState<IProduct>(data);
   const toggleFav: React.MouseEventHandler<HTMLButtonElement> = (
     event: MouseEvent<HTMLButtonElement>
   ) => {
-    setFav(!fav);
+    if (user_id) {
+      const body: IAddWishlist = {
+        user_id,
+        tokenId,
+        product_id: data.id,
+      };
+      addWishlistMutation.mutate(body, {
+        onSuccess(response) {
+          onFav(data);
+          setProduct((prev) => ({ ...prev, fav: !prev.fav }));
+          toast({
+            title: "Success !",
+            description: "Add Wishlist !",
+            variant: "success",
+          });
+        },
+      });
+    }
   };
 
+  useEffect(() => {
+    setProduct(data);
+  }, [data]);
+
   return (
-    <div className="flex flex-col h-[28rem] w-full">
-      <div className="h-[80%] w-full flex justify-center">
+    <div className="flex flex-col h-[28rem] w-full cursor-pointer">
+      <div className="h-[80%] w-full flex justify-center relative">
         <Image
           className="w-full object-cover"
-          src={props.images[0].url}
+          src={data.images[0].url}
           width={0}
           height={0}
           sizes="100vw"
           alt="product"
-          onClick={() => router.push("/productdetails/" + props.id)}
+          onClick={() => router.push("/productdetails/" + product.id)}
         />
       </div>
       <div className="flex flex-row mt-2">
         <div
           className="basis-10/12 text-[16px] font-[500] Inter cursor-default"
-          onClick={() => router.push("/productdetails/" + props.id)}
+          onClick={() => router.push("/productdetails/" + product.id)}
         >
-          {props.product_title}
+          {product.product_title}
         </div>
         <button
-          className={fav ? "hidden" : "basis-2/12 mr-1 mt-1 flex justify-end"}
+          className={
+            product.fav ? "hidden" : "basis-2/12 mr-1 mt-1 flex justify-end"
+          }
           onClick={toggleFav}
         >
           <svg
@@ -50,7 +94,9 @@ const CardHomePage = (props: IProduct) => {
           </svg>
         </button>
         <button
-          className={fav ? "basis-2/12 mr-1 mt-1 flex justify-end" : "hidden"}
+          className={
+            product.fav ? "basis-2/12 mr-1 mt-1 flex justify-end" : "hidden"
+          }
           onClick={toggleFav}
         >
           <svg
@@ -67,7 +113,7 @@ const CardHomePage = (props: IProduct) => {
       </div>
       <div className="flex flex-row">
         <div className="text-[20px] font-[400] Inter">
-          {props.product_price}
+          {formatPrice(product.product_price)}
         </div>
         <div className="text-[11px] font-[500] ml-1 mt-2.5 text-gray-400 Inter">
           THB
@@ -77,4 +123,4 @@ const CardHomePage = (props: IProduct) => {
   );
 };
 
-export default CardHomePage;
+export default ProductCard;

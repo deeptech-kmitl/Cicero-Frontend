@@ -1,56 +1,22 @@
-import { Button } from '@/components/ui/button'
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Wish from "@/components/wish/wish";
+import { decodeCookie } from "@/lib/utils";
+import { cookies } from "next/headers";
+import { IUser } from "@/constants";
+import destr from "destr";
 
-type Props = {}
+const Wishlist = async () => {
+  const token = cookies().get("token")?.value!;
+  const user_cookie = cookies().get("user")?.value!;
+  const user_id = user_cookie ? destr<IUser>(decodeCookie(user_cookie)).id : "";
 
-const Wishlist = (props: Props) => {
   return (
-    <div className="w-full h-[750px] mt-[60px] flex justify-center">
-
-        {/* Block */}
-        <div className='w-[1320px] h-[750px]'>
-
-             {/* Header */}
-            <div className='flex  w-full h-[50px]'>
-                <div className=' h-full w-[1100px]'>
-                    <h1 className='font-medium text-[20px] mt-[10px] ml-[10px]'>WISHLIST</h1>
-                </div>
-                <div className='flex h-full items-center justify-center w-[220px]'>
-                    <Button className='w-[120px] rounded-none'><h1>SAVE</h1></Button>
-                </div>
-            </div>
-
-            {/* Block เสื้อ */}
-            <div className='flex w-full h-[640px] justify-center mt-[60px]'>
-                <div className='h-full w-[1250px] overflow-scroll'>
-                    <div className='grid grid-cols-4 gap-4 ml-[20px]'>
-                        <div className='bg-transparent w-[240px] h-[480px]'>
-                            <div className='w-full h-[339px] bg-red-400'>
-                                <Image  src="/profile.png"
-                                    width={240}
-                                    height={339}
-                                    alt="Picture"
-                                />
-                            </div>
-
-                            <div className='w-full h-[65px]'>
-                                 <h1 className='text-[18px] mt-3'>I&apos;D DO IT AGAIN TOP</h1>
-                                 <h3 className='text-[25px]'>2,390 <span className='text-[18px]'>THB</span></h3>
-                            </div>
-
-                            <Button className='bg-white w-full h-[45px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black'>
-                                    ADD TO CART
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+    <div className="w-full h-full mt-[60px] flex justify-center">
+      <div className="w-full h-full flex flex-col justify-center">
+        <Wish token={token} user_id={user_id} />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Wishlist
+export default Wishlist;

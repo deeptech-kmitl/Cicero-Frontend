@@ -42,3 +42,20 @@ export function isResponseError<T>(
 ): response is IFormattedErrorResponse {
   return (response as IFormattedErrorResponse).status !== undefined;
 }
+
+export function capitalizeFirstLetter(value: string) {
+  try {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  } catch (error) {
+    return "";
+  }
+}
+
+export const formatPrice = (amount: number | undefined): string => {
+  if (typeof amount == "undefined") {
+    return "";
+  }
+  const formattedPrice = new Intl.NumberFormat("en-US").format(amount);
+  // return amount.toString();
+  return formattedPrice;
+};

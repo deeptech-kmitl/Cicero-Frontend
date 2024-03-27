@@ -3,24 +3,35 @@ import Image from "next/image";
 import { UseMutationResult, useMutation } from "react-query";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { IFormattedErrorResponse, IProduct } from "@/constants";
-import { deleteProduct } from "@/api-caller";
+import {
+  ICreateProduct,
+  IDeleteProduct,
+  IFormattedErrorResponse,
+  IProduct,
+} from "@/constants";
 import CollapseItem from "./CollapseItem";
 
 interface RecordProductTableProps {
   index: number;
+  tokenId: string;
   data: IProduct;
   state: string | undefined;
   onClick: (value: string) => void;
+  editMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    ICreateProduct
+  >;
+  deleteMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    IDeleteProduct
+  >;
 }
 
 export default function RecordProductTable(props: RecordProductTableProps) {
-  const { index, data, state, onClick } = props;
-  const deleteMutation: UseMutationResult<
-    string,
-    IFormattedErrorResponse,
-    string
-  > = useMutation(deleteProduct);
+  const { index, tokenId, data, state, onClick, editMutation, deleteMutation } =
+    props;
   return (
     <>
       <TableRow onClick={() => onClick(`item-${index}`)}>
@@ -48,6 +59,8 @@ export default function RecordProductTable(props: RecordProductTableProps) {
           key={index}
           data={data}
           value={index}
+          tokenId={tokenId}
+          editMutation={editMutation}
           deleteMutation={deleteMutation}
         />
       </TableCell>

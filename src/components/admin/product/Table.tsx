@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -6,20 +6,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IProduct } from "@/constants";
+import {
+  ICreateProduct,
+  IDeleteProduct,
+  IFormattedErrorResponse,
+  IProduct,
+} from "@/constants";
 import { Accordion } from "@/components/ui/accordion";
 import RecordProductTable from "./RecordProductTable";
+import { UseMutationResult } from "react-query";
 
 interface ProductTableProps {
+  tokenId: string;
   data: IProduct[];
+  editMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    ICreateProduct
+  >;
+  deleteMutation: UseMutationResult<
+    string,
+    IFormattedErrorResponse,
+    IDeleteProduct
+  >;
 }
 
 export default function ProductTable(props: ProductTableProps) {
-  const { data } = props;
+  const { tokenId, data, editMutation, deleteMutation } = props;
   const [activeCollapse, setActiveCollapse] = useState<string>();
   const handleActiveCollapse = (value: string) => {
     setActiveCollapse(activeCollapse == value ? "" : value);
   };
+
+  useEffect(() => {
+    setActiveCollapse("");
+  }, [deleteMutation.isSuccess]);
   return (
     <>
       <Accordion
@@ -47,9 +68,12 @@ export default function ProductTable(props: ProductTableProps) {
                 <RecordProductTable
                   key={index}
                   index={index}
+                  tokenId={tokenId}
                   data={item}
                   state={activeCollapse}
                   onClick={handleActiveCollapse}
+                  editMutation={editMutation}
+                  deleteMutation={deleteMutation}
                 />
               ))}
           </TableBody>
