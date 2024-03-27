@@ -1,85 +1,129 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { WishlistProps } from "./type";
-import useWishStore from "@/store/wishlist";
-import { useStore } from "zustand";
-import getWishlist, {
-  addWishlist,
-  removeWishlist,
-} from "@/api-caller/wishlist";
+import { getWishlist, removeWishlist } from "@/api-caller";
+import {
+  IAddWishlist,
+  IFormattedErrorResponse,
+  IWishlist,
+} from "@/constants/interface";
+import { formatPrice } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { IProduct } from "@/constants/interface";
+import { UseMutationResult, useMutation } from "react-query";
 
-const Wish = ({
-  items,
-  token,
-  user_id,
-}: {
-  items: IProduct[];
+interface WishlistProps {
   token: string;
   user_id: string;
-}) => {
-  const wishStore = useStore(useWishStore);
-  const wish = wishStore.wish;
+}
+
+const Wish = ({ token, user_id }: WishlistProps) => {
+  const removeWishlistMutation: UseMutationResult<
+    any,
+    IFormattedErrorResponse,
+    IAddWishlist
+  > = useMutation(removeWishlist);
   const router = useRouter();
+  const [wishlist, setWishlist] = useState<IWishlist[]>([]);
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+
+  useEffect(() => {
+    getMyWishlist();
+  }, []);
+
+  const getMyWishlist = async () => {
+    const data = await getWishlist({ token, user_id });
+    setWishlist(data);
+  };
+
+  const onEdit = async () => {
+    setIsEditable(!isEditable);
+  };
+
+  const onDelete = async (product_id: string) => {
+    const body: IAddWishlist = {
+      user_id,
+      product_id,
+      tokenId: token,
+    };
+    removeWishlistMutation.mutate(body, {
+      onSuccess() {
+        setWishlist((prev) => {
+          const updateWishlist = prev.filter((item) => item.id != product_id);
+          return updateWishlist;
+        });
+      },
+    });
+  };
   return (
     <>
       {/* Header */}
-      <div className="flex  w-full h-[50px]">
-        <div className=" h-full w-[1100px]">
+      <div className="w-full h-[50px] flex justify-center">
+        <div className="w-[1300px] h-full">
           <h1 className="font-medium text-[20px] mt-[10px] ml-[10px]">
             WISHLIST
           </h1>
         </div>
-        <div className="flex h-full items-center justify-center w-[220px]">
-          <Button className="w-[120px] rounded-none">
-            <h1>SAVE</h1>
-          </Button>
-        </div>
+        <Button
+          variant={isEditable ? "blackbtn" : "noFillbtn"}
+          className="w-[120px] rounded-none"
+          onClick={onEdit}
+        >
+          {isEditable ? "SAVE" : "EDIT"}
+        </Button>
       </div>
 
       {/* Block เสื้อ */}
-      <div className="flex w-full h-[640px] justify-center mt-[60px]">
-        <div className="h-full w-[1250px] overflow-scroll">
-          <div className="grid grid-cols-4 gap-4 ml-[20px]">
-            {items.map((item, index) => (
-              <div key={index} className="bg-transparent w-[240px] h-[480px]">
-                <div className="w-full h-[339px] bg-red-400">
+      <div className="flex w-full h-full justify-center mt-[60px]">
+        <div className="h-full grid grid-cols-4 gap-4">
+          {wishlist.length > 0 &&
+            wishlist.map((item, index) => (
+              <div
+                key={index}
+                className="w-[20rem] relative flex flex-col justify-between"
+              >
+                <div>
                   <Image
+                    className="w-full object-cover"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    alt="product"
                     src={item.images[0].url}
-                    width={240}
-                    height={339}
-                    alt="Picture"
                   />
+                  <div className="w-full py-4">
+                    <h1 className="basis-10/12 text-[16px] font-[500] Inter cursor-default">
+                      {item.product_title}
+                    </h1>
+                    <div className="flex flex-row">
+                      <div className="text-[20px] font-[400] Inter">
+                        {formatPrice(item.product_price)}
+                      </div>
+                      <div className="text-[11px] font-[500] ml-1 mt-2.5 text-gray-400 Inter">
+                        THB
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="w-full h-[65px]">
-                  <h1 className="text-[18px] mt-3">{item.product_title}</h1>
-                  <h3 className="text-[25px]">
-                    {item.product_price} <span className="text-[18px]">THB</span>
-                  </h3>
+                <div className="w-full flex flex-col">
+                  {isEditable ? (
+                    <Button
+                      variant="noFillbtn"
+                      onClick={() => onDelete(item.id)}
+                    >
+                      DELETE
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="noFillbtn"
+                      onClick={() => router.push(`/productdetails/${item.id}`)}
+                    >
+                      ADD TO CART
+                    </Button>
+                  )}
                 </div>
-
-                <Button
-                  className="bg-white w-full h-[45px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black"
-                  onClick={() => router.push("/product/" + item.id)}
-                >
-                  View Details
-                </Button>
-                <Button
-                  className="bg-white w-full h-[45px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black"
-                  onClick={() =>
-                    wishStore.removeFromWish({ user_id, token, product_id: item.id })
-                  }
-                >
-                  Remove From Wishlist
-                </Button>
               </div>
             ))}
-          </div>
         </div>
       </div>
     </>
@@ -87,13 +131,3 @@ const Wish = ({
 };
 
 export default Wish;
-
-// {images.map((image, index) => (
-//   <Image
-//     key={index}
-//     src={image.url}
-//     width={450}
-//     height={500}
-//     alt={`Image ${index + 1}`}
-//   />
-// ))}

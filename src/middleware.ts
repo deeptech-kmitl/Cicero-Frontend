@@ -11,12 +11,9 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   ];
 
   if (token) {
-    console.log("have token");
     if (request.nextUrl.pathname === "/auth") {
-      console.log("auth redirect to /");
       return NextResponse.redirect(new URL("/", request.url));
     } 
   }
-  console.log("middleware end");
   return NextResponse.next();
 }

@@ -11,22 +11,16 @@ const Authen = async () => {
     cookies().set({
       name: "token",
       value: data.token.access_token,
-      // keep the cookie for a days
-      maxAge: 1000,
-      // cookie will be accessible by client's JavaScript
+      maxAge: 24 * 60 * 60,
       httpOnly: true,
-      // cookie will be sent only over HTTPS
       secure: true,
     });
 
     cookies().set({
       name: "user",
       value: JSON.stringify(data.user),
-      // keep the cookie for a days
-      maxAge: 1000,
-      // cookie will be accessible by client's JavaScript
+      maxAge: 24 * 60 * 60,
       httpOnly: true,
-      // cookie will be sent only over HTTPS
       secure: true,
     });
 
@@ -42,7 +36,6 @@ const Authen = async () => {
     });
   }
 
-  //token need in cart payment checkout wishlish and profile
   const token = cookies().get("token")?.value;
 
   return (

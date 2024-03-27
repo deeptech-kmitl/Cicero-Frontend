@@ -3,6 +3,7 @@ import { formattedError } from "@/lib/utils";
 import {
   ICreateProduct,
   IDeleteProduct,
+  IProduct,
   ProductQueryParams,
 } from "@/constants";
 
@@ -11,6 +12,15 @@ export async function getProduct(params?: ProductQueryParams): Promise<any> {
     const { data } = await getInstance().get("/product/search", {
       params,
     });
+    return data;
+  } catch (error) {
+    throw formattedError(error);
+  }
+}
+
+export async function getDetailsProduct(product_id: string): Promise<IProduct> {
+  try {
+    const { data } = await getInstance().get(`/product/${product_id}`);
     return data;
   } catch (error) {
     throw formattedError(error);
@@ -75,4 +85,3 @@ export async function deleteProduct(body: IDeleteProduct): Promise<string> {
     throw formattedError(error);
   }
 }
-

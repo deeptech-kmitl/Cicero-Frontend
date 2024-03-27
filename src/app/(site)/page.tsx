@@ -76,7 +76,9 @@ const Homepage = () => {
           <div className="w-full mt-7 flex justify-center items-center">
             <div className="flex flex-row w-full gap-4">
               {products.slice(0, 5).map((item: IProduct, index: number) => {
-                return <ProductCard key={index} data={item} />;
+                return (
+                  <ProductCard key={index} data={item} tokenId="" user_id="" />
+                );
               })}
             </div>
           </div>

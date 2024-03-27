@@ -10,7 +10,6 @@ type Props = {
 
 const MyPurchaseTemplate = ({ user_id, token }: Props) => {
   const [orderItems, setOrderItems] = useState([]);
-
   const orderPayload = async () => {
     const data: any = await getOrder(user_id, token);
     console.log("OrderPayload:", data);
@@ -38,7 +37,7 @@ const MyPurchaseTemplate = ({ user_id, token }: Props) => {
                 return (
                   <ItemMyPurchase
                     key={i}
-                    id={prod.id}
+                    id={prod.id} //{i === 0 ? "P000011" : prod.id} For Testing The Connection with ProductDetail.
                     images={prod.images[0].url}
                     title={prod.product_title}
                     detail={prod.product_desc}
@@ -58,17 +57,3 @@ const MyPurchaseTemplate = ({ user_id, token }: Props) => {
   };
   
   export default MyPurchaseTemplate;
-
-  //Log-Info
-                // <div key={j}>
-                //   {" "}
-                //   [{i}][{j}] Test - {JSON.stringify(item.id)}
-                //   <br></br> -{JSON.stringify(prod.product_title)}
-                //    -{JSON.stringify(prod.product_desc)}
-                //    -{JSON.stringify(prod.size)}
-                //    -{JSON.stringify(prod.product_price)}
-                //    -{JSON.stringify(prod.qty)}
-                //    -{JSON.stringify(prod.images[0].url)}
-                //    -{JSON.stringify(prod.id)}{" "}
-                //    <br></br>
-                // </div>
