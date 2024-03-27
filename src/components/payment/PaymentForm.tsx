@@ -4,7 +4,7 @@ import ShippingForm from "./ShippingForm";
 import OrderSummary from "./OrderSummary";
 import { PaymentSchema } from "@/validator/payment";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import CreditForm from "./CreditForm";
@@ -15,6 +15,9 @@ import { IPaymentAddress, IPaymentDetail } from "@/constants";
 import { useQuery } from "react-query";
 import { CartItemProps } from "../cart/type";
 import { getCartItems } from "@/api-caller";
+import { useToast } from "../ui/use-toast";
+import { IFormattedErrorResponse } from './../../constants/interface';
+import { isResponseError } from "@/lib/utils";
 
 type PaymentFormProps = {
   user_id: string;
@@ -23,6 +26,7 @@ type PaymentFormProps = {
 
 const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 	const { isLoading, data:cart, error } = useQuery<CartItemProps[],Error>('cart', () => getCartItems({token, user_id}))
+	const { toast } = useToast();
 	const form = useForm<z.infer<typeof PaymentSchema>>({
 		resolver: zodResolver(PaymentSchema),
 		defaultValues: {
@@ -42,6 +46,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 			cvv: "",
 		},
 	});
+	const router = useRouter();
 	async function onSubmit(data: z.infer<typeof PaymentSchema>) {
 		console.log(data);
 		const address : IPaymentAddress = {
@@ -59,15 +64,20 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
         expired: `${data.expiryMonth}/${data.expiryYear}`,
         cvv: data.cvv
 		}
+
 		const order = {
 			address ,
 			payment_detail,
 			total : cart!.reduce((prev, order)=> prev + order.product_price * order.qty,0)
 		}
 		try{
-			await addOrder({order, user_id, token});
+			const data = await addOrder({order, user_id, token});
+			toast({title: "Add order complete !!", variant : "success"})
+			router.push("/confirmOrder/O000012")
 		}catch(error){
-			throw error;
+			if(isResponseError(error)){
+				toast({title:"Something explode in code",description : error.message, variant: "destructive"});
+			}
 		}
 
 	}
@@ -93,7 +103,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 
 			<form onSubmit={form.handleSubmit(onSubmit)} >
 
-            <Button type="submit" className="float-start " onClick={() => console.log(form.formState)}>
+            <Button type="submit" className="float-start ">
               Next 
             </Button>
 			</form>
