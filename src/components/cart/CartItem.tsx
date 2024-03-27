@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Cross, Minus, Plus, X } from "lucide-react";
+import { Cross, Loader2, Minus, Plus, X } from "lucide-react";
 import { Separator } from "@radix-ui/react-menubar";
 import { cn } from "@/lib/utils";
 import { CartItemProps } from "./type";
 import useCartStore from "@/store/cart";
 import { useStore } from "zustand";
 import SizeButton from "./SizeButton";
-import { addToCart } from "@/api-caller/cart";
+import { addToCart, decreaseQty, getCartItems, increaseQty, removeFromCart } from "@/api-caller/cart";
+import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
+import { IFormattedErrorResponse } from "@/constants";
+import { userCred } from "@/constants/type";
+import CartFooter from "./CartFooter";
 
 const CartItem = ({
 	images,
@@ -25,11 +29,31 @@ const CartItem = ({
 }: CartItemProps & {token : string, user_id:string} ) => {
 	const cartStore = useStore(useCartStore);
 	const cart = cartStore.cart;
+	const queryClient = useQueryClient();
+	const removeCartMutation : UseMutationResult<
+    any,
+    IFormattedErrorResponse,
+    userCred & {cart_id: string}
+  > =  useMutation(removeFromCart);
+  const increaseQtyMutation : UseMutationResult<
+    any,
+    IFormattedErrorResponse,
+    userCred & {cart_id: string}
+  > =  useMutation(increaseQty);
+  const decreaseQtyMutation : UseMutationResult<
+    any,
+    IFormattedErrorResponse,
+    userCred & {cart_id: string}
+  > =  useMutation(decreaseQty);
 	console.log(cart);
 	return (
 		<div className="grid grid-cols-8 gap-6 gap-y-8 p-5 ">
 			
-					<p className="font-light text-6xl self-center cursor-pointer" onClick={() => cartStore.removeFromCart({user_id,cart_id,token,size})}>X</p>
+					<p className="font-light text-6xl self-center cursor-pointer" onClick={() => 
+						removeCartMutation.mutate({user_id,token,cart_id},{
+							onSuccess: () => queryClient.invalidateQueries('cart')
+						})
+						}>X</p>
 			<div className="col-span-3 min-h-[500px] h-[500px]">
 				<Image
 					src={images[0].url}
@@ -64,7 +88,13 @@ const CartItem = ({
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
 							disabled={qty === 1}
-							onClick={() => cartStore.decrementQty({user_id,token,cart_id, product_id: id, size})}
+							onClick={() => 
+								decreaseQtyMutation.mutate({user_id,token,cart_id},{
+									onSuccess:()=>{
+										queryClient.invalidateQueries('cart')
+									}
+								})
+								}
 						>
 							<Minus />
 						</Button>
@@ -73,7 +103,13 @@ const CartItem = ({
 							className={cn(
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
-							onClick={() => cartStore.incrementQty({user_id,token,cart_id, product_id: id, size})}
+							onClick={() => 
+								increaseQtyMutation.mutate({user_id,token,cart_id},{
+									onSuccess:()=>{
+										queryClient.invalidateQueries('cart')
+									}
+								})
+							}
 						>
 							<Plus />
 						</Button>
@@ -91,26 +127,28 @@ const CartItem = ({
 	);
 };
 
-
 export type RenderCartProps = {
 	token:string
 	user_id:string
 };
 const RenderCart = ({token,user_id}: RenderCartProps) => {
-	
-	const cartStore = useStore(useCartStore);
-	cartStore.fetch(token, user_id);
-	console.log(cartStore.cart, 'cart cart');
-	console.log(cartStore.cart[0], 'cart cart');
+	const { isLoading, data:cart, error } = useQuery<CartItemProps[],Error>('cart', () => getCartItems({token, user_id}))
+	if (isLoading) return <div className="min-h-[500px] flex items-center justify-center"><Loader2 className="animate-spin" /></div>
+	if(error) return (
+		<div className="min-h-[500px] flex items-center justify-center">
+			<p className="text-2xl font-bold text-center">Something went wrong {error.message}</p>
+		</div>
+	)
 	return (
 		<>
-			{cartStore.cart.length === 0 ? (
+			{cart && cart.length == 0 ?  (
 				<div className="flex min-h-[250px] justify-center items-center">
 					<p className="text-2xl font-bold text-center">Your cart is empty</p>
 				</div>
 			) : (
-				cartStore.cart.map((item, i) => <CartItem key={i} {...item} images={item.images} token={token} user_id={user_id} />)
+				cart && cart.map((item, i) => <CartItem key={i} {...item} images={item.images} token={token} user_id={user_id} />)
 			)}
+			{cart && <CartFooter cart={cart} />}
 		</>
 	);
 };

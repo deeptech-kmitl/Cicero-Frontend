@@ -51,11 +51,11 @@ export async function addToCart(body: IAddCart) {
 export async function decreaseQty({
   user_id,
   token,
-  product_id,
+  cart_id,
 }: userCredProductId) {
   try {
     await getInstance().patch(
-      `/users/cart/qtyMinus/${user_id}/${product_id}`,
+      `/users/cart/qtyMinus/${user_id}/${cart_id}`,
       {},
       {
         headers: {
@@ -71,11 +71,11 @@ export async function decreaseQty({
 export async function increaseQty({
   user_id,
   token,
-  product_id,
+  cart_id,
 }: userCredProductId) {
   try {
     await getInstance().patch(
-      `/users/cart/qtyPlus/${user_id}/${product_id}`,
+      `/users/cart/qtyPlus/${user_id}/${cart_id}`,
       {},
       {
         headers: {
@@ -91,7 +91,7 @@ export async function increaseQty({
 export async function updateSize({
   user_id,
   token,
-  product_id,
+  cart_id,
   size,
 }: userCredProductId & { size: string }) {
   try {
@@ -99,7 +99,7 @@ export async function updateSize({
       `/users/cart/size/${user_id}`,
       {
         user_id,
-        product_id,
+        cart_id,
         size,
       },
       {

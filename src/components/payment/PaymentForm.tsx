@@ -74,7 +74,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 		<div className="w-[70%] p-6 ">
 			<div className="flex w-full space-x-6 mb-5">
 				<ShippingForm form={form} callback={onSubmit} />
-				<OrderSummary />
+				<OrderSummary user_id={user_id} token={token}/>
 			</div>
 			<CreditForm form={form} callback={onSubmit} />
 			<div className="flex gap-4 mt-10 items-center text-lg justify-between font-bold">

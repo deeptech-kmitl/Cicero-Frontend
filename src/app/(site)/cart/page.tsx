@@ -24,7 +24,7 @@ const Cart = async (props: Props) => {
 			<div className="w-[70%] space-y-3 min-h-[300px]">
 				<RenderCart token={token} user_id={user.id} />
 			</div>
-			<CartFooter />
+			{/* <CartFooter /> */}
 		</div>
 	);
 };
