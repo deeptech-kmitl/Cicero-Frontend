@@ -20,7 +20,8 @@ const CartItem = ({
 	product_price,
 	qty,
 	token,
-	user_id
+	user_id,
+	cart_id
 }: CartItemProps & {token : string, user_id:string} ) => {
 	const cartStore = useStore(useCartStore);
 	const cart = cartStore.cart;
@@ -28,7 +29,7 @@ const CartItem = ({
 	return (
 		<div className="grid grid-cols-8 gap-6 gap-y-8 p-5 ">
 			
-					<p className="font-light text-6xl self-center cursor-pointer" onClick={() => cartStore.removeFromCart({user_id,product_id:id,token})}>X</p>
+					<p className="font-light text-6xl self-center cursor-pointer" onClick={() => cartStore.removeFromCart({user_id,cart_id,token,size})}>X</p>
 			<div className="col-span-3 min-h-[500px] h-[500px]">
 				<Image
 					src={images[0].url}
@@ -63,7 +64,7 @@ const CartItem = ({
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
 							disabled={qty === 1}
-							onClick={() => cartStore.decrementQty({user_id,token,product_id:id})}
+							onClick={() => cartStore.decrementQty({user_id,token,cart_id, product_id: id, size})}
 						>
 							<Minus />
 						</Button>
@@ -72,7 +73,7 @@ const CartItem = ({
 							className={cn(
 								" p-1 text-black bg-white border-2 border-slate-400 cursor-pointer w-9 h-9 rounded-full hover:text-white hover:bg-black"
 							)}
-							onClick={() => cartStore.incrementQty({user_id,token,product_id:id})}
+							onClick={() => cartStore.incrementQty({user_id,token,cart_id, product_id: id, size})}
 						>
 							<Plus />
 						</Button>
@@ -103,21 +104,6 @@ const RenderCart = ({token,user_id}: RenderCartProps) => {
 	console.log(cartStore.cart[0], 'cart cart');
 	return (
 		<>
-		<Button onClick={async()=>{
-				cartStore.addToCart({user_id, token: token, item:{
-					id: "P000005",
-					product_title: "T-shirt",
-    				product_price: 19.99,
-					product_desc: "Casual cotton t-shirt for everyday wear",
-					images: [
-						{
-							id: "d69b3263-7d95-44f5-a617-cfe9558ea7e8",
-							url: "https://example.com/t-shirt.jpg",
-							filename: "t-shirt.jpg"
-						}]
-					, qty: 1, size: "XL"
-				}})
-			}}>Add Product </Button>
 			{cartStore.cart.length === 0 ? (
 				<div className="flex min-h-[250px] justify-center items-center">
 					<p className="text-2xl font-bold text-center">Your cart is empty</p>

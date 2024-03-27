@@ -2,11 +2,12 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import Image from "next/image";
-import { DetailsProps } from "./type";
+import { DetailsProps, Sizes } from "./type";
 import useDetailsStore from "@/store/prode";
 import { useStore } from "zustand";
 import { CartItemProps } from "@/components/cart/type";
 import useCartStore from "@/store/cart";
+import { cn } from "@/lib/utils";
 
 const ProductDe = ({
   images,
@@ -20,7 +21,7 @@ const ProductDe = ({
   // const productStore = useStore(useDetailsStore);
   // const product = productStore.details;
   const CartStore = useStore(useCartStore);
-  const cart = CartStore.cart;
+  const [prodsize,setSize] = React.useState<string>("");
   return (
     <>
       <div className="w-[75px] h-[100px] bg-slate-300">
@@ -55,44 +56,51 @@ const ProductDe = ({
         </div>
         <h1 className="font-bold	text-[20px] mt-[15px]">SIZE</h1>
         <div className="w-[200px] h-[100px] grid grid-cols-3 gap-x-0.5	">
-          <Button className="w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]">
-            XS
-          </Button>
-          <Button className="w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]">
-            S
-          </Button>
-          <Button className="w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]">
-            M
-          </Button>
-          <Button className="w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]">
-            L
-          </Button>
-          <Button className="w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]">
-            XL
-          </Button>
+         { ["XS", "S", "M", "L", "XL"].map((size) => {
+          return (
+            <Button
+            key={size}
+              className={cn("w-[60px] h-[35px] rounded-none text-[black] outline ring-black bg-[white]",
+              size === prodsize ? "bg-black text-white" : "bg-white text-black")}
+              onClick={() => setSize(size)}
+            >
+              {size}
+            </Button>
+          )
+          })}
+          
         </div>
         <Button
           className="bg-white w-full h-[40px] mt-[10px] text-[18px] rounded-none font-semibold outline ring-black text-black"
           onClick={async () => {
+            const checkCart = CartStore.cart.find(
+              (item) => item.id === id && item.size === prodsize
+            );
+            if (checkCart) {
+              CartStore.incrementQty({
+                user_id,
+                token,
+                cart_id: checkCart.cart_id,
+                product_id: id,
+                size: prodsize as Sizes,
+              });
+              return;
+            }else{
             CartStore.addToCart({
               user_id,
               token: token,
               item: {
-                id: "P000005",
-                product_title: "T-shirt",
-                product_price: 19.99,
-                product_desc: "Casual cotton t-shirt for everyday wear",
-                images: [
-                  {
-                    id: "d69b3263-7d95-44f5-a617-cfe9558ea7e8",
-                    url: "https://example.com/t-shirt.jpg",
-                    filename: "t-shirt.jpg",
-                  },
-                ],
-                qty: 1,
-                size: "XL",
+                cart_id : (Math.random()*1000000000).toString(),
+                id,
+                product_title,
+                product_price,
+                product_desc,
+                images,
+                qty: CartStore.cart.find((item) => item.id === id && item.size === prodsize)?.qty || 1,
+                size: prodsize as Sizes,
               },
             });
+          }
           }}
         >
           ADD TO CART
