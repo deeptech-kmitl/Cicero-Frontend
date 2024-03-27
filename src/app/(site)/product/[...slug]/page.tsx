@@ -244,7 +244,7 @@ const Product = ({ params }: { params: { slug: string } }) => {
                   : "hidden"
               }
             >
-              Don't have products now.
+              Dont have products now.
             </div>
             <div className="grid grid-cols-3 gap-5 w-full overflow-auto p-5">
               {products.map((item: IProduct, index: number) => {
