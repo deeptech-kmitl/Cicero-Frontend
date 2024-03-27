@@ -82,7 +82,7 @@ const Homepage = () => {
               })}
             </div>
           </div>
-          <div className="h-[28rem] w-full mt-5 bg-[url('/bg1.png')] bg-cover flex justify-end p-6">
+          <div className="h-[28rem] w-full mt-5 bg-[url('/women.png')] bg-cover flex justify-end p-6">
             <Button
               variant="blackbtn"
               className="h-[13%] w-[13%] text-center justify-center flex text-white rounded-none ab bg-black"
@@ -91,7 +91,7 @@ const Homepage = () => {
               BUY NOW
             </Button>
           </div>
-          <div className="h-[28rem] w-full mt-5 bg-[url('/bg2.png')] bg-cover flex justify-end p-6">
+          <div className="h-[28rem] w-full mt-5 bg-[url('/men.png')] bg-cover flex justify-end p-6">
             <Button
               variant="blackbtn"
               className="h-[13%] w-[13%] text-center justify-center flex text-white rounded-none ab bg-black"
