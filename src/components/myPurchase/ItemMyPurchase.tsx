@@ -3,6 +3,7 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 type ItemMyPurchaseProps = {
   id: string;
@@ -53,9 +54,11 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
             <div className="font-bold text-right"># ORDER {props.orderId}</div>
           </div>
           <div className="h-[20%] grid justify-items-end">
-            <Button className="w-[20em] bg-black text-center text-white">
-              BUY AGAIN {props.id}
-            </Button>
+            <Link href={`/productdetails/${props.id}`}>
+              <Button className="w-[20em] bg-black text-center text-white">
+                BUY AGAIN
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

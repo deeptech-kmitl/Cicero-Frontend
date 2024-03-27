@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ProfileSchema } from "@/validator/auth";
@@ -62,16 +62,16 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
     if (file) {
       setImageFile(file);
       setImageUrl(URL.createObjectURL(file)); // Update the image URL to the selected file's object URL
-      console.log("File ->", file); // Log the file directly
-      console.log("Type of File ->", typeof file); // This will log 'object'
-      console.log("File Type ->", file.type); // Log the MIME type of the file
-      console.log("File Size ->", file.size); // Log the size of the file in bytes
+      // console.log("File ->", file); // Log the file directly
+      // console.log("Type of File ->", typeof file); // This will log 'object'
+      // console.log("File Type ->", file.type); // Log the MIME type of the file
+      // console.log("File Size ->", file.size); // Log the size of the file in bytes
     }
-    console.log("ImageFile->", imageFile);
+    // console.log("ImageFile->", imageFile);
   };
 
   useEffect(() => {
-    console.log("ImageFile Index->", imageFile);
+    // console.log("ImageFile Index->", imageFile);
   }, [imageFile]);
 
   const allMonths = [
@@ -163,11 +163,11 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
 
     const isValid = await form.trigger(); // Trigger validation for all fields
     if (isInputDisabled === true) {
-      console.log("Edit -> Apply");
+      // console.log("Edit -> Apply");
     } else {
-      console.log("Apply -> Edit \n", form);
+      // console.log("Apply -> Edit \n", form);
       if (isValid) {
-        console.log("Form is valid");
+        // console.log("Form is valid");
         const values = form.getValues();
         onSubmit(values); // Only call onSubmit if form is valid
         setButtonText("EDIT");

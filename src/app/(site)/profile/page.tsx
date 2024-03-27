@@ -22,8 +22,14 @@ const profile = () => {
       secure: true,
     });
   }
-  const user = cookies().get("user")?.value;
+  const user = cookies().get("user")?.value || "";
   const token = cookies().get("token")?.value;
+
+  
+  if (user === "") {
+    return <div>SignIn, please.</div>;
+  }
+  
   return (
     <div className="flex min-h-screen justify-center">
       <div className="w-[40vw] h-[100vh] flex flex-col">
