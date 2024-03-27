@@ -51,10 +51,11 @@ export function capitalizeFirstLetter(value: string) {
   }
 }
 
-export const formatPrice = (amount: number): string => {
-  // const formattedPrice = new Intl.NumberFormat("ne-NP", {
-  //   maximumFractionDigits: 0,
-  // }).format(amount);
-  return amount.toString();
-  // return formattedPrice;
+export const formatPrice = (amount: number | undefined): string => {
+  if (typeof amount == "undefined") {
+    return "";
+  }
+  const formattedPrice = new Intl.NumberFormat("en-US").format(amount);
+  // return amount.toString();
+  return formattedPrice;
 };

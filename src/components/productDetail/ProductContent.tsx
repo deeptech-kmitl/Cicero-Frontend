@@ -12,6 +12,7 @@ import {
 import { UseMutationResult, useMutation } from "react-query";
 import { getWishlist, addWishlist, addToCart } from "@/api-caller";
 import { useToast } from "../ui/use-toast";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductDetailProps {
   tokenId: string;
@@ -113,14 +114,14 @@ const ProductDetail = ({ tokenId, user_id, data }: ProductDetailProps) => {
       </div>
       <div className="w-[300px] space-y-4 ml-[60px]">
         <h1 className="font-bold	text-[25px]">{data.product_title}</h1>
-        <h3 className="text-[25px]">
-          {data.product_price}
+        <h3 className="text-[25px] space-x-2">
+          <span>{formatPrice(data.product_price)}</span>
           <span className="text-[15px] opacity-50">THB</span>
         </h3>
         <div className="w-full mt-[10px]">
           <p>{data.product_desc}</p>
         </div>
-        <h1 className="font-bold Frans text-lg my-4">SIZE</h1>
+        <h1 className="font-bold Franc text-lg my-4">SIZE</h1>
         <div className="w-[250px] h-[100px] grid grid-cols-3 gap-x-2">
           {allSize.map((sizeOption: string, index: number) => (
             <Button

@@ -6,7 +6,20 @@ interface CategoryData {
   Women: string[];
   Kids: string[];
 }
-
+export const allMonths = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 export const allSex: Sex[] = ["Men", "Women", "Kids"];
 export const allCategory: CategoryData = {
   Men: [

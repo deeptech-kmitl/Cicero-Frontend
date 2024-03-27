@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {  UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -10,9 +10,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Separator } from "../ui/separator";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { PaymentSchema } from "@/validator";
@@ -26,18 +24,20 @@ const ShippingForm = (props: IShippingFormProps) => {
   const { form, callback } = props;
   const router = useRouter();
   return (
-    <div className="w-3/5 border">
-      <h1 className="text-2xl font-bold py-3 ps-3 text-start">Shipping Address</h1>
+    <div className="w-3/5 border border-[#C4C4C4]">
+      <h1 className="text-2xl font-semibold p-4 text-start Franc">
+        SHIPPING ADDRESS
+      </h1>
       <Separator />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(callback)} >
+        <form onSubmit={form.handleSubmit(callback)}>
           <FormField
             control={form.control}
             name="fname"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-2  gap-4 ">
+                <div className="flex items-center p-2 gap-4">
                   <FormLabel className="min-w-[75px]">Firstname</FormLabel>
                   <FormControl>
                     <Input
@@ -51,7 +51,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="lname"
@@ -71,7 +71,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="street_address"
@@ -91,7 +91,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="city"
@@ -111,7 +111,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="state"
@@ -131,7 +131,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="zip"
@@ -151,7 +151,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="country"
@@ -171,7 +171,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
 
           <FormField
             control={form.control}
@@ -192,7 +192,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
           <FormField
             control={form.control}
             name="email"
@@ -212,7 +212,7 @@ const ShippingForm = (props: IShippingFormProps) => {
               </FormItem>
             )}
           />
-            <Separator />
+          <Separator />
         </form>
       </Form>
     </div>

@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { formatPrice } from "@/lib/utils";
 
 type ItemMyPurchaseProps = {
   id: string;
@@ -11,7 +12,7 @@ type ItemMyPurchaseProps = {
   title: string;
   detail: string;
   size: string;
-  price: string;
+  price: number;
   qty: number;
   orderId: string;
 };
@@ -20,7 +21,7 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
   return (
     <div>
       <div className="w-8/9 h-[15em] mb-5 flex ">
-        <div className="w-[25%]">
+        <div>
           <Image
             className="h-[100%] w-[100%] px-3"
             src={props.images}
@@ -44,7 +45,7 @@ const ItemMyPurchase = (props: ItemMyPurchaseProps) => {
           </div>
           <div className="h-[27%]">
             <div className="text-xl mt-2">
-              {props.price}{" "}
+              {formatPrice(props.price)}
               <span className="text-gray-500">THB x {props.qty}</span>
             </div>
           </div>

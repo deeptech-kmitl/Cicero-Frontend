@@ -61,26 +61,38 @@ export const BrowseProduct = ({
   const [wishlist, setWishlist] = useState<IWishlist[]>([]);
 
   useEffect(() => {
-    getMyWishlist();
+    getMyWishlist().then((response) => {
+      getProduct().then((data) => {
+        renderWishlist(data.data, response);
+      });
+    });
   }, []);
 
   const getMyWishlist = async () => {
     if (tokenId && user_id) {
       const myWishlist = await getWishlist({ token: tokenId, user_id });
       setWishlist(myWishlist);
+      return myWishlist;
     }
   };
 
+  const renderWishlist = async (data: IProduct[], temp?: IWishlist[]) => {
+    const addFav = data.map((item: IProduct) => ({
+      ...item,
+      fav: temp
+        ? temp.filter((fav) => fav.id == item.id).length > 0
+          ? true
+          : false
+        : wishlist.filter((fav) => fav.id == item.id).length > 0
+        ? true
+        : false,
+    }));
+    setProducts(addFav);
+    setOriginalProducts(addFav);
+  };
+
   useEffect(() => {
-    getProduct().then((data) => {
-      const addFav = data.data.map((item: IProduct) => ({
-        ...item,
-        fav:
-          wishlist.filter((fav) => fav.id == item.id).length > 0 ? true : false,
-      }));
-      setProducts(addFav);
-      setOriginalProducts(addFav);
-    });
+    renderWishlist(products);
   }, [wishlist]);
 
   useEffect(() => {
@@ -100,7 +112,6 @@ export const BrowseProduct = ({
           return product[key] === filter[key];
         })
       );
-      console.log("updateProduct", tokenId, user_id);
       setProducts(updatedProducts);
     };
 
@@ -126,6 +137,25 @@ export const BrowseProduct = ({
         return { ...prev, [key]: newValue };
       }
       return { ...prev, [key]: value };
+    });
+  };
+
+  const onFav = async (newWishlist: IProduct) => {
+    console.log("before", wishlist);
+    setWishlist((prevWishlist) => {
+      const itemExists = prevWishlist.some(
+        (item) => item.id === newWishlist.id
+      );
+
+      if (itemExists) {
+        return [
+          ...prevWishlist.filter(
+            (prevWishlist) => prevWishlist.id != newWishlist.id
+          ),
+        ];
+      } else {
+        return [...prevWishlist, newWishlist];
+      }
     });
   };
 
@@ -289,6 +319,7 @@ export const BrowseProduct = ({
                     data={item}
                     tokenId={tokenId}
                     user_id={user_id}
+                    onFav={onFav}
                   />
                 );
               })}

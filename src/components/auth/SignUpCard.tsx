@@ -31,31 +31,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { signIn, signUp } from "@/api-caller/auth";
+import { signIn, signUp } from "@/api-caller";
 import { useToast } from "@/components/ui/use-toast";
 import { cn, isResponseError } from "@/lib/utils";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { CalendarIcon } from "lucide-react";
+import { allMonths } from "@/constants";
 
 const SignUpCard = () => {
   const { toast } = useToast();
-  const allMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  // 1. Define your form.
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {

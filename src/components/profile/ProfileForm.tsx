@@ -28,6 +28,7 @@ import { updateProfile, getProfile } from "@/api-caller/auth";
 import { useToast } from "../ui/use-toast";
 import { isResponseError } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { allMonths } from "@/constants";
 
 type Props = {
   setCookie: (data: SignInResponse) => void;
@@ -74,20 +75,6 @@ const ProfileForm = ({ setCookie, userId, tokenId }: Props) => {
     // console.log("ImageFile Index->", imageFile);
   }, [imageFile]);
 
-  const allMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
   // 1. Define your form.
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),

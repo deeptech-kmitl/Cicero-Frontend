@@ -16,6 +16,7 @@ interface ProductCardProps {
   data: IProduct;
   tokenId: string;
   user_id: string;
+  onFav: (newWishlist: IProduct) => void;
 }
 
 const ProductCard = (props: ProductCardProps) => {
@@ -24,7 +25,7 @@ const ProductCard = (props: ProductCardProps) => {
     IFormattedErrorResponse,
     IAddWishlist
   > = useMutation(addWishlist);
-  const { data, tokenId, user_id } = props;
+  const { data, tokenId, user_id, onFav } = props;
   const router = useRouter();
   const { toast } = useToast();
   const [product, setProduct] = useState<IProduct>(data);
@@ -38,7 +39,8 @@ const ProductCard = (props: ProductCardProps) => {
         product_id: data.id,
       };
       addWishlistMutation.mutate(body, {
-        onSuccess() {
+        onSuccess(response) {
+          onFav(data);
           setProduct((prev) => ({ ...prev, fav: !prev.fav }));
           toast({
             title: "Success !",

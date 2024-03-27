@@ -56,7 +56,7 @@ const Wish = ({ token, user_id }: WishlistProps) => {
     });
   };
   return (
-    <>
+    <div className="min-h-screen">
       {/* Header */}
       <div className="w-full h-[50px] flex justify-center">
         <div className="w-[1300px] h-full">
@@ -116,6 +116,7 @@ const Wish = ({ token, user_id }: WishlistProps) => {
                   ) : (
                     <Button
                       variant="noFillbtn"
+                      className="font-medium"
                       onClick={() => router.push(`/productdetails/${item.id}`)}
                     >
                       ADD TO CART
@@ -126,7 +127,7 @@ const Wish = ({ token, user_id }: WishlistProps) => {
             ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
