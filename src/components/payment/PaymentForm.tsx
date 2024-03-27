@@ -10,9 +10,11 @@ import { z } from "zod";
 import CreditForm from "./CreditForm";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
-import useCartStore from "@/store/cart";
 import { addOrder } from "@/api-caller/payment";
 import { IPaymentAddress, IPaymentDetail } from "@/constants";
+import { useQuery } from "react-query";
+import { CartItemProps } from "../cart/type";
+import { getCartItems } from "@/api-caller";
 
 type PaymentFormProps = {
   user_id: string;
@@ -20,7 +22,7 @@ type PaymentFormProps = {
 };
 
 const PaymentForm = ({user_id,token}: PaymentFormProps) => {
-	const {cart, totalPrice, setCart} = useCartStore();
+	const { isLoading, data:cart, error } = useQuery<CartItemProps[],Error>('cart', () => getCartItems({token, user_id}))
 	const form = useForm<z.infer<typeof PaymentSchema>>({
 		resolver: zodResolver(PaymentSchema),
 		defaultValues: {
@@ -60,11 +62,10 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 		const order = {
 			address ,
 			payment_detail,
-			total : cart.reduce((prev, order)=> prev + order.product_price * order.qty,0)
+			total : cart!.reduce((prev, order)=> prev + order.product_price * order.qty,0)
 		}
 		try{
 			await addOrder({order, user_id, token});
-			setCart([]);
 		}catch(error){
 			throw error;
 		}
@@ -74,14 +75,14 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 		<div className="w-[70%] p-6 ">
 			<div className="flex w-full space-x-6 mb-5">
 				<ShippingForm form={form} callback={onSubmit} />
-				<OrderSummary />
+				<OrderSummary user_id={user_id} token={token}/>
 			</div>
 			<CreditForm form={form} callback={onSubmit} />
 			<div className="flex gap-4 mt-10 items-center text-lg justify-between font-bold">
 				<div>
 
 			<p className="text-left ">TOTAL PRODUCT {" "}
-			{cart.reduce((prev, order)=> prev + order.product_price * order.qty,0)}
+			{cart?.reduce((prev, order)=> prev + order.product_price * order.qty,0)}
 			{" "}
 			 THB</p>
 				</div>

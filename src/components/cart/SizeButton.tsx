@@ -8,10 +8,10 @@ type Props = {
     product_size: Sizes,
     user_id: string,
     token:string,
-    updateSize : ({user_id,token,product_id,size}: userCredProductId & {size : Sizes}) => Promise<void>
+    // updateSize : ({user_id,token,cart_id,size}: userCredProductId & {size : Sizes}) => Promise<void>
 }
 
-const SizeButton = ({updateSize,product_size,id,user_id,token}: Props) => {
+const SizeButton = ({product_size,id,user_id,token}: Props) => {
     const sizes : string[] = ["XS", "S", "M", "L", "XL"]
   return (
     <>
@@ -22,7 +22,7 @@ const SizeButton = ({updateSize,product_size,id,user_id,token}: Props) => {
             className={cn({
                 "bg-black text-white": size === product_size,
             })}
-            onClick={() => updateSize({user_id,token,product_id:id,size : size as Sizes})}
+            // onClick={() => updateSize({user_id,token,cart_id:id,size : size as Sizes})}
             >
             {size}
         </Button>
