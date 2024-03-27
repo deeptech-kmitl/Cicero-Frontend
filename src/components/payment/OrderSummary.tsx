@@ -3,7 +3,6 @@ import React from "react";
 import OrderItems from "./OrderItems";
 import { Separator } from "../ui/separator";
 import { OrderItem, userCred } from "@/constants/type";
-import useCartStore from "@/store/cart";
 import { Loader2 } from "lucide-react";
 import { getCartItems } from "@/api-caller";
 import { useQuery } from "react-query";

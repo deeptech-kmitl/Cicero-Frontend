@@ -6,7 +6,6 @@ import { Cross, Loader2, Minus, Plus, X } from "lucide-react";
 import { Separator } from "@radix-ui/react-menubar";
 import { cn } from "@/lib/utils";
 import { CartItemProps } from "./type";
-import useCartStore from "@/store/cart";
 import { useStore } from "zustand";
 import SizeButton from "./SizeButton";
 import { addToCart, decreaseQty, getCartItems, increaseQty, removeFromCart } from "@/api-caller/cart";
@@ -27,8 +26,6 @@ const CartItem = ({
 	user_id,
 	cart_id
 }: CartItemProps & {token : string, user_id:string} ) => {
-	const cartStore = useStore(useCartStore);
-	const cart = cartStore.cart;
 	const queryClient = useQueryClient();
 	const removeCartMutation : UseMutationResult<
     any,
@@ -45,7 +42,6 @@ const CartItem = ({
     IFormattedErrorResponse,
     userCred & {cart_id: string}
   > =  useMutation(decreaseQty);
-	console.log(cart);
 	return (
 		<div className="grid grid-cols-8 gap-6 gap-y-8 p-5 ">
 			
@@ -75,7 +71,7 @@ const CartItem = ({
 				<div className="flex flex-col">
 					<p className="font-bold mb-3 text-xl">SELECT YOUR SIZE</p>
 					<div className="flex flex-wrap gap-2 w-full">
-						<SizeButton id={id} product_size={size} user_id={user_id} token={token} updateSize={cartStore.updateSize} />
+						<SizeButton id={id} product_size={size} user_id={user_id} token={token}  />
 					</div>
 				</div>
 			</div>

@@ -2,7 +2,6 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import { useStore } from 'zustand'
-import useCartStore from '@/store/cart'
 import Link from 'next/link'
 import { useToast } from '../ui/use-toast'
 import { CartItemProps } from './type'
