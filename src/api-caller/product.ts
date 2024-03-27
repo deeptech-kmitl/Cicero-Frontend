@@ -1,7 +1,11 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
-import { ICreateProduct, ProductQueryParams } from "@/constants";
-import { cookies } from "next/headers";
+import {
+  ICreateProduct,
+  IDeleteProduct,
+  IProduct,
+  ProductQueryParams,
+} from "@/constants";
 
 export async function getProduct(params?: ProductQueryParams): Promise<any> {
   try {
@@ -14,18 +18,68 @@ export async function getProduct(params?: ProductQueryParams): Promise<any> {
   }
 }
 
-export async function addProduct(body: ICreateProduct): Promise<any> {
+export async function getDetailsProduct(product_id: string): Promise<IProduct> {
   try {
-    const { data } = await getInstance().post("/product", body);
+    const { data } = await getInstance().get(`/product/${product_id}`);
     return data;
   } catch (error) {
     throw formattedError(error);
   }
 }
 
-export async function deleteProduct(id: string): Promise<string> {
+export async function addProduct(body: ICreateProduct): Promise<any> {
   try {
-    const { data } = await getInstance().delete(`/product/${id}`);
+    const form = new FormData();
+    await Object.entries(body).forEach(([key, value]) => {
+      if (value instanceof Object) {
+        value = value.forEach((file: any, _: any) => {
+          form.append(key, file);
+        });
+      } else {
+        form.append(key, value);
+      }
+    });
+    const { data } = await getInstance().post("/product", form, {
+      headers: {
+        Authorization: body.tokenId,
+      },
+    });
+    return data;
+  } catch (error) {
+    throw formattedError(error);
+  }
+}
+
+export async function editProduct(body: ICreateProduct): Promise<any> {
+  try {
+    const form = new FormData();
+    await Object.entries(body).forEach(([key, value]) => {
+      if (value instanceof Object) {
+        value = value.forEach((file: any, _: any) => {
+          form.append(key, file);
+        });
+      } else {
+        form.append(key, value);
+      }
+    });
+    const { data } = await getInstance().put("/product", form, {
+      headers: {
+        Authorization: body.tokenId,
+      },
+    });
+    return data;
+  } catch (error) {
+    throw formattedError(error);
+  }
+}
+
+export async function deleteProduct(body: IDeleteProduct): Promise<string> {
+  try {
+    const { data } = await getInstance().delete(`/product/${body.id}`, {
+      headers: {
+        Authorization: body.tokenId,
+      },
+    });
     return data;
   } catch (error) {
     throw formattedError(error);

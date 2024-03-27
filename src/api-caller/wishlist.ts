@@ -1,13 +1,18 @@
 import { getInstance } from "@/api/apiClient";
 import { formattedError } from "@/lib/utils";
+import { userCredProductId } from "@/components/wish/type";
+import { userCred } from "@/constants/type";
+import { IAddWishlist, IWishlist } from "@/constants";
 
-export default async function getWishlist(form: any): Promise<any> {
-  const parameters = {
-    param1: "user_id",
-  };
+export async function getWishlist({
+  user_id,
+  token,
+}: userCred): Promise<IWishlist[]> {
   try {
-    const { data } = await getInstance().get("/users/wishlist/", {
-      params: parameters.param1,
+    const { data } = await getInstance().get(`/users/wishlist/${user_id}`, {
+      headers: {
+        Authorization: token,
+      },
     });
     return data;
   } catch (error) {
@@ -15,22 +20,40 @@ export default async function getWishlist(form: any): Promise<any> {
   }
 }
 
-export async function addWishlist(form: any): Promise<any> {
+export async function addWishlist({
+  user_id,
+  tokenId,
+  product_id,
+}: IAddWishlist): Promise<any> {
   try {
-    const { data } = await getInstance().post("/product/", form);
+    const { data } = await getInstance().post(
+      `/users/${user_id}/wishlist/${product_id}`,
+      {},
+      { headers: { Authorization: tokenId } }
+    );
     return data;
   } catch (error) {
     throw formattedError(error);
   }
 }
 
-export async function removeWishlist(): Promise<any> {
-  const userId = "user123"; // Example user ID
-  const productId = "product456"; // Example product ID
+export async function removeWishlist({
+  user_id,
+  tokenId,
+  product_id,
+}: IAddWishlist): Promise<any> {
   try {
-    const { data } = await getInstance().delete(
-      `/users/${userId}/wishlist/${productId}`
+    const { data } = await getInstance().post(
+      `/users/${user_id}/wishlist/${product_id}`,
+      {},
+      {
+        headers: {
+          Authorization: tokenId,
+        },
+      }
     );
     return data;
-  } catch (error) {}
+  } catch (error) {
+    throw formattedError(error);
+  }
 }

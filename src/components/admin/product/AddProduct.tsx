@@ -1,5 +1,5 @@
 import { z } from "zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UseMutationResult } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,6 +48,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 interface AddProductProps {
+  tokenId: string;
   mutation: UseMutationResult<
     IProduct,
     IFormattedErrorResponse,
@@ -60,9 +61,11 @@ registerPlugin(
   FilePondPluginFileValidateType
 );
 export default function AddProduct(props: AddProductProps) {
-  const { mutation } = props;
+  const { mutation, tokenId } = props;
   const [files, setFiles] = useState<any>();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [gender, setGender] = useState<Sex>();
+  const [onSelectSex, setOnSelectSex] = useState<boolean>(false);
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     mode: "onChange",
@@ -70,15 +73,26 @@ export default function AddProduct(props: AddProductProps) {
   });
 
   const onSubmit = async (values: z.infer<typeof ProductSchema>) => {
-    console.log("value", values, files);
+    const body: ICreateProduct = {
+      tokenId,
+      images: files ? files.map((item: any) => item.file) : [],
+      ...values,
+    };
+    console.log("body", body);
 
-    mutation.mutate(values, {
+    mutation.mutate(body, {
       onSuccess(response) {
         form.reset();
+        setFiles([]);
         setOpenDialog(false);
       },
     });
   };
+
+  useEffect(() => {
+    setGender(form.getValues().product_sex as Sex);
+  }, [onSelectSex]);
+
   return (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -91,7 +105,8 @@ export default function AddProduct(props: AddProductProps) {
           <DialogHeader>
             <DialogTitle>Add Product</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              Make changes to your profile here. Click save when you&apos;re
+              done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -124,6 +139,7 @@ export default function AddProduct(props: AddProductProps) {
                             <FormLabel>Sex</FormLabel>
                             <FormControl>
                               <Select
+                                onOpenChange={setOnSelectSex}
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}
                               >
@@ -153,22 +169,23 @@ export default function AddProduct(props: AddProductProps) {
                               <Select
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}
-                                disabled={
-                                  typeof form.getValues().product_sex !==
-                                  "string"
-                                }
+                                disabled={gender ? false : true}
                               >
                                 <SelectTrigger>
                                   <SelectValue placeholder="Please Select" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {allCategory[
-                                    form.getValues().product_sex as Sex
-                                  ]?.map((category, index) => (
-                                    <SelectItem key={index} value={category}>
-                                      {category}
-                                    </SelectItem>
-                                  ))}
+                                  {gender &&
+                                    allCategory[gender]?.map(
+                                      (category, index) => (
+                                        <SelectItem
+                                          key={index}
+                                          value={category}
+                                        >
+                                          {category}
+                                        </SelectItem>
+                                      )
+                                    )}
                                 </SelectContent>
                               </Select>
                             </FormControl>

@@ -15,8 +15,8 @@ import { addOrder } from "@/api-caller/payment";
 import { IPaymentAddress, IPaymentDetail } from "@/constants";
 
 type PaymentFormProps = {
-	user_id: string;
-	token: string;
+  user_id: string;
+  token: string;
 };
 
 const PaymentForm = ({user_id,token}: PaymentFormProps) => {
@@ -82,7 +82,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
 
 			<p className="text-left ">TOTAL PRODUCT {" "}
 			{cart.reduce((prev, order)=> prev + order.product_price * order.qty,0)}
-			
+			{" "}
 			 THB</p>
 				</div>
 			<div className="flex gap-8">
@@ -101,6 +101,7 @@ const PaymentForm = ({user_id,token}: PaymentFormProps) => {
           </div>
 		</div>
 	);
+
 };
 
 export default PaymentForm;

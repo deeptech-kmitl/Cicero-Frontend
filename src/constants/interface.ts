@@ -21,6 +21,7 @@ export interface IImage {
   url: string;
   filename: string;
 }
+
 export interface IProduct {
   id: string;
   product_title: string;
@@ -28,14 +29,14 @@ export interface IProduct {
   product_color: string;
   product_price: number;
   product_sex: string;
-  product_size: string[];
+  product_size: string;
   product_stock: number;
   product_category: string;
   images: IImage[];
+  fav: boolean;
 }
 
 export interface ICreateProduct {
-  id: string;
   product_title: string;
   product_desc: string;
   product_color: string;
@@ -45,9 +46,38 @@ export interface ICreateProduct {
   product_stock: string;
   product_category: string;
   images?: any;
+  tokenId: string;
 }
 
-interface Token {
+export interface IWishlist {
+  id: string;
+  images: IImage[];
+  product_title: string;
+  product_desc: string;
+  product_price: number;
+}
+
+export interface IDeleteProduct {
+  id: string;
+  tokenId: string;
+}
+
+export interface IAddWishlist {
+  user_id: string;
+  tokenId: string;
+  product_id: string;
+}
+
+export interface IAddCart {
+  user_id: string;
+  tokenId: string;
+  product_id: string;
+  size: string;
+  qty?:any
+}
+
+
+export interface Token {
   id: string;
   access_token: string;
 }

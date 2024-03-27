@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import {  UseFormReturn } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -31,13 +31,13 @@ const ShippingForm = (props: IShippingFormProps) => {
       <Separator />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(callback)} className="space-y-3  ">
+        <form onSubmit={form.handleSubmit(callback)} >
           <FormField
             control={form.control}
             name="fname"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4  gap-4 ">
+                <div className="flex items-center p-2  gap-4 ">
                   <FormLabel className="min-w-[75px]">Firstname</FormLabel>
                   <FormControl>
                     <Input
@@ -57,7 +57,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="lname"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">Lastname</FormLabel>
                   <FormControl>
                     <Input
@@ -77,7 +77,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="street_address"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">Address</FormLabel>
                   <FormControl>
                     <Input
@@ -97,7 +97,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="city"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">City</FormLabel>
                   <FormControl>
                     <Input
@@ -117,7 +117,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="state"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">State</FormLabel>
                   <FormControl>
                     <Input
@@ -137,7 +137,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="zip"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center gap-4 p-4 ">
+                <div className="flex items-center gap-4 p-2 ">
                   <FormLabel className="min-w-[75px]">Zip</FormLabel>
                   <FormControl>
                     <Input
@@ -157,7 +157,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center gap-4 p-4">
+                <div className="flex items-center gap-4 p-2">
                   <FormLabel className="min-w-[75px]">Country</FormLabel>
                   <FormControl>
                     <Input
@@ -178,7 +178,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">Phone</FormLabel>
                   <FormControl>
                     <Input
@@ -198,7 +198,7 @@ const ShippingForm = (props: IShippingFormProps) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center p-4 gap-4 ">
+                <div className="flex items-center p-2 gap-4 ">
                   <FormLabel className="min-w-[75px]">Email</FormLabel>
                   <FormControl>
                     <Input
@@ -213,12 +213,6 @@ const ShippingForm = (props: IShippingFormProps) => {
             )}
           />
             <Separator />
-          {/* <div className="flex gap-4">
-            <Button onClick={() => router.push("/")}>Continue shopping</Button>
-            <Button type="submit" className="float-start ">
-              Next
-            </Button>
-          </div> */}
         </form>
       </Form>
     </div>
